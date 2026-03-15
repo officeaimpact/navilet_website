@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand gradient: #00E7FD → #0097F5 → #0062EF */
+
+  --color-primary: #0052CC;
+  --color-primary-hover: #0062EF;
+  --color-primary-light: #0078F5;
+
+  --color-accent: #0097F5;
+  --color-accent-hover: #00A8FF;
+  --color-accent-light: #33BBFF;
+
+  --color-sky: #00E7FD;
+  --color-sky-light: #66F0FF;
+
+  --color-blue-subtle: #CCF2FF;
+  --color-blue-ice: #E8F9FF;
+
+  --color-dark: #001229;
+  --color-dark-mid: #002152;
+
+  --color-heading: #0A1628;
+  --color-body: #3D4F66;
+  --color-muted: #7A8FA6;
+
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F5FAFF;
+  --color-surface-card: #EDF5FF;
+
+  --font-display: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --shadow-card: 0 1px 3px rgba(0, 82, 204, 0.04), 0 4px 16px rgba(0, 82, 204, 0.05);
+  --shadow-card-hover: 0 2px 8px rgba(0, 82, 204, 0.08), 0 8px 32px rgba(0, 82, 204, 0.08);
+  --shadow-nav: 0 1px 0 rgba(0, 82, 204, 0.06);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-body);
+  background-color: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-blue-subtle);
+  color: var(--color-primary);
+}
+
+.demo-cards-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.demo-cards-scroll::-webkit-scrollbar-track {
+  background: #E0E0E0;
+  border-radius: 3px;
+}
+.demo-cards-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #0062EF, #0097F5);
+  border-radius: 3px;
+}
+.demo-cards-scroll::-webkit-scrollbar-thumb:hover {
+  background: #0062EF;
+}
+
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
