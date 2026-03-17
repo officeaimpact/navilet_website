@@ -30,14 +30,14 @@ export default function Metrics() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-8 lg:grid-cols-4">
           {metrics.map((metric, i) => (
             <motion.div
               key={i}
               variants={fadeInUp}
               className="text-center"
             >
-              <div className="mb-3 font-display text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+              <div className="mb-3 font-display text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
                 <CountUp
                   end={metric.value}
                   prefix={metric.prefix}

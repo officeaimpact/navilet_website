@@ -52,10 +52,10 @@ export default function DashboardCTA() {
 
         <motion.p
           variants={fadeInUp}
-          className="mx-auto mb-10 max-w-lg text-lg text-white/70"
+          className="mx-auto mb-10 max-w-lg text-base text-white/70 sm:text-lg"
         >
           Подключите личный кабинет и получите доступ ко всей аналитике,
-          управлению диалогами и настройке виджета. 14 дней бесплатно.
+          управлению диалогами и настройке виджета. 7 дней бесплатно.
         </motion.p>
 
         <motion.div
@@ -79,7 +79,7 @@ export default function DashboardCTA() {
           variants={fadeInUp}
           className="mt-6 text-sm text-white/40"
         >
-          14 дней бесплатно · Без карты · Полный доступ ко всем функциям
+          7 дней бесплатно · Без карты · Полный доступ ко всем функциям
         </motion.p>
       </motion.div>
     </section>

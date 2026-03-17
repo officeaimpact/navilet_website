@@ -224,7 +224,7 @@ export default function DemoWidget({
 
   return (
     <div
-      className={`relative flex h-[600px] flex-col overflow-hidden rounded-2xl border border-[#E0E0E0]/50 bg-white shadow-xl ${className}`}
+      className={`relative flex h-[480px] flex-col overflow-hidden rounded-2xl border border-[#E0E0E0]/50 bg-white shadow-xl sm:h-[600px] ${className}`}
     >
       {/* Header */}
       <div
@@ -236,7 +236,7 @@ export default function DemoWidget({
         <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white/20 p-1">
           <Image
             src="/logo-icon.svg"
-            alt=""
+            alt="навылет AI — AI-турменеджер"
             width={28}
             height={24}
             className="h-6 w-auto brightness-0 invert"
@@ -268,7 +268,7 @@ export default function DemoWidget({
             <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-ice">
               <Image
                 src="/logo-icon.svg"
-                alt=""
+                alt="навылет AI — выберите сценарий демонстрации"
                 width={32}
                 height={28}
                 className="h-7 w-auto"

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Sitemap: https://navylet.ai/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Bingbot
+Allow: /

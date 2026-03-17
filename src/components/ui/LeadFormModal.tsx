@@ -3,6 +3,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLeadForm } from "@/contexts/LeadFormContext";
+import { submitLeadForm } from "@/lib/submitForm";
+import Link from "next/link";
 import {
   X,
   User,
@@ -11,16 +13,22 @@ import {
   Mail,
   CheckCircle,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 
 export default function LeadFormModal() {
   const { isOpen, planName, closeForm } = useLeadForm();
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
       setSubmitted(false);
+      setError(null);
+      setConsent(false);
     } else {
       document.body.style.overflow = "";
     }
@@ -37,9 +45,18 @@ export default function LeadFormModal() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, closeForm]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError(null);
+    try {
+      await submitLeadForm(e.currentTarget, planName);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ошибка отправки");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -112,8 +129,10 @@ export default function LeadFormModal() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="relative">
+                          <label htmlFor="modal-name" className="sr-only">Имя</label>
                           <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                           <input
+                            id="modal-name"
                             type="text"
                             name="name"
                             required
@@ -123,8 +142,10 @@ export default function LeadFormModal() {
                           />
                         </div>
                         <div className="relative">
+                          <label htmlFor="modal-company" className="sr-only">Компания</label>
                           <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                           <input
+                            id="modal-company"
                             type="text"
                             name="company"
                             required
@@ -134,8 +155,10 @@ export default function LeadFormModal() {
                         </div>
                       </div>
                       <div className="relative">
+                        <label htmlFor="modal-phone" className="sr-only">Телефон</label>
                         <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                         <input
+                          id="modal-phone"
                           type="tel"
                           name="phone"
                           required
@@ -144,8 +167,10 @@ export default function LeadFormModal() {
                         />
                       </div>
                       <div className="relative">
+                        <label htmlFor="modal-email" className="sr-only">Email</label>
                         <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                         <input
+                          id="modal-email"
                           type="email"
                           name="email"
                           required
@@ -154,16 +179,50 @@ export default function LeadFormModal() {
                         />
                       </div>
 
+                      <label className="flex cursor-pointer items-start gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={consent}
+                          onChange={(e) => setConsent(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
+                        />
+                        <span className="text-xs leading-relaxed text-muted">
+                          Я даю согласие на обработку персональных данных в
+                          соответствии с{" "}
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            className="text-accent underline hover:text-accent-hover"
+                          >
+                            политикой конфиденциальности
+                          </Link>
+                        </span>
+                      </label>
+
                       <button
                         type="submit"
-                        className="w-full cursor-pointer rounded-xl py-3.5 font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:shadow-xl hover:shadow-accent/30"
+                        disabled={sending || !consent}
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-3.5 font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:shadow-xl hover:shadow-accent/30 disabled:cursor-not-allowed disabled:opacity-50"
                         style={{
                           background:
                             "linear-gradient(135deg, #0062EF 0%, #0097F5 60%, #00CCF5 100%)",
                         }}
                       >
-                        Отправить заявку
+                        {sending ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Отправка...
+                          </>
+                        ) : (
+                          "Отправить заявку"
+                        )}
                       </button>
+
+                      {error && (
+                        <p className="text-center text-xs text-red-500">
+                          {error}
+                        </p>
+                      )}
 
                       <p className="text-center text-xs text-muted">
                         Бесплатный период • Без карты • Интеграция за 1 день

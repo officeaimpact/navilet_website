@@ -124,7 +124,7 @@ export default function RealOverviewContent({
 
       {/* Metric cards */}
       <div
-        className="grid grid-cols-4 gap-2"
+        className="grid grid-cols-2 gap-2 sm:grid-cols-4"
         style={{ marginBottom: 8 * s }}
       >
         {METRICS.map((m) => {
@@ -213,11 +213,8 @@ export default function RealOverviewContent({
 
       {/* Chart + funnel row */}
       <div
-        className="grid gap-2"
-        style={{
-          gridTemplateColumns: "2fr 1fr",
-          marginBottom: 8 * s,
-        }}
+        className="grid grid-cols-1 gap-2 sm:grid-cols-[2fr_1fr]"
+        style={{ marginBottom: 8 * s }}
       >
         {/* Area chart */}
         <div
@@ -368,7 +365,7 @@ export default function RealOverviewContent({
               Быстрые инсайты
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+          <div className="grid grid-cols-1 gap-x-3 gap-y-0.5 sm:grid-cols-2">
             {INSIGHTS.map((ins, i) => (
               <div key={i} className="flex items-start gap-1">
                 <TrendingUp

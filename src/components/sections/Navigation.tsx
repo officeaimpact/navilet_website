@@ -35,6 +35,11 @@ export default function Navigation() {
     };
   }, [mobileOpen]);
 
+  const closeMobileMenu = () => {
+    document.body.style.overflow = "";
+    setMobileOpen(false);
+  };
+
   const renderNavLink = (
     link: { label: string; href: string },
     cls: string,
@@ -48,35 +53,22 @@ export default function Navigation() {
             onClickExtra?.();
             openForm();
           }}
-          className={`cursor-pointer ${cls}`}
+          className={`cursor-pointer text-left ${cls}`}
         >
           {link.label}
         </button>
       );
     }
 
-    if (link.href.startsWith("/") && !link.href.startsWith("/#")) {
-      return (
-        <Link
-          key={link.href}
-          href={link.href}
-          onClick={onClickExtra}
-          className={cls}
-        >
-          {link.label}
-        </Link>
-      );
-    }
-
     return (
-      <a
+      <Link
         key={link.href}
         href={link.href}
         onClick={onClickExtra}
         className={cls}
       >
         {link.label}
-      </a>
+      </Link>
     );
   };
 
@@ -90,10 +82,10 @@ export default function Navigation() {
         }`}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-          <a href="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <Image
               src="/logo.svg"
-              alt="AI Tour Assistant"
+              alt="навылет AI — AI-турменеджер для турагентств"
               width={220}
               height={48}
               priority
@@ -101,7 +93,7 @@ export default function Navigation() {
                 scrolled ? "h-10" : "h-12"
               }`}
             />
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) =>
@@ -119,9 +111,9 @@ export default function Navigation() {
           </div>
 
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => (mobileOpen ? closeMobileMenu() : setMobileOpen(true))}
             className="inline-flex items-center justify-center rounded-lg p-2 text-heading md:hidden"
-            aria-label="Открыть меню"
+            aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
           >
             {mobileOpen ? (
               <X className="h-6 w-6" />
@@ -140,37 +132,32 @@ export default function Navigation() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 h-full w-72 bg-white p-6 shadow-2xl"
+              className="absolute right-0 top-0 h-full w-72 bg-white px-6 pb-6 pt-20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="mb-8 mt-4">
-                <Image
-                  src="/logo.svg"
-                  alt="AI Tour Assistant"
-                  width={140}
-                  height={31}
-                  className="h-8 w-auto"
-                />
-              </div>
               <div className="flex flex-col gap-6">
                 {navLinks.map((link) =>
                   renderNavLink(
                     link,
                     "text-lg font-medium text-heading hover:text-accent",
-                    () => setMobileOpen(false)
+                    closeMobileMenu
                   )
                 )}
                 <div className="mt-4">
-                  <Button variant="primary" size="md" href="/#demo">
+                  <Link
+                    href="/#demo"
+                    onClick={closeMobileMenu}
+                    className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-hover"
+                  >
                     Попробовать демо
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

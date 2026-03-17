@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { buttonHover } from "@/lib/animations";
+import Link from "next/link";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -26,7 +27,7 @@ const variants = {
 const sizes = {
   sm: "px-4 py-2 text-sm",
   md: "px-6 py-3 text-base",
-  lg: "px-8 py-4 text-lg",
+  lg: "px-6 py-3.5 text-base sm:px-8 sm:py-4 sm:text-lg",
 };
 
 export default function Button({
@@ -55,9 +56,9 @@ export default function Button({
 
   if (href) {
     return (
-      <a href={href} className="inline-block">
+      <Link href={href} className="inline-block">
         {inner}
-      </a>
+      </Link>
     );
   }
 

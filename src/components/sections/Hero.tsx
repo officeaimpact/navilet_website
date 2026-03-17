@@ -41,7 +41,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute -left-20 top-1/3 h-[500px] w-[500px] rounded-full bg-[#0097F5]/[0.05] blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 right-1/4 h-[400px] w-[400px] rounded-full bg-[#0062EF]/[0.04] blur-[120px]" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-5 pt-32 pb-20 sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:px-8 lg:pt-36 lg:pb-24">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-5 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:flex-row lg:items-start lg:gap-12 lg:px-8 lg:pt-36 lg:pb-24">
         {/* Left: content */}
         <motion.div
           variants={staggerContainer}
@@ -74,19 +74,19 @@ export default function Hero() {
 
           <motion.p
             variants={fadeInUp}
-            className="mb-8 max-w-xl text-lg leading-relaxed text-body"
+            className="mb-8 max-w-xl text-base leading-relaxed text-body sm:text-lg"
           >
             {heroContent.subtitle}
           </motion.p>
 
           <motion.div
             variants={fadeInUp}
-            className="mb-10 flex flex-wrap gap-4"
+            className="mb-10 flex flex-wrap justify-center gap-4 lg:justify-start"
           >
-            <Button variant="primary" size="lg" href="#demo">
+            <Button variant="primary" size="lg" href="/#demo">
               {heroContent.ctaPrimary}
             </Button>
-            <Button variant="outline" size="lg" href="#how-it-works">
+            <Button variant="outline" size="lg" href="/#how-it-works">
               {heroContent.ctaSecondary}
             </Button>
           </motion.div>

@@ -26,7 +26,7 @@ export default function Audience() {
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
           Кому подходит{" "}
-          <span className="text-accent">AI Tour Assistant</span>
+          <span className="text-accent">AI-турменеджер навылет AI</span>
         </h2>
       </motion.div>
 

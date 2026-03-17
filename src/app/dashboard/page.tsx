@@ -9,9 +9,15 @@ import DashboardBenefits from "@/components/dashboard/DashboardBenefits";
 import DashboardCTA from "@/components/dashboard/DashboardCTA";
 
 export const metadata = {
-  title: "Личный кабинет — AI Tour Assistant",
+  title: "Личный кабинет — навылет AI",
   description:
-    "Аналитика, управление диалогами, кастомизация виджета и мониторинг системы. Полный контроль над вашим AI-ассистентом для турагентств.",
+    "Аналитика, управление диалогами, кастомизация виджета и мониторинг системы. Полный контроль над AI-турменеджером для турагентств в едином личном кабинете.",
+  alternates: { canonical: "/dashboard" },
+  openGraph: {
+    title: "Личный кабинет AI-турменеджера — навылет AI",
+    description:
+      "Расширенная аналитика, история диалогов, настройка виджета и мониторинг. Управляйте AI-ассистентом для турагентства из единого интерфейса.",
+  },
 };
 
 export default function DashboardPage() {

@@ -112,7 +112,7 @@ export default function ProblemSolution() {
                         {step}
                       </span>
                       {i < 3 && (
-                        <ArrowRight className="h-4 w-4 text-accent/40" />
+                        <ArrowRight className="hidden h-4 w-4 text-accent/40 sm:block" />
                       )}
                     </div>
                   )

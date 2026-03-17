@@ -38,6 +38,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -51,6 +52,14 @@ body {
 ::selection {
   background-color: var(--color-blue-subtle);
   color: var(--color-primary);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 .demo-cards-scroll::-webkit-scrollbar {

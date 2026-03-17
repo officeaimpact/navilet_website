@@ -53,7 +53,7 @@ export default function DashboardPromo() {
           Личный кабинет —{" "}
           <span className="text-accent">аналитика и управление</span>
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-body">
+        <p className="mx-auto mt-4 max-w-2xl text-base text-body sm:text-lg">
           Полный контроль над AI-ассистентом: метрики, диалоги, настройка
           виджета — всё в одном месте
         </p>

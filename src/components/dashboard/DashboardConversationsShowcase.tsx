@@ -54,9 +54,9 @@ export default function DashboardConversationsShowcase() {
               Управление диалогами
             </span>
           </div>
-          <h3 className="font-display text-2xl font-bold text-heading">
+          <h2 className="font-display text-2xl font-bold text-heading">
             Каждый диалог — под контролем
-          </h3>
+          </h2>
           <p className="text-body leading-relaxed">
             Просматривайте полную историю каждого разговора клиента с
             AI-ассистентом, включая карточки туров и результаты поиска.

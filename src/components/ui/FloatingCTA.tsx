@@ -11,6 +11,11 @@ export default function FloatingCTA() {
 
   useEffect(() => {
     const onScroll = () => {
+      if (document.body.style.overflow === "hidden") {
+        setVisible(false);
+        return;
+      }
+
       const scrollY = window.scrollY;
       const heroBottom = window.innerHeight * 0.8;
       const ctaEl = document.getElementById("cta");
@@ -22,8 +27,13 @@ export default function FloatingCTA() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    const mo = new MutationObserver(onScroll);
+    mo.observe(document.body, { attributes: true, attributeFilter: ["style"] });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mo.disconnect();
+    };
   }, []);
 
   return (
@@ -35,7 +45,8 @@ export default function FloatingCTA() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-6 right-6 z-40 flex cursor-pointer items-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-lg shadow-accent/30 transition-shadow duration-300 hover:shadow-xl hover:shadow-accent/40"
+          aria-label="Подключить AI-ассистента"
+          className="fixed bottom-4 right-4 z-30 flex cursor-pointer items-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-lg shadow-accent/30 transition-shadow duration-300 hover:shadow-xl hover:shadow-accent/40 sm:bottom-6 sm:right-6"
           style={{
             background:
               "linear-gradient(135deg, #0062EF 0%, #0097F5 60%, #00CCF5 100%)",

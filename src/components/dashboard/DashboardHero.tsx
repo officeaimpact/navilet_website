@@ -15,7 +15,7 @@ export default function DashboardHero() {
       <div className="pointer-events-none absolute -right-40 -top-40 h-[700px] w-[700px] rounded-full bg-[#00E7FD]/[0.07] blur-[120px]" />
       <div className="pointer-events-none absolute -left-20 top-1/3 h-[500px] w-[500px] rounded-full bg-[#0097F5]/[0.05] blur-[100px]" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-5 pt-32 pb-20 sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:px-8 lg:pt-36 lg:pb-24">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-5 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:flex-row lg:items-start lg:gap-12 lg:px-8 lg:pt-36 lg:pb-24">
         {/* Left: content */}
         <motion.div
           variants={staggerContainer}
@@ -27,7 +27,7 @@ export default function DashboardHero() {
 
           <motion.h1
             variants={fadeInUp}
-            className="mb-6 font-display text-4xl font-bold leading-[1.1] text-heading sm:text-5xl lg:text-[3.5rem]"
+            className="mb-6 font-display text-3xl font-bold leading-[1.1] text-heading sm:text-5xl lg:text-[3.5rem]"
             style={{ letterSpacing: "-0.02em" }}
           >
             Полный контроль над вашим{" "}
@@ -36,14 +36,14 @@ export default function DashboardHero() {
 
           <motion.p
             variants={fadeInUp}
-            className="mb-8 max-w-xl text-lg leading-relaxed text-body"
+            className="mb-8 max-w-xl text-base leading-relaxed text-body sm:text-lg"
           >
             Аналитика в реальном времени, управление диалогами, кастомизация
             виджета и мониторинг системы — всё в одном личном кабинете.
             Принимайте решения на основе данных.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="mb-10 flex flex-wrap gap-4">
+          <motion.div variants={fadeInUp} className="mb-10 flex flex-wrap justify-center gap-4 lg:justify-start">
             <Button variant="primary" size="lg" onClick={() => openForm()}>
               Попробовать бесплатно
             </Button>
@@ -54,7 +54,7 @@ export default function DashboardHero() {
 
           <motion.div
             variants={fadeInUp}
-            className="flex flex-wrap items-center gap-6 text-sm text-muted"
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-muted sm:gap-6 sm:text-sm lg:justify-start"
           >
             {[
               "15+ типов графиков",

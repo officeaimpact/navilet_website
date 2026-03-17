@@ -58,9 +58,9 @@ export default function DashboardValueMetrics() {
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
                   <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
                 </div>
-                <h3 className="mb-2 font-display text-lg font-bold text-white">
+                <h2 className="mb-2 font-display text-lg font-bold text-white">
                   {item.title}
-                </h3>
+                </h2>
                 <p className="text-sm text-white/60">{item.description}</p>
               </motion.div>
             );

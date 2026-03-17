@@ -106,6 +106,7 @@ export default function Partners() {
               <img
                 src="/partners/mgp-logo.svg"
                 alt="МГП — Сеть магазинов горящих путёвок"
+                loading="lazy"
                 className="relative w-full max-w-[380px] object-contain"
                 draggable={false}
               />
@@ -194,6 +195,7 @@ export default function Partners() {
                   <img
                     src={partner.src}
                     alt={partner.alt}
+                    loading="lazy"
                     className="h-20 w-auto max-w-[140px] object-contain opacity-60 grayscale transition-all duration-400 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0 sm:h-24 sm:max-w-[160px]"
                     draggable={false}
                   />

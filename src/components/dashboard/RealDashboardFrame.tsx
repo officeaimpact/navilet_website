@@ -82,7 +82,7 @@ export default function RealDashboardFrame({
       </div>
 
       {/* Dashboard layout: sidebar + main */}
-      <div className="flex" style={{ minHeight: compact ? 300 : 420 }}>
+      <div className="flex" style={{ minHeight: compact ? 300 : undefined }}>
         {/* Sidebar */}
         <div
           className="flex flex-col border-r border-[#E2E8F0] bg-white/95 backdrop-blur-sm shrink-0"

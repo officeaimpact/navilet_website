@@ -4,16 +4,30 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, type FormEvent } from "react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { ctaContent } from "@/lib/content";
-import { CheckCircle, User, Building2, Phone, Mail } from "lucide-react";
+import { submitLeadForm } from "@/lib/submitForm";
+import Link from "next/link";
+import { CheckCircle, User, Building2, Phone, Mail, Loader2 } from "lucide-react";
 
 export default function CallToAction() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError(null);
+    try {
+      await submitLeadForm(e.currentTarget);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ошибка отправки");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -77,8 +91,10 @@ export default function CallToAction() {
               >
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="relative">
+                    <label htmlFor="cta-name" className="sr-only">Имя</label>
                     <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
+                      id="cta-name"
                       type="text"
                       name="name"
                       required
@@ -87,8 +103,10 @@ export default function CallToAction() {
                     />
                   </div>
                   <div className="relative">
+                    <label htmlFor="cta-company" className="sr-only">Компания</label>
                     <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
+                      id="cta-company"
                       type="text"
                       name="company"
                       required
@@ -97,8 +115,10 @@ export default function CallToAction() {
                     />
                   </div>
                   <div className="relative">
+                    <label htmlFor="cta-phone" className="sr-only">Телефон</label>
                     <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
+                      id="cta-phone"
                       type="tel"
                       name="phone"
                       required
@@ -107,8 +127,10 @@ export default function CallToAction() {
                     />
                   </div>
                   <div className="relative">
+                    <label htmlFor="cta-email" className="sr-only">Email</label>
                     <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
+                      id="cta-email"
                       type="email"
                       name="email"
                       required
@@ -118,12 +140,45 @@ export default function CallToAction() {
                   </div>
                 </div>
 
+                <label className="mt-4 flex cursor-pointer items-start gap-2.5">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[#00E7FD]"
+                  />
+                  <span className="text-xs leading-relaxed text-white/60">
+                    Я даю согласие на обработку персональных данных в
+                    соответствии с{" "}
+                    <Link
+                      href="/privacy"
+                      target="_blank"
+                      className="text-white/80 underline hover:text-white"
+                    >
+                      политикой конфиденциальности
+                    </Link>
+                  </span>
+                </label>
+
                 <button
                   type="submit"
-                  className="mt-5 w-full cursor-pointer rounded-xl bg-white py-3.5 font-semibold text-primary shadow-lg shadow-black/10 transition-all duration-200 hover:bg-blue-ice hover:shadow-xl"
+                  disabled={sending || !consent}
+                  className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white py-3.5 font-semibold text-primary shadow-lg shadow-black/10 transition-all duration-200 hover:bg-blue-ice hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  Отправить заявку
+                  {sending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Отправка...
+                    </>
+                  ) : (
+                    "Отправить заявку"
+                  )}
                 </button>
+                {error && (
+                  <p className="mt-2 text-center text-xs text-red-300">
+                    {error}
+                  </p>
+                )}
               </motion.form>
             ) : (
               <motion.div
@@ -160,7 +215,7 @@ export default function CallToAction() {
           variants={fadeInUp}
           className="mt-6 text-center text-sm text-white/40"
         >
-          14 дней бесплатно • Без карты • Интеграция за 1 день
+          7 дней бесплатно • Без карты • Интеграция за 1 день
         </motion.p>
       </motion.div>
     </section>

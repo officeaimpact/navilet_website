@@ -32,6 +32,7 @@ function CodeBlock() {
         </div>
         <button
           onClick={handleCopy}
+          aria-label="Скопировать код"
           className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
         >
           {copied ? (
@@ -49,7 +50,7 @@ function CodeBlock() {
       </div>
 
       {/* Code */}
-      <div className="p-5 font-mono text-sm leading-relaxed">
+      <div className="overflow-x-auto p-5 font-mono text-sm leading-relaxed">
         <span className="text-white/30">{"<!-- Вставьте перед </body> -->"}</span>
         <br />
         <span className="text-[#00E7FD]">{"<"}</span>
@@ -57,7 +58,7 @@ function CodeBlock() {
         <span className="text-[#00E7FD]">{" "}</span>
         <span className="text-white/60">src</span>
         <span className="text-white/30">=</span>
-        <span className="text-emerald-400">{'"https://ai-tour.ru/widget.js"'}</span>
+        <span className="text-emerald-400">{'"https://navylet.ai/widget.js"'}</span>
         <br />
         <span className="text-[#00E7FD]">{"  "}</span>
         <span className="text-white/60">data-key</span>

@@ -58,9 +58,9 @@ export default function DashboardWidgetShowcase() {
               Кастомизация виджета
             </span>
           </div>
-          <h3 className="font-display text-2xl font-bold text-heading">
+          <h2 className="font-display text-2xl font-bold text-heading">
             Ваш бренд — ваш ассистент
-          </h3>
+          </h2>
           <p className="text-body leading-relaxed">
             Полностью настройте внешний вид чат-виджета под стиль вашей
             компании. Все изменения видны мгновенно в живом предпросмотре.

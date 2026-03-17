@@ -22,14 +22,14 @@ function PlanCard({
       variants={fadeInUp}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className={`group relative flex h-full flex-col rounded-2xl bg-white p-6 transition-all duration-300 lg:p-7 ${
+      className={`group relative flex h-full flex-col items-center text-center rounded-2xl bg-white p-6 transition-all duration-300 sm:items-start sm:text-left lg:p-7 ${
         popular
           ? "shadow-[0_4px_24px_rgba(0,82,204,0.12)] hover:shadow-[0_8px_40px_rgba(0,82,204,0.16)]"
           : "border border-blue-subtle/50 shadow-[0_1px_3px_rgba(0,82,204,0.04),0_4px_16px_rgba(0,82,204,0.05)] hover:border-accent/25 hover:shadow-[0_4px_12px_rgba(0,82,204,0.08),0_12px_40px_rgba(0,82,204,0.07)]"
       }`}
     >
       {popular && (
-        <div className="absolute -top-3 right-5 z-10 flex items-center gap-1 rounded-full bg-gradient-to-r from-[#0062EF] to-[#0097F5] px-3 py-1 text-xs font-bold text-white shadow-md">
+        <div className="absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-full bg-gradient-to-r from-[#0062EF] to-[#0097F5] px-3 py-1 text-xs font-bold text-white shadow-md sm:left-auto sm:right-5 sm:translate-x-0">
           <Sparkles className="h-3 w-3" />
           Популярный
         </div>
@@ -39,7 +39,7 @@ function PlanCard({
         <h3 className="mb-3 font-display text-lg font-bold text-heading">
           {name}
         </h3>
-        <div className="flex items-baseline gap-1">
+        <div className="flex items-baseline gap-1 justify-center sm:justify-start">
           <span className="font-display text-3xl font-bold text-heading lg:text-4xl">
             {price}
           </span>
@@ -50,9 +50,9 @@ function PlanCard({
         </p>
       </div>
 
-      <div className="mb-6 h-px bg-blue-subtle/60" />
+      <div className="mb-6 h-px w-full bg-blue-subtle/60" />
 
-      <ul className="mb-8 flex-1 space-y-3">
+      <ul className="mb-8 max-w-fit flex-1 space-y-3 text-left sm:max-w-none">
         {features.map((feature) => (
           <li key={feature} className="flex items-start gap-2.5">
             <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
@@ -63,13 +63,15 @@ function PlanCard({
         ))}
       </ul>
 
-      <Button
-        variant={popular ? "primary" : "outline"}
-        size="md"
-        onClick={() => onSelect(name)}
-      >
-        Выбрать
-      </Button>
+      <div className="flex w-full justify-center sm:justify-start">
+        <Button
+          variant={popular ? "primary" : "outline"}
+          size="md"
+          onClick={() => onSelect(name)}
+        >
+          Выбрать
+        </Button>
+      </div>
     </motion.div>
   );
 
@@ -97,12 +99,12 @@ export default function Pricing() {
       <motion.div variants={fadeInUp} className="mb-12 text-center">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
           <Sparkles className="h-4 w-4 text-accent" />
-          <span className="text-sm font-semibold text-accent">
+          <span className="text-xs font-semibold text-accent sm:text-sm">
             7 дней бесплатно • Без карты • Отмена в любой момент
           </span>
         </div>
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Выберите <span className="text-accent">тариф</span>
+          Тарифы <span className="text-accent">AI-турменеджера</span>
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-base text-body">
           Диалоги — это обращения клиентов, которые обработал AI-ассистент
