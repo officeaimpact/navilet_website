@@ -1,12 +1,27 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
 Sitemap: https://navylet.ai/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Yandex
 Allow: /
+Crawl-delay: 2
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /

@@ -17,10 +17,40 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const siteUrl = "https://navylet.ai";
+export const siteUrl = "https://navylet.ai";
 const siteName = "навылет AI";
 const siteDescription =
   "AI-турменеджер для турагентств: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно.";
+
+const keywords = [
+  // Основные брендовые
+  "навылет AI",
+  "navylet ai",
+  "AI-турменеджер",
+  // Продуктовые — B2B SaaS
+  "AI ассистент для турагентства",
+  "автоматизация турагентства",
+  "чат-бот для турагентства",
+  "виджет подбора туров",
+  "AI виджет для сайта турагентства",
+  "онлайн консультант для турагентства",
+  "подбор туров AI",
+  "автоматический подбор туров",
+  "AI туроператор",
+  // Длинный хвост
+  "искусственный интеллект для туризма",
+  "автоматизация обработки заявок турагентство",
+  "чат-бот подбор туров",
+  "AI ассистент туризм Россия",
+  "B2B SaaS туризм",
+  "сервис автоматизации турагентства",
+  "нейросеть для турагентства",
+  "круглосуточный консультант по турам",
+  "горящие туры AI",
+  "подбор туров 24 7",
+  "виджет для сайта турагентства",
+  "увеличить продажи туров",
+];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -29,27 +59,25 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
-  keywords: [
-    "AI турменеджер",
-    "AI ассистент для турагентства",
-    "автоматизация турагентства",
-    "чат-бот для турагентства",
-    "подбор туров AI",
-    "виджет для турагентства",
-    "навылет AI",
-    "искусственный интеллект туризм",
-    "B2B туризм AI",
-    "автоматический подбор туров",
-    "онлайн консультант турагентство",
-    "AI ассистент туризм",
-  ],
-  alternates: { canonical: "/" },
+  keywords,
+  alternates: {
+    canonical: "/",
+    languages: { "ru-RU": "/" },
+  },
   openGraph: {
     title: `${siteName} — AI-турменеджер для турагентств`,
     description: siteDescription,
     url: siteUrl,
     siteName,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: siteName }],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1376,
+        height: 768,
+        alt: "навылет AI — AI-турменеджер для турагентств: подбор туров 24/7",
+        type: "image/png",
+      },
+    ],
     locale: "ru_RU",
     type: "website",
   },
@@ -57,7 +85,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteName} — AI-турменеджер для турагентств`,
     description: siteDescription,
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: "/og-image.png",
+        alt: "навылет AI — AI-турменеджер для турагентств",
+      },
+    ],
+    creator: "@navylet_ai",
   },
   icons: {
     icon: [
@@ -65,23 +99,61 @@ export const metadata: Metadata = {
       { url: "/logo-icon.svg", type: "image/svg+xml" },
     ],
     apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   verification: {
-    yandex: "YANDEX_VERIFICATION_CODE",
-    google: "GOOGLE_VERIFICATION_CODE",
-    other: { "msvalidate.01": "BING_VERIFICATION_CODE" },
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION ?? "",
+    },
   },
+  category: "technology",
+  creator: "AIMPACT",
+  publisher: "ООО «ИИМПАКТ ПЛЮС»",
 };
 
 const jsonLd = [
   {
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteName,
+    url: siteUrl,
+    description: siteDescription,
+    inLanguage: "ru-RU",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${siteUrl}/#organization`,
     name: "навылет AI",
     legalName: "ООО «ИИМПАКТ ПЛЮС»",
     url: siteUrl,
-    logo: `${siteUrl}/logo.svg`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/logo.svg`,
+      width: 200,
+      height: 60,
+    },
     description: siteDescription,
     email: "office@aimpact.ru",
     telephone: "+7-963-799-79-77",
@@ -93,27 +165,107 @@ const jsonLd = [
       addressCountry: "RU",
     },
     taxID: "9705243471",
+    foundingDate: "2023",
+    areaServed: {
+      "@type": "Country",
+      name: "Russia",
+    },
+    sameAs: [
+      "https://t.me/navylet_ai",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+7-963-799-79-77",
+      contactType: "sales",
+      availableLanguage: "Russian",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": `${siteUrl}/#product`,
     name: "навылет AI — AI-турменеджер",
+    alternateName: "navylet AI",
     applicationCategory: "BusinessApplication",
+    applicationSubCategory: "TravelApplication",
     operatingSystem: "Web",
-    description: siteDescription,
+    browserRequirements: "Requires JavaScript",
+    description:
+      "AI-турменеджер для турагентств: автоматический подбор туров, консультация по отелям, показ перелётов и актуальных цен — в живом диалоге с клиентом. Работает 24/7.",
     url: siteUrl,
+    screenshot: `${siteUrl}/og-image.png`,
+    featureList: [
+      "Подбор туров по 50+ странам в реальном времени",
+      "Живой диалог на естественном языке",
+      "Актуальные цены и наличие от туроператоров",
+      "Консультация по отелям: пляж, питание, инфраструктура",
+      "Информация о перелётах",
+      "Горящие туры и специальные предложения",
+      "Личный кабинет с аналитикой",
+      "Кастомизация виджета под бренд",
+      "Подключение за 1 рабочий день",
+    ],
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "RUB",
       lowPrice: "14990",
       highPrice: "64990",
       offerCount: 4,
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Старт",
+          price: "14990",
+          priceCurrency: "RUB",
+          description: "100 диалогов в месяц",
+        },
+        {
+          "@type": "Offer",
+          name: "Рост",
+          price: "29990",
+          priceCurrency: "RUB",
+          description: "300 диалогов в месяц",
+        },
+        {
+          "@type": "Offer",
+          name: "Профи",
+          price: "39990",
+          priceCurrency: "RUB",
+          description: "500 диалогов в месяц",
+        },
+        {
+          "@type": "Offer",
+          name: "Максимум",
+          price: "64990",
+          priceCurrency: "RUB",
+          description: "1000 диалогов в месяц",
+        },
+      ],
     },
     provider: {
-      "@type": "Organization",
-      name: "навылет AI",
-      url: siteUrl,
+      "@id": `${siteUrl}/#organization`,
     },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "48",
+      bestRating: "5",
+      worstRating: "1",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${siteUrl}/#webpage`,
+    url: siteUrl,
+    name: `${siteName} — AI-турменеджер для турагентств | подбор туров 24/7`,
+    description: siteDescription,
+    inLanguage: "ru-RU",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#product` },
+    publisher: { "@id": `${siteUrl}/#organization` },
+    datePublished: "2024-01-01",
+    dateModified: "2026-03-17",
   },
 ];
 
@@ -125,6 +277,10 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable}`}>
       <head>
+        <meta name="theme-color" content="#0062EF" />
+        <meta name="color-scheme" content="light" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

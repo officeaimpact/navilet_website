@@ -5,13 +5,40 @@ import Link from "next/link";
 export const metadata = {
   title: "Политика конфиденциальности — навылет AI",
   description:
-    "Политика обработки и защиты персональных данных ООО «ИИМПАКТ ПЛЮС». Оператор навылет AI.",
+    "Политика обработки и защиты персональных данных ООО «ИИМПАКТ ПЛЮС» (ИНН 9705243471). Порядок сбора, хранения и использования данных пользователей сайта navylet.ai.",
   alternates: { canonical: "/privacy" },
+  robots: {
+    index: true,
+    follow: false,
+  },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Главная",
+      item: "https://navylet.ai/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Политика конфиденциальности",
+      item: "https://navylet.ai/privacy",
+    },
+  ],
 };
 
 export default function PrivacyPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <Navigation />
       <main className="mx-auto max-w-3xl px-5 pb-20 pt-32 sm:px-6 lg:px-8">
         <h1 className="mb-8 font-display text-3xl font-bold text-heading sm:text-4xl">

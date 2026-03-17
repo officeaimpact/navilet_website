@@ -1,4 +1,4 @@
-const WEB3FORMS_KEY = "3160f855-c880-4dc8-925b-9b3f8aae05be";
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
 
 export async function submitLeadForm(form: HTMLFormElement, planName?: string | null) {
   const data = new FormData(form);
