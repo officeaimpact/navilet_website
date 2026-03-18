@@ -36,9 +36,6 @@ COPY nginx.conf /etc/nginx/conf.d/app.conf
 # Копируем статические файлы из builder
 COPY --from=builder /app/out /usr/share/nginx/html
 
-# Проверяем конфиг nginx перед запуском
-RUN nginx -t
-
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
