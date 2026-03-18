@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata = {
   title: "Политика конфиденциальности — навылет AI",
   description:
-    "Политика обработки и защиты персональных данных ООО «ИИМПАКТ ПЛЮС» (ИНН 9705243471). Порядок сбора, хранения и использования данных пользователей сайта navylet.ai.",
+    "Политика обработки и защиты персональных данных ООО «ИИМПАКТ ПЛЮС» (ИНН 9705243471). Порядок сбора, хранения и использования данных пользователей сайта navilet.ru.",
   alternates: { canonical: "/privacy" },
   robots: {
     index: true,
@@ -21,13 +21,13 @@ const breadcrumbLd = {
       "@type": "ListItem",
       position: 1,
       name: "Главная",
-      item: "https://navylet.ai/",
+      item: "https://navilet.ru/",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Политика конфиденциальности",
-      item: "https://navylet.ai/privacy",
+      item: "https://navilet.ru/privacy",
     },
   ],
 };
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           <p>
             Настоящая Политика конфиденциальности (далее — Политика) определяет
             порядок обработки и защиты персональных данных пользователей сайта{" "}
-            <strong>navylet.ai</strong> (далее — Сайт), принадлежащего{" "}
+            <strong>navilet.ru</strong> (далее — Сайт), принадлежащего{" "}
             <strong>ООО «ИИМПАКТ ПЛЮС»</strong> (ИНН 9705243471, ОГРН
             1257700255196), расположенного по адресу: 115054, г. Москва, 5-й
             Монетчиковский переулок, д. 16, помещение 2П (далее — Оператор).
@@ -187,7 +187,7 @@ export default function PrivacyPage() {
             Оператор оставляет за собой право вносить изменения в настоящую
             Политику. Актуальная версия всегда размещена на Сайте по адресу{" "}
             <Link href="/privacy" className="text-accent hover:text-accent-hover">
-              navylet.ai/privacy
+              navilet.ru/privacy
             </Link>
             . Продолжая использовать Сайт, пользователь подтверждает согласие с
             действующей редакцией Политики.

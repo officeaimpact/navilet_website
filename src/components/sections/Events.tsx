@@ -392,12 +392,12 @@ export default function Events() {
                   startDate: e.dateISO,
                   location: { "@type": "Place", name: e.location },
                   ...(e.image && {
-                    image: `https://navylet.ai${e.image}`,
+                    image: `https://navilet.ru${e.image}`,
                   }),
                   organizer: {
                     "@type": "Organization",
                     name: "навылет AI",
-                    url: "https://navylet.ai",
+                    url: "https://navilet.ru",
                   },
                 }))
               ),

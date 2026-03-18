@@ -17,7 +17,7 @@ const manrope = Manrope({
   display: "swap",
 });
 
-export const siteUrl = "https://navylet.ai";
+export const siteUrl = "https://navilet.ru";
 const siteName = "навылет AI";
 const siteDescription =
   "AI-турменеджер для турагентств: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно.";

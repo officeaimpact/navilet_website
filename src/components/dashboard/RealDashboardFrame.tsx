@@ -77,7 +77,7 @@ export default function RealDashboardFrame({
           <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
         </div>
         <div className="ml-2 flex-1 rounded-md bg-white px-3 py-1 text-[10px] text-[#64748B]">
-          dashboard.navylet.ai
+          dashboard.navilet.ru
         </div>
       </div>
 

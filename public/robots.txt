@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_next/
-Sitemap: https://navylet.ai/sitemap.xml
+Sitemap: https://navilet.ru/sitemap.xml
 
 User-agent: Googlebot
 Allow: /

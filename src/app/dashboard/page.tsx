@@ -40,13 +40,13 @@ const breadcrumbLd = {
       "@type": "ListItem",
       position: 1,
       name: "Главная",
-      item: "https://navylet.ai/",
+      item: "https://navilet.ru/",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Личный кабинет",
-      item: "https://navylet.ai/dashboard",
+      item: "https://navilet.ru/dashboard",
     },
   ],
 };

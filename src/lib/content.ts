@@ -308,7 +308,7 @@ export const integrationSteps = [
   },
 ];
 
-export const integrationCode = `<script src="https://navylet.ai/widget.js"
+export const integrationCode = `<script src="https://navilet.ru/widget.js"
   data-key="YOUR_API_KEY">
 </script>`;
 

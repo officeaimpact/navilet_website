@@ -58,7 +58,7 @@ function CodeBlock() {
         <span className="text-[#00E7FD]">{" "}</span>
         <span className="text-white/60">src</span>
         <span className="text-white/30">=</span>
-        <span className="text-emerald-400">{'"https://navylet.ai/widget.js"'}</span>
+        <span className="text-emerald-400">{'"https://navilet.ru/widget.js"'}</span>
         <br />
         <span className="text-[#00E7FD]">{"  "}</span>
         <span className="text-white/60">data-key</span>
