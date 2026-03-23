@@ -308,8 +308,7 @@ export const integrationSteps = [
   },
 ];
 
-export const integrationCode =
-  '<script src="https://lk.navilet.ru/widget-loader.js" data-assistant-id="13ec306b-cc48-4585-8fa1-0216a0afdc3d"></script>';
+export { integrationCode } from "./integrationSnippet";
 
 export const ctaContent = {
   title: "Готовы увеличить конверсию заявок?",

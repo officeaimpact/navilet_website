@@ -324,11 +324,6 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
           <LeadFormModal />
           <CookieConsent />
         </LeadFormProvider>
-        <script
-          async
-          src="https://lk.navilet.ru/widget-loader.js"
-          data-assistant-id="13ec306b-cc48-4585-8fa1-0216a0afdc3d"
-        />
       </body>
     </html>
   );
