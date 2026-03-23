@@ -308,7 +308,6 @@ export const integrationSteps = [
   },
 ];
 
-/** Пример вставки на сайт клиента (как в layout) */
 export const integrationCode =
   '<script src="https://lk.navilet.ru/widget-loader.js" data-assistant-id="13ec306b-cc48-4585-8fa1-0216a0afdc3d"></script>';
 

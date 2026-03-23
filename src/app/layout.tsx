@@ -20,8 +20,9 @@ const manrope = Manrope({
 
 export const siteUrl = "https://navilet.ru";
 
-/** Яндекс.Метрика — счётчик */
+/** Яндекс.Метрика */
 const YANDEX_METRIKA_ID = 108200337;
+
 const siteName = "навылет AI";
 const siteDescription =
   "AI-турменеджер для турагентств: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно.";
@@ -323,7 +324,6 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
           <LeadFormModal />
           <CookieConsent />
         </LeadFormProvider>
-        {/* Виджет — в конце body, как при вставке перед </body> */}
         <script
           async
           src="https://lk.navilet.ru/widget-loader.js"
