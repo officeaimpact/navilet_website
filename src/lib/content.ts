@@ -308,9 +308,7 @@ export const integrationSteps = [
   },
 ];
 
-export const integrationCode = `<script src="https://navilet.ru/widget.js"
-  data-key="YOUR_API_KEY">
-</script>`;
+export { integrationCode } from "./naviletWidget";
 
 export const ctaContent = {
   title: "Готовы увеличить конверсию заявок?",

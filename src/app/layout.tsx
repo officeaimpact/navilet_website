@@ -5,6 +5,10 @@ import "./globals.css";
 import { LeadFormProvider } from "@/contexts/LeadFormContext";
 import LeadFormModal from "@/components/ui/LeadFormModal";
 import CookieConsent from "@/components/ui/CookieConsent";
+import {
+  NAVILET_ASSISTANT_ID,
+  NAVILET_WIDGET_LOADER_URL,
+} from "@/lib/naviletWidget";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -285,6 +289,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://lk.navilet.ru" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -318,6 +323,11 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
             />
           </div>
         </noscript>
+        <Script
+          src={NAVILET_WIDGET_LOADER_URL}
+          data-assistant-id={NAVILET_ASSISTANT_ID}
+          strategy="afterInteractive"
+        />
         <LeadFormProvider>
           {children}
           <LeadFormModal />

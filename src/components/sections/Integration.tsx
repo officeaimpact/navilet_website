@@ -49,26 +49,12 @@ function CodeBlock() {
         </button>
       </div>
 
-      {/* Code */}
+      {/* Code — синхронизировано с src/lib/naviletWidget.ts */}
       <div className="overflow-x-auto p-5 font-mono text-sm leading-relaxed">
         <span className="text-white/30">{"<!-- Вставьте перед </body> -->"}</span>
-        <br />
-        <span className="text-[#00E7FD]">{"<"}</span>
-        <span className="text-[#33BBFF]">script</span>
-        <span className="text-[#00E7FD]">{" "}</span>
-        <span className="text-white/60">src</span>
-        <span className="text-white/30">=</span>
-        <span className="text-emerald-400">{'"https://navilet.ru/widget.js"'}</span>
-        <br />
-        <span className="text-[#00E7FD]">{"  "}</span>
-        <span className="text-white/60">data-key</span>
-        <span className="text-white/30">=</span>
-        <span className="text-emerald-400">{'"YOUR_API_KEY"'}</span>
-        <span className="text-[#00E7FD]">{">"}</span>
-        <br />
-        <span className="text-[#00E7FD]">{"</"}</span>
-        <span className="text-[#33BBFF]">script</span>
-        <span className="text-[#00E7FD]">{">"}</span>
+        <pre className="mt-2 whitespace-pre-wrap break-all text-emerald-400/95">
+          {integrationCode}
+        </pre>
       </div>
     </div>
   );
