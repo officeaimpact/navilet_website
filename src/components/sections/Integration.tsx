@@ -49,7 +49,7 @@ function CodeBlock() {
         </button>
       </div>
 
-      {/* Code — синхронизировано с src/lib/naviletWidget.ts */}
+      {/* Код для вставки на сайт клиента */}
       <div className="overflow-x-auto p-5 font-mono text-sm leading-relaxed">
         <span className="text-white/30">{"<!-- Вставьте перед </body> -->"}</span>
         <pre className="mt-2 whitespace-pre-wrap break-all text-emerald-400/95">
