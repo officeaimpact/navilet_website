@@ -2,76 +2,130 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-import { pricingPlans } from "@/lib/content";
+import {
+  pricingPlans,
+  crossChannelAddons,
+  maxChannelInstallation,
+  type PricingPlan,
+  type CrossChannelAddon,
+} from "@/lib/content";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
-import { Check, Sparkles, Settings, ArrowRight } from "lucide-react";
+import {
+  Check,
+  Sparkles,
+  Settings,
+  ArrowRight,
+  Globe,
+  MessageSquare,
+  Layers,
+  Info,
+} from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
+
+/** Форматирование чисел с тонкими неразрывными пробелами */
+const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u202F");
+
+function ChannelBadge({ icon: Icon, label }: { icon: typeof Globe; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-md bg-blue-ice px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary">
+      <Icon className="h-3 w-3" />
+      {label}
+    </span>
+  );
+}
 
 function PlanCard({
   plan,
   onSelect,
 }: {
-  plan: (typeof pricingPlans)[0];
-  onSelect: (name: string) => void;
+  plan: PricingPlan;
+  onSelect: (plan: PricingPlan) => void;
 }) {
-  const { name, price, dialogs, popular, features } = plan;
+  const { name, price, dialogs, extraDialog, effectivePerDialog, tagline, popular } = plan;
 
   const card = (
     <motion.div
       variants={fadeInUp}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className={`group relative flex h-full flex-col items-center text-center rounded-2xl bg-white p-6 transition-all duration-300 sm:items-start sm:text-left lg:p-7 ${
+      className={`group relative flex h-full flex-col rounded-2xl bg-white p-6 transition-all duration-300 lg:p-7 ${
         popular
           ? "shadow-[0_4px_24px_rgba(0,82,204,0.12)] hover:shadow-[0_8px_40px_rgba(0,82,204,0.16)]"
           : "border border-blue-subtle/50 shadow-[0_1px_3px_rgba(0,82,204,0.04),0_4px_16px_rgba(0,82,204,0.05)] hover:border-accent/25 hover:shadow-[0_4px_12px_rgba(0,82,204,0.08),0_12px_40px_rgba(0,82,204,0.07)]"
       }`}
     >
       {popular && (
-        <div className="absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-full bg-gradient-to-r from-[#0062EF] to-[#0097F5] px-3 py-1 text-xs font-bold text-white shadow-md sm:left-auto sm:right-5 sm:translate-x-0">
+        <div className="absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-full bg-gradient-to-r from-[#0062EF] to-[#0097F5] px-3 py-1 text-xs font-bold text-white shadow-md">
           <Sparkles className="h-3 w-3" />
           Популярный
         </div>
       )}
 
-      <div className="mb-5">
-        <h3 className="mb-3 font-display text-lg font-bold text-heading">
+      {/* Header: name + channel badges */}
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h3 className="font-display text-lg font-bold uppercase tracking-wide text-heading">
           {name}
         </h3>
-        <div className="flex items-baseline gap-1 justify-center sm:justify-start">
-          <span className="font-display text-3xl font-bold text-heading lg:text-4xl">
-            {price}
-          </span>
-          <span className="text-sm font-medium text-muted">₽/мес</span>
+        <div className="flex flex-wrap items-center gap-1">
+          <ChannelBadge icon={Globe} label="Web" />
+          <ChannelBadge icon={MessageSquare} label="MAX" />
         </div>
-        <p className="mt-2 text-sm font-medium text-accent">
-          {dialogs} диалогов/мес
-        </p>
       </div>
 
-      <div className="mb-6 h-px w-full bg-blue-subtle/60" />
+      {/* Price */}
+      <div className="mb-1 flex flex-wrap items-baseline gap-x-1">
+        <span className="whitespace-nowrap font-display text-3xl font-bold text-heading lg:text-4xl">
+          {fmt(price)}&nbsp;₽
+        </span>
+        <span className="text-sm font-medium text-muted">/ мес</span>
+      </div>
+      <p className="text-sm font-medium text-accent">
+        {dialogs} диалогов / мес
+      </p>
 
-      <ul className="mb-8 max-w-fit flex-1 space-y-3 text-left sm:max-w-none">
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2.5">
-            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-              <Check className="h-3 w-3 text-accent" />
+      <div className="my-5 h-px w-full bg-blue-subtle/60" />
+
+      {/* Tagline */}
+      <p className="mb-5 text-sm leading-snug text-body">{tagline}</p>
+
+      {/* Details */}
+      <ul className="mb-7 flex-1 space-y-2.5 text-sm text-body">
+        <li className="flex items-start gap-2.5">
+          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+            <Check className="h-3 w-3 text-accent" />
+          </span>
+          <span>
+            Доп. диалог сверх лимита —{" "}
+            <span className="font-semibold text-heading">{extraDialog} ₽</span>
+          </span>
+        </li>
+        <li className="flex items-start gap-2.5">
+          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+            <Check className="h-3 w-3 text-accent" />
+          </span>
+          <span>
+            В тарифе —{" "}
+            <span className="font-semibold text-heading">
+              ~{effectivePerDialog} ₽ / диалог
             </span>
-            <span className="text-sm leading-snug text-body">{feature}</span>
-          </li>
-        ))}
+          </span>
+        </li>
+        <li className="flex items-start gap-2.5">
+          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+            <Check className="h-3 w-3 text-accent" />
+          </span>
+          <span>Канал на выбор — Web или MAX</span>
+        </li>
       </ul>
 
-      <div className="flex w-full justify-center sm:justify-start">
-        <Button
-          variant={popular ? "primary" : "outline"}
-          size="md"
-          onClick={() => onSelect(name)}
-        >
-          Выбрать
-        </Button>
-      </div>
+      <Button
+        variant={popular ? "primary" : "outline"}
+        size="md"
+        onClick={() => onSelect(plan)}
+      >
+        Выбрать тариф
+      </Button>
     </motion.div>
   );
 
@@ -80,7 +134,8 @@ function PlanCard({
       <div
         className="relative rounded-2xl p-[2px]"
         style={{
-          background: "linear-gradient(135deg, #0062EF 0%, #0097F5 50%, #00E7FD 100%)",
+          background:
+            "linear-gradient(135deg, #0062EF 0%, #0097F5 50%, #00E7FD 100%)",
         }}
       >
         {card}
@@ -91,12 +146,109 @@ function PlanCard({
   return card;
 }
 
+function CrossChannelCard({
+  plan,
+  addon,
+  onSelect,
+}: {
+  plan: PricingPlan;
+  addon: CrossChannelAddon;
+  onSelect: (plan: PricingPlan) => void;
+}) {
+  return (
+    <motion.div
+      variants={fadeInUp}
+      whileHover={{ y: -3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="group relative flex h-full flex-col rounded-2xl border border-accent/15 bg-gradient-to-br from-blue-ice/40 to-white p-6 shadow-[0_1px_3px_rgba(0,82,204,0.04),0_4px_16px_rgba(0,82,204,0.05)] transition-all duration-300 hover:border-accent/30 hover:shadow-[0_4px_12px_rgba(0,82,204,0.08),0_12px_40px_rgba(0,82,204,0.07)]"
+    >
+      {/* Header */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <h3 className="font-display text-sm font-bold uppercase tracking-wide text-heading sm:text-base">
+          {plan.name}
+          <span className="ml-1.5 text-accent">+ Второй канал</span>
+        </h3>
+        <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent sm:text-[11px]">
+          <Layers className="h-3 w-3" />
+          Web + MAX
+        </span>
+      </div>
+
+      {/* Addon price */}
+      <div className="mb-1 flex flex-wrap items-baseline gap-x-1">
+        <span className="whitespace-nowrap font-display text-2xl font-bold text-heading lg:text-3xl">
+          +{fmt(addon.addonPrice)}&nbsp;₽
+        </span>
+        <span className="text-sm font-medium text-muted">/ мес</span>
+      </div>
+      <p className="text-sm font-medium text-accent">
+        +{addon.extraDialogs} диалогов во втором канале
+      </p>
+
+      <div className="my-4 h-px w-full bg-blue-subtle/60" />
+
+      {/* Total */}
+      <div className="mb-4 rounded-xl bg-white/80 px-3.5 py-2.5 ring-1 ring-blue-subtle/40">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
+          Итого с тарифом
+        </p>
+        <p className="mt-0.5 font-display text-lg font-bold text-heading">
+          <span className="whitespace-nowrap">{fmt(addon.totalPrice)}&nbsp;₽</span>
+          <span className="ml-1 text-sm font-medium text-muted">/ мес</span>
+        </p>
+        <p className="text-xs font-medium text-body">
+          {addon.totalDialogs} диалогов в двух каналах
+        </p>
+      </div>
+
+      <p className="mb-5 text-xs text-muted">
+        Доп. диалог во втором канале —{" "}
+        <span className="font-semibold text-body">
+          {addon.extraDialogPrice} ₽
+        </span>
+      </p>
+
+      <div className="mt-auto">
+        <Button variant="outline" size="sm" onClick={() => onSelect(plan)}>
+          Подключить
+        </Button>
+      </div>
+    </motion.div>
+  );
+}
+
+function InstallationCard({ plan }: { plan: PricingPlan }) {
+  return (
+    <motion.div
+      variants={fadeInUp}
+      className="flex items-center gap-3 rounded-xl border border-blue-subtle/40 bg-white px-3.5 py-3 transition-shadow duration-200 hover:shadow-[0_2px_12px_rgba(0,82,204,0.06)] sm:px-4"
+    >
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
+        <Settings className="h-4 w-4 text-accent" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
+          {plan.name}
+        </p>
+        <p className="font-display text-base font-bold text-heading">
+          <span className="whitespace-nowrap">{fmt(plan.installation)}&nbsp;₽</span>
+          <span className="ml-1 text-xs font-medium text-muted">разово</span>
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Pricing() {
   const { openForm } = useLeadForm();
 
+  const handleSelectPlan = (plan: PricingPlan, channel?: "web" | "max" | "cross") =>
+    openForm({ planId: plan.id, planName: plan.name, channelId: channel });
+
   return (
     <SectionWrapper id="pricing">
-      <motion.div variants={fadeInUp} className="mb-12 text-center">
+      {/* Section header */}
+      <motion.div variants={fadeInUp} className="mb-10 text-center sm:mb-12">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
           <Sparkles className="h-4 w-4 text-accent" />
           <span className="text-xs font-semibold text-accent sm:text-sm">
@@ -106,49 +258,163 @@ export default function Pricing() {
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
           Тарифы <span className="text-accent">AI-турменеджера</span>
         </h2>
-        <p className="mx-auto mt-4 max-w-lg text-base text-body">
-          Диалоги — это обращения клиентов, которые обработал AI-ассистент
+        <p className="mx-auto mt-4 max-w-xl text-base text-body">
+          Каждый тариф работает в одном канале на выбор — Web-виджет или
+          MAX-мессенджер. Нужны оба сразу? Подключите{" "}
+          <a
+            href="#cross-channel"
+            className="font-medium text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
+          >
+            «Второй канал»
+          </a>
+          .
         </p>
       </motion.div>
 
+      {/* Channel info banner */}
+      <motion.div
+        variants={fadeInUp}
+        className="mx-auto mb-10 flex max-w-3xl flex-col items-center justify-center gap-3 rounded-2xl border border-blue-subtle/50 bg-surface-alt px-5 py-4 text-sm text-body sm:flex-row sm:gap-5"
+      >
+        <div className="flex items-center gap-2">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-blue-subtle/60">
+            <Globe className="h-4 w-4 text-accent" />
+          </span>
+          <span className="font-semibold text-heading">Web-виджет</span>
+        </div>
+        <span className="hidden text-muted sm:inline">или</span>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-blue-subtle/60">
+            <MessageSquare className="h-4 w-4 text-accent" />
+          </span>
+          <span className="font-semibold text-heading">MAX-мессенджер</span>
+        </div>
+        <span className="hidden text-muted sm:inline">·</span>
+        <span className="text-center text-xs text-muted sm:text-left sm:text-sm">
+          Цены и лимиты идентичны в обоих каналах
+        </span>
+      </motion.div>
+
+      {/* Main plan cards */}
       <motion.div
         variants={staggerContainer}
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
         {pricingPlans.map((plan) => (
-          <PlanCard
-            key={plan.name}
-            plan={plan}
-            onSelect={(name) => openForm(name)}
-          />
+          <PlanCard key={plan.id} plan={plan} onSelect={(p) => handleSelectPlan(p)} />
         ))}
       </motion.div>
 
-      {/* Installation fee */}
+      {/* ── Second Channel (Cross-Channel) ─────────────────────── */}
       <motion.div
         variants={fadeInUp}
-        className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 rounded-2xl border border-blue-subtle/40 bg-surface-alt p-5 text-center sm:flex-row sm:gap-4 sm:text-left"
+        id="cross-channel"
+        className="mt-20 scroll-mt-28"
       >
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-accent/10">
-          <Settings className="h-5 w-5 text-accent" />
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-heading">
-            Установочный платёж — 14 990 ₽{" "}
-            <span className="font-normal text-muted">(разовый)</span>
+        <div className="mb-8 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
+            <Layers className="h-4 w-4 text-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-accent sm:text-sm">
+              Надстройка · Второй канал
+            </span>
+          </div>
+          <h3 className="font-display text-2xl font-bold text-heading sm:text-3xl">
+            Web и MAX <span className="text-accent">одновременно</span>
+          </h3>
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-body sm:text-base">
+            Базовый тариф работает в одном канале. Если хотите использовать
+            AI-ассистента сразу <strong className="font-semibold text-heading">и в Web-виджете на сайте, и в MAX-мессенджере</strong> — добавьте «Второй канал»
+            к выбранному тарифу. Получите дополнительный лимит диалогов во
+            втором канале по льготной цене.
           </p>
-          <p className="mt-0.5 text-sm text-body">
-            Включает полную настройку ассистента и подключение к личному
-            кабинету.
+        </div>
+
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {crossChannelAddons.map((addon) => {
+            const plan = pricingPlans.find((p) => p.id === addon.planId)!;
+            return (
+              <CrossChannelCard
+                key={addon.planId}
+                plan={plan}
+                addon={addon}
+                onSelect={(p) => handleSelectPlan(p, "cross")}
+              />
+            );
+          })}
+        </motion.div>
+      </motion.div>
+
+      {/* ── Installation ────────────────────────────────────────── */}
+      <motion.div variants={fadeInUp} className="mt-20">
+        <div className="mb-6 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-subtle/60 bg-white px-4 py-1.5">
+            <Settings className="h-4 w-4 text-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-primary sm:text-sm">
+              Инсталляция · разовый платёж
+            </span>
+          </div>
+          <h3 className="font-display text-2xl font-bold text-heading sm:text-3xl">
+            Подключение и настройка
+          </h3>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-body sm:text-base">
+            Разовый платёж при подключении — покрывает первичную настройку
+            ассистента и интеграцию с вашим сайтом или каналом.
           </p>
         </div>
+
+        {/* Installation cards by plan */}
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+        >
+          {pricingPlans.map((plan) => (
+            <InstallationCard key={plan.id} plan={plan} />
+          ))}
+        </motion.div>
+
+        {/* MAX installation — separate */}
+        <motion.div
+          variants={fadeInUp}
+          className="mx-auto mt-5 flex max-w-2xl flex-col items-start gap-3 rounded-2xl border border-blue-subtle/50 bg-blue-ice/40 px-5 py-4 sm:flex-row sm:items-center sm:gap-4"
+        >
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-blue-subtle/60">
+            <MessageSquare className="h-5 w-5 text-accent" />
+          </div>
+          <div className="flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">
+              Инсталляция MAX-канала
+            </p>
+            <p className="font-display text-lg font-bold text-heading">
+              <span className="whitespace-nowrap">
+                {fmt(maxChannelInstallation)}&nbsp;₽
+              </span>{" "}
+              <span className="text-sm font-medium text-muted">разово</span>
+            </p>
+            <p className="mt-0.5 text-xs text-body">
+              Отдельный ценник за подключение MAX — поверх инсталляции Web или
+              как самостоятельный платёж для MAX-only клиентов.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Small disclaimer */}
+        <motion.p
+          variants={fadeInUp}
+          className="mx-auto mt-4 flex max-w-2xl items-start justify-center gap-1.5 text-center text-xs text-muted"
+        >
+          <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+          <span>
+            Все цены указаны без НДС. Подписка списывается ежемесячно, инсталляция —
+            один раз при подключении.
+          </span>
+        </motion.p>
       </motion.div>
 
       {/* CTA */}
-      <motion.div
-        variants={fadeInUp}
-        className="mt-10 flex justify-center"
-      >
+      <motion.div variants={fadeInUp} className="mt-14 flex justify-center">
         <Button variant="primary" size="lg" onClick={() => openForm()}>
           <span className="flex items-center gap-2">
             Начать бесплатно

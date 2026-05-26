@@ -8,13 +8,11 @@ export const navLinks = [
 ];
 
 export const heroContent = {
-  badge: "AI-powered • B2B",
   title: "AI-турменеджер, который продаёт туры пока вы спите",
   subtitle:
     "Полностью автоматизированный AI-ассистент для турагентств. Подбирает туры, консультирует по отелям, показывает перелёты и цены — в живом диалоге с клиентом. Подключается за 1 день.",
   ctaPrimary: "Попробовать демо",
   ctaSecondary: "Узнать больше",
-  partners: ["Web Widget"],
 };
 
 export const problems = [
@@ -233,57 +231,155 @@ export const audiences = [
   },
 ];
 
-export const pricingPlans = [
+/* ── Pricing ──────────────────────────────────────────────── */
+
+export interface PricingPlan {
+  id: "start" | "standart" | "biznes" | "set";
+  name: string;
+  /** Месячная цена базовой подписки, ₽ */
+  price: number;
+  /** Включённые диалоги в месяц */
+  dialogs: number;
+  /** Цена сверхлимитного диалога, ₽ */
+  extraDialog: number;
+  /** Эффективная цена за диалог в тарифе, ₽ */
+  effectivePerDialog: number;
+  /** Короткое описание целевого клиента */
+  tagline: string;
+  popular: boolean;
+  /** Стоимость инсталляции для тарифа, ₽ (разово) */
+  installation: number;
+}
+
+export const pricingPlans: PricingPlan[] = [
   {
+    id: "start",
     name: "Старт",
-    price: "14 990",
-    dialogs: "100",
+    price: 3290,
+    dialogs: 50,
+    extraDialog: 80,
+    effectivePerDialog: 66,
+    tagline: "Малая точка, филиал или 1 офис без активного потока",
     popular: false,
-    features: [
-      "AI-ассистент 24/7",
-      "Веб-виджет на сайт",
-      "Личный кабинет",
-      "Email-поддержка",
-    ],
+    installation: 1000,
   },
   {
-    name: "Рост",
-    price: "29 990",
-    dialogs: "300",
+    id: "standart",
+    name: "Стандарт",
+    price: 5290,
+    dialogs: 120,
+    extraDialog: 60,
+    effectivePerDialog: 44,
+    tagline: "Главный офис небольшой сети, 2–4 диалога в день",
     popular: true,
-    features: [
-      "AI-ассистент 24/7",
-      "Веб-виджет на сайт",
-      "Личный кабинет с аналитикой",
-      "Кастомизация виджета",
-      "Чат-поддержка",
-    ],
+    installation: 3000,
   },
   {
-    name: "Профи",
-    price: "39 990",
-    dialogs: "500",
+    id: "biznes",
+    name: "Бизнес",
+    price: 7990,
+    dialogs: 200,
+    extraDialog: 40,
+    effectivePerDialog: 40,
+    tagline: "Зрелое агентство, 2–3 офиса или активный сайт",
     popular: false,
-    features: [
-      "AI-ассистент 24/7",
-      "Веб-виджет на сайт",
-      "Расширенная аналитика",
-      "Кастомизация виджета",
-      "Приоритетная поддержка",
-    ],
+    installation: 5000,
   },
   {
-    name: "Максимум",
-    price: "64 990",
-    dialogs: "1 000",
+    id: "set",
+    name: "Сеть",
+    price: 14990,
+    dialogs: 400,
+    extraDialog: 28,
+    effectivePerDialog: 37,
+    tagline: "Большая сеть с центральным сайтом и несколькими офисами",
     popular: false,
-    features: [
-      "AI-ассистент 24/7",
-      "Веб-виджет на сайт",
-      "Полная аналитика и экспорт",
-      "Кастомизация виджета",
-      "Персональный менеджер",
-    ],
+    installation: 15000,
+  },
+];
+
+export interface CrossChannelAddon {
+  /** Совпадает с id основного тарифа */
+  planId: PricingPlan["id"];
+  /** Доплата за второй канал, ₽/мес */
+  addonPrice: number;
+  /** Дополнительные диалоги во втором канале */
+  extraDialogs: number;
+  /** Итого ₽/мес (база + доплата) */
+  totalPrice: number;
+  /** Итого диалогов (база + второй канал) */
+  totalDialogs: number;
+  /** Цена сверхлимитного диалога во втором канале, ₽ */
+  extraDialogPrice: number;
+}
+
+export const crossChannelAddons: CrossChannelAddon[] = [
+  {
+    planId: "start",
+    addonPrice: 1290,
+    extraDialogs: 30,
+    totalPrice: 4580,
+    totalDialogs: 80,
+    extraDialogPrice: 43,
+  },
+  {
+    planId: "standart",
+    addonPrice: 1990,
+    extraDialogs: 60,
+    totalPrice: 7280,
+    totalDialogs: 180,
+    extraDialogPrice: 33,
+  },
+  {
+    planId: "biznes",
+    addonPrice: 2990,
+    extraDialogs: 100,
+    totalPrice: 10980,
+    totalDialogs: 300,
+    extraDialogPrice: 30,
+  },
+  {
+    planId: "set",
+    addonPrice: 4990,
+    extraDialogs: 200,
+    totalPrice: 19980,
+    totalDialogs: 600,
+    extraDialogPrice: 25,
+  },
+];
+
+/** Стоимость отдельной инсталляции MAX-канала (разовый платёж) */
+export const maxChannelInstallation = 2500;
+
+/* ── Channels ─────────────────────────────────────────────── */
+
+export type ChannelId = "web" | "max" | "cross";
+
+export interface ChannelOption {
+  id: ChannelId;
+  label: string;
+  short: string;
+  description: string;
+}
+
+export const channelOptions: ChannelOption[] = [
+  {
+    id: "web",
+    label: "Web-виджет",
+    short: "WEB",
+    description: "AI-ассистент в виджете на вашем сайте",
+  },
+  {
+    id: "max",
+    label: "MAX-мессенджер",
+    short: "MAX",
+    description: "AI-ассистент в канале MAX от VK",
+  },
+  {
+    id: "cross",
+    label: "Web + MAX",
+    short: "WEB + MAX",
+    description: "Оба канала вместе через надстройку «Второй канал»",
   },
 ];
 
@@ -485,7 +581,17 @@ export const faqItems: FaqItem[] = [
   {
     question: "Сколько стоит подключение AI-ассистента для турагентства?",
     answer:
-      "Тарифы начинаются от 14 990 ₽/мес за 100 диалогов. Инсталляционный платёж — 14 990 ₽. Первые 7 дней — бесплатно, без обязательств.",
+      "Тарифы начинаются от 3 290 ₽/мес за 50 диалогов («Старт»). Все тарифы доступны в Web-виджете или в MAX-мессенджере. Чтобы работать сразу в двух каналах, добавляется надстройка «Второй канал». Разовая инсталляция — от 1 000 ₽. Первые 7 дней — бесплатно, без карты.",
+  },
+  {
+    question: "В каких каналах работает AI-ассистент?",
+    answer:
+      "В двух: Web-виджет на вашем сайте и MAX-мессенджер. Любой основной тариф работает в одном из них на выбор. Если нужны оба канала одновременно — подключается надстройка «Второй канал»: даётся дополнительный лимит диалогов во втором канале по льготной цене.",
+  },
+  {
+    question: "Что такое «Второй канал» и сколько он стоит?",
+    answer:
+      "«Второй канал» — это надстройка к основному тарифу, которая добавляет второй канал (Web или MAX) и дополнительные диалоги в нём по сниженной цене. Например, на «Стандарте» это +1 990 ₽/мес и +60 диалогов во втором канале — итого 7 280 ₽/мес за 180 диалогов.",
   },
   {
     question: "Как быстро можно подключить AI-ассистент на сайт?",

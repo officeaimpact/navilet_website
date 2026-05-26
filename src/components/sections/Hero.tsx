@@ -9,22 +9,25 @@ import {
   fadeIn,
 } from "@/lib/animations";
 import { heroContent } from "@/lib/content";
-import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import DemoWidget from "@/components/DemoWidget";
 import { demoScenarios } from "@/lib/scenarios";
-import { Globe } from "lucide-react";
+import { Globe, MessageSquare } from "lucide-react";
 
 function PartnerLogos() {
   return (
     <motion.div
       variants={fadeIn}
-      className="flex flex-wrap items-center justify-center gap-8 border-t border-blue-subtle/50 pt-8 lg:justify-start"
+      className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-blue-subtle/50 pt-8 lg:justify-start"
     >
-      <span className="text-sm text-muted">Совместим с</span>
+      <span className="text-sm text-muted">Работает в</span>
       <div className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
         <Globe className="h-5 w-5" />
-        <span className="text-sm font-medium">Web Widget</span>
+        <span className="text-sm font-medium">Веб-сайт</span>
+      </div>
+      <div className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
+        <MessageSquare className="h-5 w-5" />
+        <span className="text-sm font-medium">MAX</span>
       </div>
     </motion.div>
   );
@@ -49,10 +52,6 @@ export default function Hero() {
           animate="visible"
           className="flex flex-1 flex-col items-center text-center lg:items-start lg:pt-8 lg:text-left"
         >
-          <Badge className="mb-6">
-            {heroContent.badge}
-          </Badge>
-
           <motion.h1
             variants={staggerContainer}
             initial="hidden"

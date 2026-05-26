@@ -1,13 +1,40 @@
 const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
 
-export async function submitLeadForm(form: HTMLFormElement, planName?: string | null) {
+export interface LeadFormMeta {
+  planName?: string | null;
+  channelLabel?: string | null;
+  monthlyPrice?: number | null;
+  dialogs?: number | null;
+}
+
+/**
+ * Submit lead form to web3forms. Backwards compatible: accepts either
+ * a plain plan name string (legacy) or a richer meta object.
+ */
+export async function submitLeadForm(
+  form: HTMLFormElement,
+  meta?: string | LeadFormMeta | null
+) {
   const data = new FormData(form);
   data.append("access_key", WEB3FORMS_KEY);
-  data.append("subject", planName
-    ? `Новая заявка — навылет AI (тариф «${planName}»)`
-    : "Новая заявка — навылет AI"
-  );
+
+  const normalized: LeadFormMeta =
+    typeof meta === "string" ? { planName: meta } : meta ?? {};
+
+  const { planName, channelLabel, monthlyPrice, dialogs } = normalized;
+
+  // Subject
+  const subjectParts: string[] = ["Новая заявка — навылет AI"];
+  if (planName) subjectParts.push(`тариф «${planName}»`);
+  if (channelLabel) subjectParts.push(`канал ${channelLabel}`);
+  data.append("subject", subjectParts.join(" · "));
   data.append("from_name", "навылет AI — Заявка с сайта");
+
+  // Hidden context fields — попадут в письмо как отдельные поля
+  if (planName) data.append("plan", planName);
+  if (channelLabel) data.append("channel", channelLabel);
+  if (monthlyPrice != null) data.append("monthly_price_rub", String(monthlyPrice));
+  if (dialogs != null) data.append("dialogs_per_month", String(dialogs));
 
   const res = await fetch("https://api.web3forms.com/submit", {
     method: "POST",
