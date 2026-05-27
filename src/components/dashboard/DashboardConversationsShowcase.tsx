@@ -59,7 +59,7 @@ export default function DashboardConversationsShowcase() {
           </h2>
           <p className="text-body leading-relaxed">
             Просматривайте полную историю каждого разговора клиента с
-            AI-ассистентом, включая карточки туров и результаты поиска.
+            ИИ-ассистентом, включая карточки туров и результаты поиска.
           </p>
           <div className="space-y-3">
             <FeaturePoint

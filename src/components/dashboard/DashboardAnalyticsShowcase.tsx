@@ -90,7 +90,7 @@ export default function DashboardAnalyticsShowcase() {
               />
               <FeaturePoint
                 icon={Zap}
-                text="AI-инсайты: топ-направления, время ответа, % обращений вне рабочих часов"
+                text="ИИ-инсайты: топ-направления, время ответа, % обращений вне рабочих часов"
               />
               <FeaturePoint
                 icon={Clock}

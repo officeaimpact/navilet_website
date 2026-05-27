@@ -88,7 +88,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center">
               <Image
                 src="/logo.svg"
-                alt="навылет AI — AI-турменеджер для турагентств"
+                alt="Навылет! AI — ИИ-турменеджер для турагентств"
                 width={130}
                 height={29}
                 className="h-7 w-auto"
@@ -96,7 +96,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-muted">
-              &copy; {new Date().getFullYear()} навылет AI. Все права защищены.
+              &copy; {new Date().getFullYear()} Навылет! AI. Все права защищены.
             </p>
 
             <button

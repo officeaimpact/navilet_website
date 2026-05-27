@@ -532,7 +532,7 @@ function CompactView({ s }: { s: number }) {
             Диалоги
           </div>
           <div className="text-[#64748B]" style={{ fontSize: 8 * s }}>
-            История всех разговоров клиентов с AI-ассистентом
+            История всех разговоров клиентов с ИИ-ассистентом
           </div>
         </div>
         <div className="flex items-center gap-1">

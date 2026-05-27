@@ -75,8 +75,8 @@ export default function Technologies() {
     <SectionWrapper id="tech">
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Технологии AI-ассистента:{" "}
-          <span className="text-accent">надёжная</span> AI-система для туризма
+          Технологии ИИ-ассистента:{" "}
+          <span className="text-accent">надёжная</span> ИИ-система для туризма
         </h2>
       </motion.div>
 

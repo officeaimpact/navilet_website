@@ -123,11 +123,11 @@ export default function LiveDemo() {
           <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
             Демонстрация{" "}
             <span className="bg-gradient-to-r from-[#0062EF] to-[#00E7FD] bg-clip-text text-transparent">
-              AI-турменеджера
+              ИИ-турменеджера
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-body">
-            Выберите сценарий и посмотрите, как AI-ассистент обрабатывает
+            Выберите сценарий и посмотрите, как ИИ-ассистент обрабатывает
             реальные запросы клиентов
           </p>
         </motion.div>
@@ -179,7 +179,7 @@ export default function LiveDemo() {
                 <span className="font-semibold text-body">
                   Это сокращённая демонстрация.
                 </span>{" "}
-                В рабочей версии AI-ассистент отвечает более человекоподобно
+                В рабочей версии ИИ-ассистент отвечает более человекоподобно
                 и детально, подключён к реальной базе туроператоров
                 и показывает актуальные цены в момент запроса. Виджет
                 встраивается на ваш сайт одной строкой кода.

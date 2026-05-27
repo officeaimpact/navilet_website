@@ -112,8 +112,12 @@ export default function FAQ() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              mainEntity: faqItems.map((item) => ({
+              "@id": "https://navilet.ru/#faq",
+              inLanguage: "ru-RU",
+              isPartOf: { "@id": "https://navilet.ru/#webpage" },
+              mainEntity: faqItems.map((item, idx) => ({
                 "@type": "Question",
+                "@id": `https://navilet.ru/#faq-question-${idx + 1}`,
                 name: item.question,
                 acceptedAnswer: {
                   "@type": "Answer",

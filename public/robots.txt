@@ -1,27 +1,112 @@
+# Навылет! AI — robots.txt
+# https://navilet.ru
+
+# === Поисковые системы общего назначения ===
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_next/
-Sitemap: https://navilet.ru/sitemap.xml
 
+# === Google ===
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+# === Yandex ===
 User-agent: Yandex
 Allow: /
 Crawl-delay: 2
-Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&fbclid&gclid&yclid
 
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexImages
+Allow: /
+
+# === Bing ===
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
+# === ИИ-краулеры и системы генеративного поиска (GEO) ===
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# === SEO-аналитические краулеры — ограничиваем нагрузку ===
 User-agent: AhrefsBot
 Crawl-delay: 10
 
 User-agent: SemrushBot
 Crawl-delay: 10
 
+User-agent: DotBot
+Crawl-delay: 10
+
+# === Краулеры, потребляющие ресурсы без пользы — блок ===
 User-agent: MJ12bot
 Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# === Sitemap ===
+Sitemap: https://navilet.ru/sitemap.xml

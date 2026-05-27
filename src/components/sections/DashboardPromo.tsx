@@ -38,7 +38,7 @@ const miniFeatures = [
   {
     icon: Activity,
     title: "Мониторинг системы",
-    description: "Статус инфраструктуры, AI-ассистенты, аптайм",
+    description: "Статус инфраструктуры, ИИ-ассистенты, аптайм",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function DashboardPromo() {
           <span className="text-accent">аналитика и управление</span>
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base text-body sm:text-lg">
-          Полный контроль над AI-ассистентом: метрики, диалоги, настройка
+          Полный контроль над ИИ-ассистентом: метрики, диалоги, настройка
           виджета — всё в одном месте
         </p>
       </motion.div>

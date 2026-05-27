@@ -9,22 +9,33 @@ import DashboardBenefits from "@/components/dashboard/DashboardBenefits";
 import DashboardCTA from "@/components/dashboard/DashboardCTA";
 
 export const metadata = {
-  title: "Личный кабинет AI-турменеджера — навылет AI",
+  title: "Личный кабинет ИИ-турменеджера — Навылет! AI",
   description:
-    "Аналитика диалогов, управление AI-виджетом, история заявок и мониторинг системы. Полный контроль над AI-турменеджером для турагентств в едином личном кабинете.",
+    "Аналитика диалогов, управление виджетом, история заявок и мониторинг системы. Полный контроль над ИИ-турменеджером для турагентств в едином личном кабинете на lk.navilet.ru.",
   keywords: [
     "личный кабинет турагентства",
-    "аналитика AI турагентство",
-    "управление AI виджетом",
+    "аналитика ИИ турагентство",
+    "управление ИИ-виджетом",
     "мониторинг диалогов турагентство",
-    "навылет AI личный кабинет",
+    "Навылет! AI личный кабинет",
+    "lk.navilet.ru",
   ],
   alternates: { canonical: "/dashboard" },
   openGraph: {
-    title: "Личный кабинет AI-турменеджера — навылет AI",
+    title: "Личный кабинет ИИ-турменеджера — Навылет! AI",
     description:
-      "Аналитика, история диалогов, настройка виджета и мониторинг. Управляйте AI-ассистентом для турагентства из единого интерфейса.",
+      "Аналитика, история диалогов, настройка виджета и мониторинг. Управляйте ИИ-ассистентом для турагентства из единого интерфейса.",
+    url: "https://navilet.ru/dashboard",
     images: [{ url: "/og-image.png", width: 1376, height: 768 }],
+    type: "website",
+    locale: "ru_RU",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Личный кабинет ИИ-турменеджера — Навылет! AI",
+    description:
+      "Аналитика, история диалогов, настройка виджета и мониторинг.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -35,6 +46,7 @@ export const metadata = {
 const breadcrumbLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
+  "@id": "https://navilet.ru/dashboard#breadcrumb",
   itemListElement: [
     {
       "@type": "ListItem",

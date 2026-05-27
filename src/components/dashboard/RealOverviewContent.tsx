@@ -98,7 +98,7 @@ export default function RealOverviewContent({
             Добрый день, Администратор
           </div>
           <div className="text-[#64748B]" style={{ fontSize: 8.5 * s, marginTop: 1 }}>
-            Вот что происходит с вашим AI-ассистентом
+            Вот что происходит с вашим ИИ-ассистентом
           </div>
         </div>
         {/* Period selector */}

@@ -233,7 +233,7 @@ export default function Events() {
                 <span className="text-accent">отраслевых событиях</span>
               </h2>
               <p className="mt-3 max-w-xl text-body">
-                Представляем технологии AI-автоматизации для туризма на ведущих
+                Представляем технологии ИИ-автоматизации для туризма на ведущих
                 конференциях и конгрессах индустрии
               </p>
             </div>
@@ -396,7 +396,7 @@ export default function Events() {
                   }),
                   organizer: {
                     "@type": "Organization",
-                    name: "навылет AI",
+                    name: "Навылет! AI",
                     url: "https://navilet.ru",
                   },
                 }))

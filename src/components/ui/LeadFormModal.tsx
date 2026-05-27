@@ -192,7 +192,7 @@ export default function LeadFormModal() {
                         7 дней бесплатно
                       </div>
                       <h3 className="font-display text-2xl font-bold text-heading">
-                        Подключить AI-ассистента
+                        Подключить ИИ-ассистента
                       </h3>
                       <p className="mt-1.5 text-sm text-muted">
                         {selectedPlan
@@ -457,7 +457,7 @@ export default function LeadFormModal() {
                     </h3>
                     <p className="max-w-xs text-center text-sm text-muted">
                       Мы свяжемся с вами в ближайшее время для настройки
-                      AI-ассистента.
+                      ИИ-ассистента.
                     </p>
                     <button
                       onClick={closeForm}

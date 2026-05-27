@@ -105,7 +105,7 @@ export default function ProblemSolution() {
               </p>
 
               <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-heading">
-                {["Сообщение", "AI-анализ", "Поиск", "Результат"].map(
+                {["Сообщение", "ИИ-анализ", "Поиск", "Результат"].map(
                   (step, i) => (
                     <div key={step} className="flex items-center gap-3">
                       <span className="rounded-lg bg-accent/10 px-3 py-1.5 text-accent font-semibold">

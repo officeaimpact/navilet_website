@@ -204,7 +204,7 @@ export default function CallToAction() {
                 </h3>
                 <p className="max-w-sm text-center text-white/60">
                   Мы свяжемся с вами в ближайшее время для настройки
-                  AI-ассистента.
+                  ИИ-ассистента.
                 </p>
               </motion.div>
             )}

@@ -85,7 +85,7 @@ export default function Navigation() {
           <Link href="/" className="flex items-center">
             <Image
               src="/logo.svg"
-              alt="навылет AI — AI-турменеджер для турагентств"
+              alt="Навылет! AI — ИИ-турменеджер для турагентств"
               width={220}
               height={48}
               priority

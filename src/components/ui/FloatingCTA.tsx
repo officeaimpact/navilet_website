@@ -45,7 +45,7 @@ export default function FloatingCTA() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          aria-label="Подключить AI-ассистента"
+          aria-label="Подключить ИИ-ассистента"
           className="fixed bottom-4 right-4 z-30 flex cursor-pointer items-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-lg shadow-accent/30 transition-shadow duration-300 hover:shadow-xl hover:shadow-accent/40 sm:bottom-6 sm:right-6"
           style={{
             background:

@@ -256,7 +256,7 @@ export default function Pricing() {
           </span>
         </div>
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Тарифы <span className="text-accent">AI-турменеджера</span>
+          Тарифы <span className="text-accent">ИИ-турменеджера</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-body">
           Каждый тариф работает в одном канале на выбор — Web-виджет или
@@ -323,7 +323,7 @@ export default function Pricing() {
           </h3>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-body sm:text-base">
             Базовый тариф работает в одном канале. Если хотите использовать
-            AI-ассистента сразу <strong className="font-semibold text-heading">и в Web-виджете на сайте, и в MAX-мессенджере</strong> — добавьте «Второй канал»
+            ИИ-ассистента сразу <strong className="font-semibold text-heading">и в Web-виджете на сайте, и в MAX-мессенджере</strong> — добавьте «Второй канал»
             к выбранному тарифу. Получите дополнительный лимит диалогов во
             втором канале по льготной цене.
           </p>

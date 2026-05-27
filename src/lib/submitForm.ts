@@ -24,11 +24,11 @@ export async function submitLeadForm(
   const { planName, channelLabel, monthlyPrice, dialogs } = normalized;
 
   // Subject
-  const subjectParts: string[] = ["Новая заявка — навылет AI"];
+  const subjectParts: string[] = ["Новая заявка — Навылет! AI"];
   if (planName) subjectParts.push(`тариф «${planName}»`);
   if (channelLabel) subjectParts.push(`канал ${channelLabel}`);
   data.append("subject", subjectParts.join(" · "));
-  data.append("from_name", "навылет AI — Заявка с сайта");
+  data.append("from_name", "Навылет! AI — Заявка с сайта");
 
   // Hidden context fields — попадут в письмо как отдельные поля
   if (planName) data.append("plan", planName);

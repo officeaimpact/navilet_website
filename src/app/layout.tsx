@@ -23,44 +23,53 @@ export const siteUrl = "https://navilet.ru";
 /** Яндекс.Метрика */
 const YANDEX_METRIKA_ID = 108200337;
 
-const siteName = "навылет AI";
+export const siteName = "Навылет! AI";
 const siteDescription =
-  "AI-турменеджер для турагентств: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно.";
+  "ИИ-турменеджер для турагентств и туроператоров: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно. Российская разработка.";
 
 const keywords = [
-  // Основные брендовые
-  "навылет AI",
+  "Навылет! AI",
+  "Навылет AI",
+  "навылет ИИ",
   "navylet ai",
+  "ИИ-турменеджер",
   "AI-турменеджер",
-  // Продуктовые — B2B SaaS
+  "искусственный интеллект в туризме",
+  "ИИ в туризме",
+  "ИИ ассистент для турагентства",
   "AI ассистент для турагентства",
+  "ИИ-ассистент турагентство",
+  "ИИ для турагентства",
   "автоматизация турагентства",
   "чат-бот для турагентства",
   "виджет подбора туров",
-  "AI виджет для сайта турагентства",
+  "ИИ виджет для сайта турагентства",
   "онлайн консультант для турагентства",
+  "подбор туров ИИ",
   "подбор туров AI",
   "автоматический подбор туров",
-  "AI туроператор",
-  // Длинный хвост
+  "ИИ для туроператоров",
+  "нейросеть для турагентства",
+  "нейросеть для туризма",
   "искусственный интеллект для туризма",
   "автоматизация обработки заявок турагентство",
   "чат-бот подбор туров",
-  "AI ассистент туризм Россия",
+  "ИИ ассистент туризм Россия",
   "B2B SaaS туризм",
   "сервис автоматизации турагентства",
-  "нейросеть для турагентства",
   "круглосуточный консультант по турам",
-  "горящие туры AI",
+  "горящие туры ИИ",
   "подбор туров 24 7",
   "виджет для сайта турагентства",
   "увеличить продажи туров",
+  "ChatGPT для турагентства",
+  "интеграция Tourvisor",
 ];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} — AI-турменеджер для турагентств | подбор туров 24/7`,
+    default: `${siteName} — ИИ-турменеджер для турагентств | подбор туров 24/7`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
@@ -70,7 +79,7 @@ export const metadata: Metadata = {
     languages: { "ru-RU": "/" },
   },
   openGraph: {
-    title: `${siteName} — AI-турменеджер для турагентств`,
+    title: `${siteName} — ИИ-турменеджер для турагентств`,
     description: siteDescription,
     url: siteUrl,
     siteName,
@@ -79,7 +88,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1376,
         height: 768,
-        alt: "навылет AI — AI-турменеджер для турагентств: подбор туров 24/7",
+        alt: "Навылет! AI — ИИ-турменеджер для турагентств: подбор туров 24/7",
         type: "image/png",
       },
     ],
@@ -88,12 +97,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} — AI-турменеджер для турагентств`,
+    title: `${siteName} — ИИ-турменеджер для турагентств`,
     description: siteDescription,
     images: [
       {
         url: "/og-image.png",
-        alt: "навылет AI — AI-турменеджер для турагентств",
+        alt: "Навылет! AI — ИИ-турменеджер для турагентств",
       },
     ],
     creator: "@navylet_ai",
@@ -125,154 +134,91 @@ export const metadata: Metadata = {
     },
   },
   category: "technology",
-  creator: "AIMPACT",
+  creator: "Навылет! AI",
   publisher: "ООО «ИИМПАКТ ПЛЮС»",
 };
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteName,
-    url: siteUrl,
-    description: siteDescription,
-    inLanguage: "ru-RU",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/?q={search_term_string}`,
+export { siteDescription };
+
+const siteWideJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: siteName,
+      alternateName: ["Навылет AI", "navylet AI", "Навылет ИИ"],
+      description: siteDescription,
+      inLanguage: "ru-RU",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Навылет! AI",
+      legalName: "ООО «ИИМПАКТ ПЛЮС»",
+      alternateName: ["навылет AI", "Navilet", "ИИМПАКТ ПЛЮС"],
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${siteUrl}/#logo`,
+        url: `${siteUrl}/logo.svg`,
+        contentUrl: `${siteUrl}/logo.svg`,
+        width: 200,
+        height: 60,
+        caption: "Навылет! AI",
       },
-      "query-input": "required name=search_term_string",
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${siteUrl}/#organization`,
-    name: "навылет AI",
-    legalName: "ООО «ИИМПАКТ ПЛЮС»",
-    url: siteUrl,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteUrl}/logo.svg`,
-      width: 200,
-      height: 60,
-    },
-    description: siteDescription,
-    email: "office@aimpact.ru",
-    telephone: "+7-963-799-79-77",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "5-й Монетчиковский переулок, д. 16, помещение 2П",
-      addressLocality: "Москва",
-      postalCode: "115054",
-      addressCountry: "RU",
-    },
-    taxID: "9705243471",
-    foundingDate: "2023",
-    areaServed: {
-      "@type": "Country",
-      name: "Russia",
-    },
-    sameAs: [
-      "https://t.me/navylet_ai",
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
+      image: { "@id": `${siteUrl}/#logo` },
+      description: siteDescription,
+      email: "office@aimpact.ru",
       telephone: "+7-963-799-79-77",
-      contactType: "sales",
-      availableLanguage: "Russian",
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": `${siteUrl}/#product`,
-    name: "навылет AI — AI-турменеджер",
-    alternateName: "navylet AI",
-    applicationCategory: "BusinessApplication",
-    applicationSubCategory: "TravelApplication",
-    operatingSystem: "Web",
-    browserRequirements: "Requires JavaScript",
-    description:
-      "AI-турменеджер для турагентств: автоматический подбор туров, консультация по отелям, показ перелётов и актуальных цен — в живом диалоге с клиентом. Работает 24/7.",
-    url: siteUrl,
-    screenshot: `${siteUrl}/og-image.png`,
-    featureList: [
-      "Подбор туров по 50+ странам в реальном времени",
-      "Живой диалог на естественном языке",
-      "Актуальные цены и наличие от туроператоров",
-      "Консультация по отелям: пляж, питание, инфраструктура",
-      "Информация о перелётах",
-      "Горящие туры и специальные предложения",
-      "Личный кабинет с аналитикой",
-      "Кастомизация виджета под бренд",
-      "Подключение за 1 рабочий день",
-    ],
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "RUB",
-      lowPrice: "3290",
-      highPrice: "14990",
-      offerCount: 4,
-      offers: [
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "5-й Монетчиковский переулок, д. 16, помещение 2П",
+        addressLocality: "Москва",
+        addressRegion: "Москва",
+        postalCode: "115054",
+        addressCountry: "RU",
+      },
+      taxID: "9705243471",
+      vatID: "9705243471",
+      iso6523Code: "0177:1257700255196",
+      foundingDate: "2023",
+      areaServed: {
+        "@type": "Country",
+        name: "Россия",
+      },
+      knowsAbout: [
+        "Искусственный интеллект в туризме",
+        "Автоматизация турагентств",
+        "ИИ-ассистенты для бизнеса",
+        "Подбор туров",
+        "Интеграция с Tourvisor",
+      ],
+      sameAs: [
+        "https://t.me/navylet_ai",
+        "https://lk.navilet.ru",
+      ],
+      contactPoint: [
         {
-          "@type": "Offer",
-          name: "Старт",
-          price: "3290",
-          priceCurrency: "RUB",
-          description: "50 диалогов в месяц • Web или MAX",
+          "@type": "ContactPoint",
+          telephone: "+7-963-799-79-77",
+          contactType: "sales",
+          areaServed: "RU",
+          availableLanguage: ["Russian", "ru-RU"],
         },
         {
-          "@type": "Offer",
-          name: "Стандарт",
-          price: "5290",
-          priceCurrency: "RUB",
-          description: "120 диалогов в месяц • Web или MAX",
-        },
-        {
-          "@type": "Offer",
-          name: "Бизнес",
-          price: "7990",
-          priceCurrency: "RUB",
-          description: "200 диалогов в месяц • Web или MAX",
-        },
-        {
-          "@type": "Offer",
-          name: "Сеть",
-          price: "14990",
-          priceCurrency: "RUB",
-          description: "400 диалогов в месяц • Web или MAX",
+          "@type": "ContactPoint",
+          email: "office@aimpact.ru",
+          contactType: "customer support",
+          areaServed: "RU",
+          availableLanguage: ["Russian", "ru-RU"],
         },
       ],
     },
-    provider: {
-      "@id": `${siteUrl}/#organization`,
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "48",
-      bestRating: "5",
-      worstRating: "1",
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${siteUrl}/#webpage`,
-    url: siteUrl,
-    name: `${siteName} — AI-турменеджер для турагентств | подбор туров 24/7`,
-    description: siteDescription,
-    inLanguage: "ru-RU",
-    isPartOf: { "@id": `${siteUrl}/#website` },
-    about: { "@id": `${siteUrl}/#product` },
-    publisher: { "@id": `${siteUrl}/#organization` },
-    datePublished: "2024-01-01",
-    dateModified: "2026-03-17",
-  },
-];
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -288,7 +234,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteWideJsonLd) }}
         />
         {/* Google Analytics — replace G-XXXXXXXXXX with your measurement ID
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />

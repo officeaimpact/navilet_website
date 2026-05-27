@@ -39,7 +39,7 @@ export default function Features() {
     <SectionWrapper id="features" alt>
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Возможности AI-турменеджера —{" "}
+          Возможности ИИ-турменеджера —{" "}
           <span className="text-accent">быстрее живого менеджера в 10 раз</span>
         </h2>
       </motion.div>

@@ -60,7 +60,7 @@ export default function RealWidgetContent({
               className="rounded-lg border border-[#E2E8F0] bg-white text-[#1E293B] px-2 py-1"
               style={{ fontSize: 6.5 * s, minHeight: 24 * s, lineHeight: 1.4 }}
             >
-              Здравствуйте! 👋 Я ваш AI-ассистент. Помогу подобрать идеальный тур.
+              Здравствуйте! 👋 Я ваш ИИ-ассистент. Помогу подобрать идеальный тур.
             </div>
           </FormField>
 
@@ -222,7 +222,7 @@ export default function RealWidgetContent({
                     className="bg-white rounded-xl rounded-bl-sm shadow-sm px-1.5 py-1 text-[#1E293B]"
                     style={{ fontSize: 6 * s, lineHeight: 1.4 }}
                   >
-                    Здравствуйте! 👋 Я ваш AI-ассистент. Помогу подобрать идеальный тур.
+                    Здравствуйте! 👋 Я ваш ИИ-ассистент. Помогу подобрать идеальный тур.
                   </div>
                 </div>
               </div>
@@ -285,7 +285,7 @@ export default function RealWidgetContent({
                 className="rounded-lg bg-[#F1F5F9] font-mono text-[#1E293B] overflow-hidden"
                 style={{ padding: `${4 * s}px ${5 * s}px`, fontSize: 5.5 * s, lineHeight: 1.5 }}
               >
-                <div className="text-[#64748B]">&lt;!-- навылет AI Widget --&gt;</div>
+                <div className="text-[#64748B]">&lt;!-- Навылет! AI Widget --&gt;</div>
                 <div>
                   <span className="text-[#0038FF]">&lt;script</span>{" "}
                   <span className="text-[#10B981]">src</span>=
