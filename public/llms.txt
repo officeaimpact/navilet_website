@@ -132,8 +132,12 @@
 
 - Главная: https://navilet.ru/
 - Тарифы и калькулятор: https://navilet.ru/tarify
+- Для турагентств: https://navilet.ru/dlya-turagentstv
+- Для туроператоров: https://navilet.ru/dlya-turoperatorov
 - Часто задаваемые вопросы: https://navilet.ru/faq
 - Интеграция с Tourvisor: https://navilet.ru/integraciya-tourvisor
+- Кейс МГП (Сеть магазинов горящих путёвок): https://navilet.ru/keisy/mgp
+- О команде: https://navilet.ru/o-komande
 - Личный кабинет: https://navilet.ru/dashboard
 - Политика конфиденциальности: https://navilet.ru/privacy
 - Расширенная версия для ИИ-краулеров: https://navilet.ru/llms-full.txt

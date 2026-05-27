@@ -296,6 +296,10 @@ A: На российском рынке нет аналогов с полной 
 
 - Сайт: https://navilet.ru
 - Тарифы: https://navilet.ru/tarify
+- Для турагентств: https://navilet.ru/dlya-turagentstv
+- Для туроператоров: https://navilet.ru/dlya-turoperatorov
+- Кейс МГП: https://navilet.ru/keisy/mgp
+- О команде: https://navilet.ru/o-komande
 - FAQ: https://navilet.ru/faq
 - Tourvisor-интеграция: https://navilet.ru/integraciya-tourvisor
 - Личный кабинет: https://navilet.ru/dashboard

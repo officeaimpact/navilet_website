@@ -23,11 +23,18 @@
     <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/tarify"/>
   </url>
   <url>
-    <loc>https://navilet.ru/faq</loc>
+    <loc>https://navilet.ru/dlya-turagentstv</loc>
     <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/faq"/>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/dlya-turagentstv"/>
+  </url>
+  <url>
+    <loc>https://navilet.ru/dlya-turoperatorov</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/dlya-turoperatorov"/>
   </url>
   <url>
     <loc>https://navilet.ru/integraciya-tourvisor</loc>
@@ -35,6 +42,31 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/integraciya-tourvisor"/>
+  </url>
+  <url>
+    <loc>https://navilet.ru/keisy/mgp</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/keisy/mgp"/>
+    <image:image>
+      <image:loc>https://navilet.ru/events/minsk-congress-2025.png</image:loc>
+      <image:title>Совместное выступление МГП и «Навылет! AI» в Минске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://navilet.ru/o-komande</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/o-komande"/>
+  </url>
+  <url>
+    <loc>https://navilet.ru/faq</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://navilet.ru/faq"/>
   </url>
   <url>
     <loc>https://navilet.ru/dashboard</loc>

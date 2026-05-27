@@ -665,24 +665,25 @@ export const footerLinks = {
       { label: "Тарифы", href: "/tarify" },
       { label: "Личный кабинет", href: "/dashboard" },
       { label: "Демо", href: "/#demo" },
+      { label: "Интеграция с Tourvisor", href: "/integraciya-tourvisor" },
+    ],
+  },
+  solutions: {
+    title: "Решения",
+    links: [
+      { label: "Для турагентств", href: "/dlya-turagentstv" },
+      { label: "Для туроператоров", href: "/dlya-turoperatorov" },
+      { label: "Кейс МГП", href: "/keisy/mgp" },
       { label: "Мероприятия", href: "/#events" },
     ],
   },
   company: {
     title: "Компания",
     links: [
-      { label: "О нас", href: "/#partners" },
-      { label: "Контакты", href: "/#cta" },
+      { label: "О команде", href: "/o-komande" },
       { label: "Партнёры", href: "/#partners" },
-    ],
-  },
-  resources: {
-    title: "Ресурсы",
-    links: [
-      { label: "Как это работает", href: "/#how-it-works" },
-      { label: "Интеграция с Tourvisor", href: "/integraciya-tourvisor" },
+      { label: "Контакты", href: "/#cta" },
       { label: "Частые вопросы (FAQ)", href: "/faq" },
-      { label: "Технологии", href: "/#tech" },
     ],
   },
   legal: {

@@ -12,8 +12,8 @@ export default function Footer() {
   const { openForm } = useLeadForm();
   const sections = [
     footerLinks.product,
+    footerLinks.solutions,
     footerLinks.company,
-    footerLinks.resources,
     footerLinks.legal,
   ];
 
