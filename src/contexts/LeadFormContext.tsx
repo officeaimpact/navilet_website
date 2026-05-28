@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback } from "react";
 import type { ChannelId, PricingPlan } from "@/lib/content";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 export interface LeadFormPreset {
   planId?: PricingPlan["id"];
@@ -32,8 +33,14 @@ export function LeadFormProvider({ children }: { children: React.ReactNode }) {
   const openForm = useCallback((p?: string | LeadFormPreset) => {
     if (typeof p === "string") {
       setPreset({ planName: p });
+      reachMetrikaGoal(metrikaGoals.leadFormOpen, { plan_name: p });
     } else {
       setPreset(p ?? null);
+      reachMetrikaGoal(metrikaGoals.leadFormOpen, {
+        plan_id: p?.planId,
+        plan_name: p?.planName,
+        channel_id: p?.channelId,
+      });
     }
     setIsOpen(true);
   }, []);

@@ -5,6 +5,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { ctaContent } from "@/lib/content";
 import { submitLeadForm } from "@/lib/submitForm";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import Link from "next/link";
 import { CheckCircle, User, Building2, Phone, Mail, Loader2 } from "lucide-react";
 
@@ -22,6 +23,9 @@ export default function CallToAction() {
     setError(null);
     try {
       await submitLeadForm(e.currentTarget);
+      reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
+        form: "section_cta",
+      });
       setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка отправки");

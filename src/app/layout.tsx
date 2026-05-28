@@ -5,6 +5,7 @@ import "./globals.css";
 import { LeadFormProvider } from "@/contexts/LeadFormContext";
 import LeadFormModal from "@/components/ui/LeadFormModal";
 import CookieConsent from "@/components/ui/CookieConsent";
+import MetrikaClickTracker from "@/components/analytics/MetrikaClickTracker";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -266,6 +267,7 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
           </div>
         </noscript>
         <LeadFormProvider>
+          <MetrikaClickTracker />
           {children}
           <LeadFormModal />
           <CookieConsent />

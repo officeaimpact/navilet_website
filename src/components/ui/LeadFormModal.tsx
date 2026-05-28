@@ -11,6 +11,7 @@ import {
   type ChannelId,
   type PricingPlan,
 } from "@/lib/content";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import Link from "next/link";
 import {
   X,
@@ -127,6 +128,15 @@ export default function LeadFormModal() {
         monthlyPrice: preview?.total ?? null,
         dialogs: preview?.dialogs ?? null,
       });
+      reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
+        form: "modal",
+        plan_id: selectedPlan?.id,
+        plan_name: selectedPlan?.name,
+        channel_id: selectedChannel,
+        channel: selectedPlan ? channelShortLabel[selectedChannel] : null,
+        monthly_price: preview?.total,
+        dialogs: preview?.dialogs,
+      });
       setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка отправки");
@@ -214,7 +224,13 @@ export default function LeadFormModal() {
                               <button
                                 key={p.id}
                                 type="button"
-                                onClick={() => setSelectedPlanId(p.id)}
+                                onClick={() => {
+                                  setSelectedPlanId(p.id);
+                                  reachMetrikaGoal(
+                                    metrikaGoals.leadFormPlanSelect,
+                                    { plan_id: p.id, plan_name: p.name }
+                                  );
+                                }}
                                 className={`group relative flex flex-col items-center gap-0.5 rounded-xl border px-2 py-2.5 text-center transition-all duration-200 ${
                                   active
                                     ? "border-accent bg-accent/5 shadow-[0_2px_8px_rgba(0,151,245,0.15)]"
@@ -250,7 +266,18 @@ export default function LeadFormModal() {
                               <button
                                 key={ch.id}
                                 type="button"
-                                onClick={() => setSelectedChannel(ch.id)}
+                                onClick={() => {
+                                  setSelectedChannel(ch.id);
+                                  reachMetrikaGoal(
+                                    metrikaGoals.leadFormChannelSelect,
+                                    {
+                                      channel_id: ch.id,
+                                      channel_label: ch.label,
+                                      plan_id: selectedPlan?.id,
+                                      plan_name: selectedPlan?.name,
+                                    }
+                                  );
+                                }}
                                 className={`relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition-all duration-200 ${
                                   active
                                     ? "border-accent bg-accent/5 shadow-[0_2px_8px_rgba(0,151,245,0.15)]"
