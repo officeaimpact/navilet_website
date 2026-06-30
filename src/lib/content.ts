@@ -2,6 +2,7 @@ export const navLinks = [
   { label: "Возможности", href: "/#features" },
   { label: "Тарифы", href: "/tarify" },
   { label: "Личный кабинет", href: "/dashboard" },
+  { label: "Блог", href: "/blog" },
   { label: "Tourvisor", href: "/integraciya-tourvisor" },
   { label: "FAQ", href: "/faq" },
   { label: "Контакты", href: "/#cta" },
@@ -681,6 +682,7 @@ export const footerLinks = {
     title: "Компания",
     links: [
       { label: "О команде", href: "/o-komande" },
+      { label: "Блог", href: "/blog" },
       { label: "Партнёры", href: "/#partners" },
       { label: "Контакты", href: "/#cta" },
       { label: "Частые вопросы (FAQ)", href: "/faq" },

@@ -128,6 +128,17 @@
 - **Сайт:** https://navilet.ru
 - **Личный кабинет:** https://lk.navilet.ru
 
+## Блог
+
+Гайды, кейсы и разборы про ИИ в туризме: https://navilet.ru/blog
+
+- ИИ в туризме в 2026: полный гайд для турагентств — https://navilet.ru/blog/ii-v-turizme-2026
+- Как ИИ-ассистент обрабатывает заявки турагентства 24/7 — https://navilet.ru/blog/keys-ii-assistent-24-7
+- Интеграция Tourvisor с ИИ: как устроен подбор туров — https://navilet.ru/blog/integraciya-tourvisor-ii-podbor
+- Сколько стоит ИИ для турагентства: разбор и расчёт — https://navilet.ru/blog/skolko-stoit-ii-dlya-turagentstva
+- Чат-бот или ИИ-ассистент для турагентства: в чём разница — https://navilet.ru/blog/chat-bot-vs-ii-assistent
+- Как не терять ночные заявки в турагентстве — https://navilet.ru/blog/kak-ne-teryat-nochnye-zayavki
+
 ## Полезные ссылки
 
 - Главная: https://navilet.ru/
@@ -137,6 +148,7 @@
 - Часто задаваемые вопросы: https://navilet.ru/faq
 - Интеграция с Tourvisor: https://navilet.ru/integraciya-tourvisor
 - Кейс МГП (Сеть магазинов горящих путёвок): https://navilet.ru/keisy/mgp
+- Блог: https://navilet.ru/blog
 - О команде: https://navilet.ru/o-komande
 - Личный кабинет: https://navilet.ru/dashboard
 - Политика конфиденциальности: https://navilet.ru/privacy
