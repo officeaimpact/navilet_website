@@ -179,19 +179,25 @@ export default function LiveDemo() {
                 <span className="font-semibold text-body">
                   Это сокращённая демонстрация.
                 </span>{" "}
-                В рабочей версии ИИ-ассистент отвечает более человекоподобно
-                и детально, подключён к реальной базе туроператоров
-                и показывает актуальные цены в момент запроса. Виджет
-                встраивается на ваш сайт одной строкой кода.
+                В полной версии ИИ-ассистент отвечает живее и детальнее,
+                подключён к реальной базе туроператоров и показывает актуальные
+                цены в момент запроса. Попробуйте полную версию вживую — без
+                регистрации.
               </p>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="mt-4 flex justify-center">
-              <Button variant="primary" size="md" onClick={() => openForm()}>
+            <motion.div
+              variants={fadeInUp}
+              className="mt-4 flex flex-wrap justify-center gap-3"
+            >
+              <Button variant="primary" size="md" href="/demo">
                 <span className="flex items-center gap-2">
-                  Подключить на свой сайт
+                  Попробовать живое демо
                   <ArrowRight className="h-4 w-4" />
                 </span>
+              </Button>
+              <Button variant="outline" size="md" onClick={() => openForm()}>
+                Подключить на свой сайт
               </Button>
             </motion.div>
           </motion.div>
