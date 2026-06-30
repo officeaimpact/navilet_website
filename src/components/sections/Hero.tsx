@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   staggerContainer,
@@ -8,11 +9,12 @@ import {
   scaleIn,
   fadeIn,
 } from "@/lib/animations";
-import { heroContent } from "@/lib/content";
+import { heroContent, promo } from "@/lib/content";
+import { isPromoActive } from "@/lib/promo";
 import Button from "@/components/ui/Button";
 import DemoWidget from "@/components/DemoWidget";
 import { demoScenarios } from "@/lib/scenarios";
-import { Globe, MessageSquare } from "lucide-react";
+import { Globe, MessageSquare, Sparkles } from "lucide-react";
 
 function PartnerLogos() {
   return (
@@ -36,6 +38,11 @@ function PartnerLogos() {
 export default function Hero() {
   const words = heroContent.title.split(" ");
   const heroScenario = demoScenarios[0];
+  const [promoOn, setPromoOn] = useState(false);
+
+  useEffect(() => {
+    setPromoOn(isPromoActive());
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-white">
@@ -78,11 +85,21 @@ export default function Hero() {
             {heroContent.subtitle}
           </motion.p>
 
+          {promoOn && (
+            <motion.div
+              variants={fadeInUp}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-semibold text-accent"
+            >
+              <Sparkles className="h-4 w-4" />
+              {promo.deadlineLabel} — 0&nbsp;₽ за подключение
+            </motion.div>
+          )}
+
           <motion.div
             variants={fadeInUp}
             className="mb-10 flex flex-wrap justify-center gap-4 lg:justify-start"
           >
-            <Button variant="primary" size="lg" href="/#demo">
+            <Button variant="primary" size="lg" href="/demo">
               {heroContent.ctaPrimary}
             </Button>
             <Button variant="outline" size="lg" href="/#how-it-works">

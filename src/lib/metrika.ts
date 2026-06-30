@@ -4,6 +4,9 @@ const YANDEX_METRIKA_ID = 108200337;
 
 export const metrikaGoals = {
   demoClick: "demo_click",
+  demoChatOpen: "demo_chat_open",
+  trialClick: "trial_register_click",
+  promoClick: "promo_click",
   leadFormOpen: "lead_form_open",
   leadFormStart: "lead_form_start",
   leadFormPlanSelect: "lead_form_plan_select",

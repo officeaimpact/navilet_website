@@ -5,6 +5,7 @@ import "./globals.css";
 import { LeadFormProvider } from "@/contexts/LeadFormContext";
 import LeadFormModal from "@/components/ui/LeadFormModal";
 import CookieConsent from "@/components/ui/CookieConsent";
+import PromoBanner from "@/components/ui/PromoBanner";
 import MetrikaClickTracker from "@/components/analytics/MetrikaClickTracker";
 
 const inter = Inter({
@@ -234,6 +235,11 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable}`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k='promo_dismissed_2026-07-15T23:59:59+03:00';if(localStorage.getItem(k)!=='1'){var r=document.documentElement;r.style.setProperty('--promo-pad','40px');r.style.setProperty('--promo-h','40px');}}catch(e){}})();`,
+          }}
+        />
         <meta name="theme-color" content="#0062EF" />
         <meta name="color-scheme" content="light" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -273,6 +279,7 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
         </noscript>
         <LeadFormProvider>
           <MetrikaClickTracker />
+          <PromoBanner />
           {children}
           <LeadFormModal />
           <CookieConsent />

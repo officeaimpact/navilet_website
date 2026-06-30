@@ -47,6 +47,9 @@ body {
   background-color: var(--color-surface);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Резерв высоты под промо-баннер (фиксированный сверху), чтобы шапка
+     не перекрывала контент. Устанавливается из PromoBanner / inline-скрипта. */
+  padding-top: var(--promo-pad, 0px);
 }
 
 ::selection {

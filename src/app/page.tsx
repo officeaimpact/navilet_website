@@ -4,6 +4,7 @@ import ProblemSolution from "@/components/sections/ProblemSolution";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Features from "@/components/sections/Features";
 import LiveDemo from "@/components/sections/LiveDemo";
+import NetworkResults from "@/components/sections/NetworkResults";
 import Technologies from "@/components/sections/Technologies";
 import Metrics from "@/components/sections/Metrics";
 import Partners from "@/components/sections/Partners";
@@ -145,6 +146,7 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
+        <NetworkResults />
         <ProblemSolution />
         <InlineCTA
           text="Хотите перестать терять заявки?"

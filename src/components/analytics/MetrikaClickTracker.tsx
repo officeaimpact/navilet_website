@@ -30,7 +30,12 @@ export default function MetrikaClickTracker() {
         return;
       }
 
-      if (href === "/#demo" || href === "#demo" || href.endsWith("/#demo")) {
+      if (
+        href === "/demo" ||
+        href === "/#demo" ||
+        href === "#demo" ||
+        href.endsWith("/#demo")
+      ) {
         reachMetrikaGoal(metrikaGoals.demoClick);
       }
     };

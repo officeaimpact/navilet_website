@@ -226,7 +226,7 @@ export default function ForOperatorsPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/#demo"
+              href="/demo"
               className="inline-flex items-center gap-2 rounded-xl border border-blue-subtle/50 bg-white px-6 py-3 font-semibold text-heading transition-colors hover:bg-blue-ice/30"
             >
               Попробовать демо

@@ -47,7 +47,7 @@ export default function DashboardHero() {
             <Button variant="primary" size="lg" onClick={() => openForm()}>
               Попробовать бесплатно
             </Button>
-            <Button variant="outline" size="lg" href="/#demo">
+            <Button variant="outline" size="lg" href="/demo">
               Посмотреть демо
             </Button>
           </motion.div>

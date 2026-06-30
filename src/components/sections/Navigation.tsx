@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
 function isCtaLink(href: string) {
@@ -17,6 +18,7 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openForm } = useLeadForm();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -75,14 +77,25 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        style={{ top: "var(--promo-h, 0px)" }}
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-white/90 py-2.5 shadow-nav backdrop-blur-xl"
             : "bg-white/60 py-4 backdrop-blur-sm"
         }`}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center">
+          <Link
+            href="/"
+            onClick={(e) => {
+              closeMobileMenu();
+              if (pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="flex items-center"
+          >
             <Image
               src="/logo.svg"
               alt="Навылет! AI — ИИ-турменеджер для турагентств"
@@ -105,7 +118,7 @@ export default function Navigation() {
           </div>
 
           <div className="hidden md:block">
-            <Button variant="primary" size="sm" href="/#demo">
+            <Button variant="primary" size="sm" href="/demo">
               Попробовать демо
             </Button>
           </div>
@@ -152,7 +165,7 @@ export default function Navigation() {
                 )}
                 <div className="mt-4">
                   <Link
-                    href="/#demo"
+                    href="/demo"
                     onClick={closeMobileMenu}
                     className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-hover"
                   >

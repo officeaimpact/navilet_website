@@ -3,6 +3,7 @@
 import { footerLinks, companyInfo } from "@/lib/content";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { Phone, Mail, MapPin } from "lucide-react";
 
@@ -10,6 +11,7 @@ const CTA_HREFS = new Set(["/#cta"]);
 
 export default function Footer() {
   const { openForm } = useLeadForm();
+  const pathname = usePathname();
   const sections = [
     footerLinks.product,
     footerLinks.solutions,
@@ -85,7 +87,16 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-blue-subtle/40 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <Link href="/" className="flex items-center">
+            <Link
+              href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="flex items-center"
+            >
               <Image
                 src="/logo.svg"
                 alt="Навылет! AI — ИИ-турменеджер для турагентств"

@@ -1,14 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import {
   pricingPlans,
   crossChannelAddons,
   maxChannelInstallation,
+  promo,
   type PricingPlan,
   type CrossChannelAddon,
 } from "@/lib/content";
+import { isPromoActive, promoDaysLeft, pluralDays } from "@/lib/promo";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
 import {
@@ -217,11 +221,19 @@ function CrossChannelCard({
   );
 }
 
-function InstallationCard({ plan }: { plan: PricingPlan }) {
+function InstallationCard({
+  plan,
+  promoActive,
+}: {
+  plan: PricingPlan;
+  promoActive: boolean;
+}) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex items-center gap-3 rounded-xl border border-blue-subtle/40 bg-white px-3.5 py-3 transition-shadow duration-200 hover:shadow-[0_2px_12px_rgba(0,82,204,0.06)] sm:px-4"
+      className={`flex items-center gap-3 rounded-xl border bg-white px-3.5 py-3 transition-shadow duration-200 hover:shadow-[0_2px_12px_rgba(0,82,204,0.06)] sm:px-4 ${
+        promoActive ? "border-accent/30" : "border-blue-subtle/40"
+      }`}
     >
       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
         <Settings className="h-4 w-4 text-accent" />
@@ -230,10 +242,22 @@ function InstallationCard({ plan }: { plan: PricingPlan }) {
         <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
           {plan.name}
         </p>
-        <p className="font-display text-base font-bold text-heading">
-          <span className="whitespace-nowrap">{fmt(plan.installation)}&nbsp;₽</span>
-          <span className="ml-1 text-xs font-medium text-muted">разово</span>
-        </p>
+        {promoActive ? (
+          <p className="font-display text-base font-bold text-heading">
+            <span className="mr-1.5 text-sm font-medium text-muted line-through">
+              {fmt(plan.installation)}&nbsp;₽
+            </span>
+            <span className="text-accent">0&nbsp;₽</span>
+            <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-accent">
+              по акции
+            </span>
+          </p>
+        ) : (
+          <p className="font-display text-base font-bold text-heading">
+            <span className="whitespace-nowrap">{fmt(plan.installation)}&nbsp;₽</span>
+            <span className="ml-1 text-xs font-medium text-muted">разово</span>
+          </p>
+        )}
       </div>
     </motion.div>
   );
@@ -241,6 +265,18 @@ function InstallationCard({ plan }: { plan: PricingPlan }) {
 
 export default function Pricing() {
   const { openForm } = useLeadForm();
+  const [promoActive, setPromoActive] = useState(false);
+  const [daysLeft, setDaysLeft] = useState(0);
+
+  useEffect(() => {
+    setPromoActive(isPromoActive());
+    setDaysLeft(promoDaysLeft());
+  }, []);
+
+  const handlePromoCta = () => {
+    reachMetrikaGoal(metrikaGoals.promoClick);
+    openForm();
+  };
 
   const handleSelectPlan = (plan: PricingPlan, channel?: "web" | "max" | "cross") =>
     openForm({ planId: plan.id, planName: plan.name, channelId: channel });
@@ -270,6 +306,45 @@ export default function Pricing() {
           .
         </p>
       </motion.div>
+
+      {/* Promo plashka */}
+      {promoActive && (
+        <motion.div
+          variants={fadeInUp}
+          className="mx-auto mb-8 max-w-3xl overflow-hidden rounded-2xl p-[1.5px]"
+          style={{
+            background:
+              "linear-gradient(135deg, #0062EF 0%, #0097F5 55%, #00E7FD 100%)",
+          }}
+        >
+          <div className="flex flex-col items-center gap-4 rounded-[15px] bg-white px-5 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                <Sparkles className="h-5 w-5 text-accent" />
+              </span>
+              <div>
+                <p className="font-display text-base font-bold text-heading sm:text-lg">
+                  Подключение бесплатно — 0&nbsp;₽ вместо инсталляции
+                </p>
+                <p className="text-sm text-body">
+                  Только {promo.deadlineLabel}
+                  {daysLeft > 0 && (
+                    <span className="font-semibold text-accent">
+                      {" "}
+                      · осталось {daysLeft}&nbsp;{pluralDays(daysLeft)}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0">
+              <Button variant="primary" size="md" onClick={handlePromoCta}>
+                Успеть по акции
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Channel info banner */}
       <motion.div
@@ -363,6 +438,12 @@ export default function Pricing() {
             Разовый платёж при подключении — покрывает первичную настройку
             ассистента и интеграцию с вашим сайтом или каналом.
           </p>
+          {promoActive && (
+            <p className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+              <Sparkles className="h-4 w-4" />
+              {promo.deadlineLabel} подключение бесплатно для всех тарифов
+            </p>
+          )}
         </div>
 
         {/* Installation cards by plan */}
@@ -371,7 +452,7 @@ export default function Pricing() {
           className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
         >
           {pricingPlans.map((plan) => (
-            <InstallationCard key={plan.id} plan={plan} />
+            <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
           ))}
         </motion.div>
 

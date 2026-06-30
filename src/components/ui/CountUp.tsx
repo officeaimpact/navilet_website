@@ -8,6 +8,10 @@ interface CountUpProps {
   duration?: number;
   prefix?: string;
   suffix?: string;
+  /** Кол-во знаков после запятой (по умолчанию 0). */
+  decimals?: number;
+  /** Разделитель тысяч (например, " "). По умолчанию нет. */
+  separator?: string;
   className?: string;
 }
 
@@ -16,6 +20,8 @@ export default function CountUp({
   duration = 2,
   prefix = "",
   suffix = "",
+  decimals = 0,
+  separator = "",
   className = "",
 }: CountUpProps) {
   const ref = useRef(null);
@@ -32,7 +38,7 @@ export default function CountUp({
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * end));
+      setCount(eased * end);
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
@@ -43,10 +49,19 @@ export default function CountUp({
     return () => cancelAnimationFrame(animationFrame);
   }, [isInView, end, duration]);
 
+  const format = (n: number) => {
+    const fixed = n.toFixed(decimals);
+    const [intPart, decPart] = fixed.split(".");
+    const grouped = separator
+      ? intPart.replace(/\B(?=(\d{3})+(?!\d))/g, separator)
+      : intPart;
+    return decPart ? `${grouped},${decPart}` : grouped;
+  };
+
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {count}
+      {format(count)}
       {suffix}
     </span>
   );
