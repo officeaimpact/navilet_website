@@ -142,6 +142,8 @@
 ## Полезные ссылки
 
 - Главная: https://navilet.ru/
+- Живое демо ассистента (без регистрации): https://navilet.ru/demo
+- Вопросы и ответы про ИИ для турагентств: https://navilet.ru/voprosy
 - Тарифы и калькулятор: https://navilet.ru/tarify
 - Для турагентств: https://navilet.ru/dlya-turagentstv
 - Для туроператоров: https://navilet.ru/dlya-turoperatorov

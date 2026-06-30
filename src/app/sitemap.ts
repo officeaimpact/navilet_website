@@ -20,6 +20,7 @@ const staticEntries: Entry[] = [
   { path: "/integraciya-tourvisor", changeFrequency: "monthly", priority: 0.8 },
   { path: "/keisy/mgp", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/voprosy", changeFrequency: "monthly", priority: 0.7 },
   { path: "/o-komande", changeFrequency: "monthly", priority: 0.7 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.7 },
   { path: "/dashboard", changeFrequency: "monthly", priority: 0.7 },
