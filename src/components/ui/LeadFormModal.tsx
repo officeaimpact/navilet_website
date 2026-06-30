@@ -48,9 +48,19 @@ export default function LeadFormModal() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [consent, setConsent] = useState(false);
+  const [started, setStarted] = useState(false);
 
   const [selectedPlanId, setSelectedPlanId] = useState<PricingPlan["id"] | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<ChannelId>("web");
+
+  const handleFormStart = () => {
+    if (started) return;
+    setStarted(true);
+    reachMetrikaGoal(metrikaGoals.leadFormStart, {
+      form: "modal",
+      plan_id: selectedPlanId ?? undefined,
+    });
+  };
 
   /** Восстановить пресет при открытии */
   useEffect(() => {
@@ -59,6 +69,7 @@ export default function LeadFormModal() {
     setSubmitted(false);
     setError(null);
     setConsent(false);
+    setStarted(false);
 
     // Plan: либо по id, либо угадаем по имени (legacy)
     if (preset?.planId) {
@@ -211,7 +222,11 @@ export default function LeadFormModal() {
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form
+                      onSubmit={handleSubmit}
+                      onFocusCapture={handleFormStart}
+                      className="space-y-5"
+                    >
                       {/* ── Plan selector ──────────────────────── */}
                       <div>
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">
@@ -363,6 +378,22 @@ export default function LeadFormModal() {
                           />
                         </div>
                         <div className="relative">
+                          <label htmlFor="modal-phone" className="sr-only">
+                            Телефон
+                          </label>
+                          <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                          <input
+                            id="modal-phone"
+                            type="tel"
+                            name="phone"
+                            required
+                            placeholder="Телефон"
+                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div className="relative">
                           <label htmlFor="modal-company" className="sr-only">
                             Компания
                           </label>
@@ -371,39 +402,23 @@ export default function LeadFormModal() {
                             id="modal-company"
                             type="text"
                             name="company"
-                            required
-                            placeholder="Компания"
+                            placeholder="Компания (необязательно)"
                             className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
                           />
                         </div>
-                      </div>
-                      <div className="relative">
-                        <label htmlFor="modal-phone" className="sr-only">
-                          Телефон
-                        </label>
-                        <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                        <input
-                          id="modal-phone"
-                          type="tel"
-                          name="phone"
-                          required
-                          placeholder="Телефон"
-                          className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
-                        />
-                      </div>
-                      <div className="relative">
-                        <label htmlFor="modal-email" className="sr-only">
-                          Email
-                        </label>
-                        <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                        <input
-                          id="modal-email"
-                          type="email"
-                          name="email"
-                          required
-                          placeholder="Email"
-                          className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
-                        />
+                        <div className="relative">
+                          <label htmlFor="modal-email" className="sr-only">
+                            Email
+                          </label>
+                          <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                          <input
+                            id="modal-email"
+                            type="email"
+                            name="email"
+                            placeholder="Email (необязательно)"
+                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
+                          />
+                        </div>
                       </div>
 
                       <label className="flex cursor-pointer items-start gap-2.5">

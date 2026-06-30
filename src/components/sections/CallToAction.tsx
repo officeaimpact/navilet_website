@@ -16,6 +16,13 @@ export default function CallToAction() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [consent, setConsent] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  const handleFormStart = () => {
+    if (started) return;
+    setStarted(true);
+    reachMetrikaGoal(metrikaGoals.leadFormStart, { form: "section_cta" });
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,6 +95,7 @@ export default function CallToAction() {
               <motion.form
                 key="form"
                 onSubmit={handleSubmit}
+                onFocusCapture={handleFormStart}
                 initial={{ opacity: 1 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
@@ -107,18 +115,6 @@ export default function CallToAction() {
                     />
                   </div>
                   <div className="relative">
-                    <label htmlFor="cta-company" className="sr-only">Компания</label>
-                    <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-                    <input
-                      id="cta-company"
-                      type="text"
-                      name="company"
-                      required
-                      placeholder="Компания"
-                      className="w-full rounded-xl border border-white/15 bg-white/10 py-3 pl-10 pr-4 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-white/30 focus:bg-white/15"
-                    />
-                  </div>
-                  <div className="relative">
                     <label htmlFor="cta-phone" className="sr-only">Телефон</label>
                     <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
@@ -131,14 +127,24 @@ export default function CallToAction() {
                     />
                   </div>
                   <div className="relative">
+                    <label htmlFor="cta-company" className="sr-only">Компания</label>
+                    <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+                    <input
+                      id="cta-company"
+                      type="text"
+                      name="company"
+                      placeholder="Компания (необязательно)"
+                      className="w-full rounded-xl border border-white/15 bg-white/10 py-3 pl-10 pr-4 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-white/30 focus:bg-white/15"
+                    />
+                  </div>
+                  <div className="relative">
                     <label htmlFor="cta-email" className="sr-only">Email</label>
                     <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
                       id="cta-email"
                       type="email"
                       name="email"
-                      required
-                      placeholder="Email"
+                      placeholder="Email (необязательно)"
                       className="w-full rounded-xl border border-white/15 bg-white/10 py-3 pl-10 pr-4 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-white/30 focus:bg-white/15"
                     />
                   </div>
