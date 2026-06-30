@@ -8,7 +8,7 @@ import { pricingPlans, crossChannelAddons, maxChannelInstallation } from "@/lib/
 import { ChevronRight, Check, Sparkles, Phone, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Тарифы ИИ-турменеджера «Навылет! AI» — от 3 290 ₽/мес",
+  title: { absolute: "Тарифы ИИ-турменеджера — от 3 290 ₽/мес | Навылет! AI" },
   description:
     "Прозрачные тарифы для турагентств и туроператоров: «Старт» 3 290 ₽/мес, «Стандарт» 5 290 ₽/мес, «Бизнес» 7 990 ₽/мес, «Сеть» 14 990 ₽/мес. Web-виджет или MAX-мессенджер. Надстройка «Второй канал». 7 дней бесплатно.",
   keywords: [

@@ -128,11 +128,16 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
-    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
-    other: {
-      "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION ?? "",
-    },
+    // Токены верификации публичны (видны в HTML). Хардкодим как значение по
+    // умолчанию, чтобы мета-тег попадал в сборку даже без build-args.
+    yandex:
+      process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "f0ecf06061f0ee1a",
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION ??
+      "3vGt69JA7r0IauztZjKLR4Wudh8CrM9M7g_SjSm8EjY",
+    other: process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
+      : {},
   },
   category: "technology",
   creator: "Навылет! AI",

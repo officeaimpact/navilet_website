@@ -7,7 +7,7 @@ import { faqItems } from "@/lib/content";
 import { ChevronRight, HelpCircle, MessageCircleQuestion } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "FAQ — частые вопросы про ИИ-турменеджер «Навылет! AI»",
+  title: { absolute: "Частые вопросы про ИИ-турменеджер | Навылет! AI" },
   description:
     "Ответы на частые вопросы про ИИ-ассистент для турагентств: цены, технологии, подключение, безопасность, лимиты диалогов, интеграция с Tourvisor и MAX. Полный гид для турбизнеса.",
   keywords: [

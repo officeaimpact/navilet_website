@@ -3,7 +3,7 @@ import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Политика конфиденциальности — Навылет! AI",
+  title: { absolute: "Политика конфиденциальности | Навылет! AI" },
   description:
     "Политика обработки и защиты персональных данных ООО «ИИМПАКТ ПЛЮС» (ИНН 9705243471). Порядок сбора, хранения и использования данных пользователей сайта navilet.ru.",
   alternates: { canonical: "/privacy" },
