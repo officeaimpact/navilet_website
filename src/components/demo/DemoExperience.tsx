@@ -16,7 +16,12 @@ import {
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useLeadForm } from "@/contexts/LeadFormContext";
-import { companyInfo, lkUrls } from "@/lib/content";
+import {
+  companyInfo,
+  lkUrls,
+  demoFaqItems,
+  demoExampleQueries,
+} from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 declare global {
@@ -109,6 +114,23 @@ export default function DemoExperience() {
             </span>
           </div>
 
+          {/* Примеры запросов — что спросить у ассистента */}
+          <div className="mx-auto mt-8 max-w-2xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
+              Примеры запросов — скопируйте в чат
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {demoExampleQueries.map((q) => (
+                <span
+                  key={q}
+                  className="rounded-full border border-blue-subtle/60 bg-surface-alt px-4 py-2 text-sm text-body"
+                >
+                  «{q}»
+                </span>
+              ))}
+            </div>
+          </div>
+
           <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-blue-subtle/50 bg-surface-alt px-5 py-4 text-sm leading-relaxed text-body">
             Это демонстрация на тестовых данных. Ваш бренд, логотип, контакты и
             данные компании настраиваются под вас при подключении.
@@ -165,6 +187,31 @@ export default function DemoExperience() {
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">{c.text}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ по демо */}
+      <section className="mx-auto max-w-3xl px-5 py-12 sm:px-6 lg:px-8">
+        <h2 className="mb-8 text-center font-display text-2xl font-bold text-heading sm:text-3xl">
+          Частые вопросы про демо
+        </h2>
+        <div className="space-y-4">
+          {demoFaqItems.map((item) => (
+            <details
+              key={item.question}
+              className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 shadow-card sm:p-6"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
+                {item.question}
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-body">
+                {item.answer}
+              </p>
+            </details>
           ))}
         </div>
       </section>

@@ -3,6 +3,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import DemoExperience from "@/components/demo/DemoExperience";
 import DemoWidgetLoader from "@/components/demo/DemoWidgetLoader";
+import { demoFaqItems } from "@/lib/content";
 
 const siteUrl = "https://navilet.ru";
 const DEMO_ASSISTANT_ID = "e919868a-abae-4d5e-87bb-67935c5cca30";
@@ -64,11 +65,23 @@ export default function DemoPage() {
           },
         ],
       },
+      {
+        "@type": "FAQPage",
+        "@id": `${siteUrl}/demo#faq`,
+        mainEntity: demoFaqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
     ],
   };
 
   return (
     <>
+      {/* Ранний коннект к lk.navilet.ru — там живёт демо-виджет (чат) */}
+      <link rel="preconnect" href="https://lk.navilet.ru" />
+      <link rel="dns-prefetch" href="https://lk.navilet.ru" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

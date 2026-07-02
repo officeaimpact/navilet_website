@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
@@ -34,12 +35,20 @@ export default function BlogCta({
           <h3 className="font-display text-xl font-bold text-white">{title}</h3>
           <p className="mt-1.5 max-w-md text-sm text-white/70">{text}</p>
         </div>
-        <button
-          onClick={() => openForm()}
-          className="shrink-0 cursor-pointer rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
-        >
-          {buttonText}
-        </button>
+        <div className="flex shrink-0 flex-col gap-2.5 sm:items-stretch">
+          <button
+            onClick={() => openForm()}
+            className="cursor-pointer rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
+          >
+            {buttonText}
+          </button>
+          <Link
+            href="/demo"
+            className="rounded-xl border border-white/25 px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Попробовать демо
+          </Link>
+        </div>
       </div>
     </div>
   );
