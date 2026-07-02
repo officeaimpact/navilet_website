@@ -138,6 +138,7 @@ export default function LeadFormModal() {
         channelLabel: selectedPlan ? channelShortLabel[selectedChannel] : null,
         monthlyPrice: preview?.total ?? null,
         dialogs: preview?.dialogs ?? null,
+        source: "modal",
       });
       reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
         form: "modal",
@@ -227,6 +228,15 @@ export default function LeadFormModal() {
                       onFocusCapture={handleFormStart}
                       className="space-y-5"
                     >
+                      {/* Honeypot — скрыто от людей, ловит ботов */}
+                      <input
+                        type="text"
+                        name="company_website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                      />
                       {/* ── Plan selector ──────────────────────── */}
                       <div>
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">

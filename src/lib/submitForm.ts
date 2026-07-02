@@ -5,6 +5,59 @@ export interface LeadFormMeta {
   channelLabel?: string | null;
   monthlyPrice?: number | null;
   dialogs?: number | null;
+  /** Откуда пришла заявка: "modal" | "section_cta" | ... */
+  source?: string | null;
+}
+
+/**
+ * Дублирует заявку в Telegram через собственный прокси (/api/lead).
+ * Токен бота живёт на сервере, а не в коде сайта. Ошибку глушим —
+ * это дополнительный канал уведомлений, он не должен ломать сабмит.
+ */
+async function notifyTelegram(
+  data: FormData,
+  meta: LeadFormMeta
+): Promise<void> {
+  try {
+    const utm: Record<string, string> = {};
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      for (const k of [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+      ]) {
+        const v = params.get(k);
+        if (v) utm[k] = v;
+      }
+    }
+
+    const payload = {
+      name: (data.get("name") as string) || "",
+      phone: (data.get("phone") as string) || "",
+      company: (data.get("company") as string) || "",
+      email: (data.get("email") as string) || "",
+      company_website: (data.get("company_website") as string) || "",
+      plan: meta.planName ?? "",
+      channel: meta.channelLabel ?? "",
+      monthly_price: meta.monthlyPrice != null ? String(meta.monthlyPrice) : "",
+      dialogs: meta.dialogs != null ? String(meta.dialogs) : "",
+      source: meta.source ?? "",
+      page: typeof window !== "undefined" ? window.location.pathname : "",
+      ...utm,
+    };
+
+    await fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    });
+  } catch {
+    // Telegram — вспомогательный канал; email через Web3Forms остаётся основным.
+  }
 }
 
 /**
@@ -22,6 +75,9 @@ export async function submitLeadForm(
     typeof meta === "string" ? { planName: meta } : meta ?? {};
 
   const { planName, channelLabel, monthlyPrice, dialogs } = normalized;
+
+  // Дублируем в Telegram параллельно с отправкой на email (не блокируем UX).
+  void notifyTelegram(data, normalized);
 
   // Subject
   const subjectParts: string[] = ["Новая заявка — Навылет! AI"];

@@ -29,7 +29,7 @@ export default function CallToAction() {
     setSending(true);
     setError(null);
     try {
-      await submitLeadForm(e.currentTarget);
+      await submitLeadForm(e.currentTarget, { source: "section_cta" });
       reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
         form: "section_cta",
       });
@@ -101,6 +101,15 @@ export default function CallToAction() {
                 transition={{ duration: 0.25 }}
                 className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 backdrop-blur-xl sm:p-8"
               >
+                {/* Honeypot — скрыто от людей, ловит ботов */}
+                <input
+                  type="text"
+                  name="company_website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                />
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="relative">
                     <label htmlFor="cta-name" className="sr-only">Имя</label>
