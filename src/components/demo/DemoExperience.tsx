@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useLeadForm } from "@/contexts/LeadFormContext";
-import { companyInfo } from "@/lib/content";
+import { companyInfo, lkUrls } from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 declare global {
@@ -71,9 +71,8 @@ export default function DemoExperience() {
     }
   };
 
-  const trialClick = () => {
-    reachMetrikaGoal(metrikaGoals.trialClick);
-    // Заглушка: регистрация/пробный период — подключим позже.
+  const handleTrialClick = () => {
+    reachMetrikaGoal(metrikaGoals.trialClick, { destination: "lk_register" });
   };
 
   return (
@@ -195,14 +194,15 @@ export default function DemoExperience() {
           </p>
 
           <div className="mt-9 flex flex-col items-center gap-3">
-            <button
-              onClick={trialClick}
-              className="cursor-pointer rounded-xl bg-white px-7 py-3.5 font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
+            <a
+              href={lkUrls.register}
+              onClick={handleTrialClick}
+              className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-white px-7 py-3.5 font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
             >
               Зарегистрироваться и начать пробный период
-            </button>
+            </a>
             <span className="text-xs text-white/45">
-              Регистрация открывается в ближайшее время
+              Регистрация в личном кабинете · 7 дней бесплатно
             </span>
           </div>
 

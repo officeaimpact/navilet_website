@@ -611,6 +611,12 @@ export const companyInfo = {
   email: "office@aimpact.ru",
 };
 
+/** Ссылки на личный кабинет (lk.navilet.ru) */
+export const lkUrls = {
+  base: "https://lk.navilet.ru",
+  register: "https://lk.navilet.ru/start",
+} as const;
+
 /* ── FAQ ──────────────────────────────────────────────────── */
 
 export interface FaqItem {
