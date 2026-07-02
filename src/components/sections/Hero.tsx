@@ -13,6 +13,7 @@ import { heroContent, promo } from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import Button from "@/components/ui/Button";
 import DemoWidget from "@/components/DemoWidget";
+import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
 import { demoScenarios } from "@/lib/scenarios";
 import { Globe, MessageSquare, Sparkles } from "lucide-react";
 
@@ -20,7 +21,7 @@ function PartnerLogos() {
   return (
     <motion.div
       variants={fadeIn}
-      className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-blue-subtle/50 pt-8 lg:justify-start"
+      className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 border-t border-blue-subtle/50 pt-8 lg:justify-start"
     >
       <span className="text-sm text-muted">Работает в</span>
       <div className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
@@ -31,6 +32,11 @@ function PartnerLogos() {
         <MessageSquare className="h-5 w-5" />
         <span className="text-sm font-medium">MAX</span>
       </div>
+      <span
+        aria-hidden
+        className="hidden h-5 w-px bg-blue-subtle/60 sm:block"
+      />
+      <SkolkovoBadge imgClassName="h-6 w-auto sm:h-7" />
     </motion.div>
   );
 }

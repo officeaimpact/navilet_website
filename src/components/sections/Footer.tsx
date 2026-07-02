@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { Phone, Mail, MapPin } from "lucide-react";
+import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
 
 const CTA_HREFS = new Set(["/#cta"]);
 
@@ -116,6 +117,10 @@ export default function Footer() {
             >
               Связаться с нами
             </button>
+          </div>
+
+          <div className="mt-8 flex justify-center border-t border-blue-subtle/40 pt-6">
+            <SkolkovoBadge imgClassName="h-7 w-auto" />
           </div>
 
           <div className="mt-6 break-words text-center text-[11px] leading-relaxed text-muted/70">

@@ -203,6 +203,13 @@ const siteWideJsonLd = {
         "Подбор туров",
         "Интеграция с Tourvisor",
       ],
+      memberOf: {
+        "@type": "Organization",
+        name: "Фонд «Сколково»",
+        alternateName: "Инновационный центр «Сколково»",
+        url: "https://sk.ru",
+      },
+      award: "Участник проекта «Сколково»",
       sameAs: [
         "https://t.me/navylet_ai",
         "https://lk.navilet.ru",

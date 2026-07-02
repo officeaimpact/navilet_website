@@ -10,6 +10,7 @@ import {
   scaleIn,
 } from "@/lib/animations";
 import { Handshake, MapPin, Users, CalendarDays } from "lucide-react";
+import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
 
 const STATS = [
   { icon: CalendarDays, value: "27 лет", label: "на рынке" },
@@ -207,6 +208,18 @@ export default function Partners() {
             </div>
           </motion.div>
         </div>
+
+        {/* Аккредитация — участник проекта «Сколково» */}
+        <motion.div
+          variants={fadeInUp}
+          className="mt-6 flex flex-col items-center justify-center gap-5 rounded-2xl border border-blue-subtle/50 bg-white px-6 py-7 text-center shadow-[0_1px_3px_rgba(0,82,204,0.04),0_4px_16px_rgba(0,82,204,0.05)] sm:flex-row sm:gap-8 sm:px-10 sm:text-left">
+          <SkolkovoBadge imgClassName="h-11 w-auto shrink-0 sm:h-14" />
+          <p className="max-w-xl text-sm leading-relaxed text-body">
+            <span className="font-semibold text-heading">«Навылет! AI» — участник проекта «Сколково»</span>
+            {" "}— крупнейшего инновационного центра России. Мы развиваем
+            ИИ-технологии для туристической отрасли в составе его экосистемы.
+          </p>
+        </motion.div>
       </motion.div>
     </section>
   );
