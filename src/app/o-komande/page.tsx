@@ -5,9 +5,7 @@ import Footer from "@/components/sections/Footer";
 import FloatingCTA from "@/components/ui/FloatingCTA";
 import {
   ChevronRight,
-  User,
   Award,
-  Briefcase,
   Mail,
   Phone,
   MapPin,
@@ -17,65 +15,36 @@ import {
 import { companyInfo, events } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: { absolute: "Команда Навылет! AI — эксперты ИИ в туризме" },
+  title: { absolute: "О компании «Навылет! AI» — разработчик ИИ для туризма" },
   description:
-    "Команда проекта «Навылет! AI» (ООО «ИИМПАКТ ПЛЮС») — эксперты по применению искусственного интеллекта в туризме при Комитете ТПП РФ. Спикеры международных конгрессов туроператоров, благодарность Российского союза туриндустрии и Госдумы РФ.",
+    "ООО «ИИМПАКТ ПЛЮС» — российский разработчик ИИ-турменеджера «Навылет! AI». Эксперты по применению искусственного интеллекта в туризме при Комитете ТПП РФ, благодарность Российского союза туриндустрии и Госдумы РФ.",
   keywords: [
-    "команда Навылет AI",
-    "ИИМПАКТ ПЛЮС команда",
-    "Лукиан Силагадзе",
-    "Евгений Ребеко",
+    "о компании Навылет",
+    "ИИМПАКТ ПЛЮС",
+    "разработчик ИИ для турагентств",
     "эксперты ИИ туризм",
     "ТПП РФ ИИ",
-    "разработчики ИИ для турагентств",
-    "о компании Навылет",
+    "участник Сколково",
   ],
   alternates: { canonical: "/o-komande" },
   openGraph: {
-    title: "Команда «Навылет! AI» — эксперты ИИ-технологий в туризме",
+    title: "О компании «Навылет! AI» — разработчик ИИ для туризма",
     description:
-      "Эксперты по ИИ в туризме при Комитете ТПП РФ. Спикеры конгрессов и форумов туроператоров.",
+      "Российский разработчик ИИ-турменеджера. Эксперты по ИИ в туризме при Комитете ТПП РФ.",
     url: "https://navilet.ru/o-komande",
-    type: "profile",
+    type: "website",
     locale: "ru_RU",
     images: [{ url: "/og-image.png", width: 1376, height: 768 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Команда «Навылет! AI»",
-    description: "Эксперты ИИ-технологий в туризме при ТПП РФ.",
+    title: "О компании «Навылет! AI»",
+    description: "Российский разработчик ИИ-турменеджера для туризма.",
     images: ["/og-image.png"],
   },
 };
 
 const siteUrl = "https://navilet.ru";
-
-const team = [
-  {
-    id: "lukian-silagadze",
-    name: "Лукиан Силагадзе",
-    role: "Основатель и CEO проекта «Навылет!»",
-    bio: "Эксперт по искусственному интеллекту и цифровизации в туризме при Комитете ТПП РФ. Руководитель проекта «Навылет! AI» — ИИ-турменеджера для турагентств и туроператоров. Спикер международных конгрессов туроператоров (Сочи, Москва, Минск, Актау) и Совета ТПП РФ по применению ИИ в бизнесе. В октябре 2025 года удостоен почётной благодарности РСТ и Госдумы РФ за «Вклад в развитие ИИ-технологий в туризме».",
-    focus: [
-      "Искусственный интеллект в туризме",
-      "Архитектура B2B-продуктов",
-      "Стратегия партнёрств с туристическими сетями",
-    ],
-    icon: Briefcase,
-  },
-  {
-    id: "evgenii-rebeko",
-    name: "Евгений Ребеко",
-    role: "Первый заместитель руководителя проекта",
-    bio: "Член Комитета ТПП РФ по предпринимательству в сфере туризма. Спикер форумов в РЭУ им. Г.В. Плеханова и заседаний Совета ТПП РФ по применению ИИ в бизнесе. Соучредитель «Навылет! AI». В октябре 2025 года удостоен почётной благодарности РСТ и Госдумы РФ за «Вклад в развитие ИИ-технологий в туризме» совместно с Лукианом Силагадзе.",
-    focus: [
-      "Генеративный ИИ в туризме",
-      "Образовательные программы для отрасли",
-      "Взаимодействие с регуляторами (ТПП РФ, РСТ)",
-    ],
-    icon: User,
-  },
-];
 
 // Берём только реальные мероприятия из content.ts — без дублирования текстов
 const speakingEvents = events.slice(0, 6).map((e) => ({
@@ -95,7 +64,7 @@ const teamJsonLd = {
         {
           "@type": "ListItem",
           position: 2,
-          name: "О команде",
+          name: "О компании",
           item: `${siteUrl}/o-komande`,
         },
       ],
@@ -104,60 +73,14 @@ const teamJsonLd = {
       "@type": "AboutPage",
       "@id": `${siteUrl}/o-komande#webpage`,
       url: `${siteUrl}/o-komande`,
-      name: "Команда «Навылет! AI»",
+      name: "О компании «Навылет! AI»",
       description:
-        "Команда проекта «Навылет! AI» — эксперты ИИ-технологий в туризме при ТПП РФ.",
+        "ООО «ИИМПАКТ ПЛЮС» — российский разработчик ИИ-турменеджера «Навылет! AI», эксперты по ИИ в туризме при ТПП РФ.",
       inLanguage: "ru-RU",
       isPartOf: { "@id": `${siteUrl}/#website` },
       breadcrumb: { "@id": `${siteUrl}/o-komande#breadcrumb` },
       publisher: { "@id": `${siteUrl}/#organization` },
       about: { "@id": `${siteUrl}/#organization` },
-    },
-    {
-      "@type": "Person",
-      "@id": `${siteUrl}/o-komande#lukian-silagadze`,
-      name: "Лукиан Силагадзе",
-      jobTitle: "Основатель и CEO «Навылет! AI»",
-      worksFor: { "@id": `${siteUrl}/#organization` },
-      knowsAbout: [
-        "Искусственный интеллект в туризме",
-        "B2B SaaS",
-        "Интеграция Tourvisor",
-        "Автоматизация турагентств",
-      ],
-      affiliation: [
-        {
-          "@type": "Organization",
-          name: "Торгово-промышленная палата РФ",
-          url: "https://tpprf.ru",
-        },
-      ],
-      award: [
-        "Благодарность за «Вклад в развитие ИИ-технологий в туризме» от вице-президента РСТ Юрия Барзыкина (2025)",
-        "Благодарность от заместителя председателя комитета Госдумы РФ по туризму Натальи Костенко (2025)",
-      ],
-    },
-    {
-      "@type": "Person",
-      "@id": `${siteUrl}/o-komande#evgenii-rebeko`,
-      name: "Евгений Ребеко",
-      jobTitle: "Первый заместитель руководителя «Навылет! AI»",
-      worksFor: { "@id": `${siteUrl}/#organization` },
-      knowsAbout: [
-        "Генеративный ИИ",
-        "Образовательные программы в туризме",
-        "Регулирование ИИ-технологий",
-      ],
-      affiliation: [
-        {
-          "@type": "Organization",
-          name: "Комитет ТПП РФ по предпринимательству в сфере туризма",
-          url: "https://tpprf.ru",
-        },
-      ],
-      award: [
-        "Благодарность за «Вклад в развитие ИИ-технологий в туризме» от РСТ и Госдумы РФ (2025)",
-      ],
     },
   ],
 };
@@ -186,7 +109,7 @@ export default function AboutTeamPage() {
               <ChevronRight className="h-4 w-4" aria-hidden />
             </li>
             <li aria-current="page" className="font-semibold text-heading">
-              О команде
+              О компании
             </li>
           </ol>
         </nav>
@@ -200,58 +123,14 @@ export default function AboutTeamPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            Команда <span className="text-accent">«Навылет! AI»</span>
+            О компании <span className="text-accent">«Навылет! AI»</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">
-            ООО «ИИМПАКТ ПЛЮС» — российская команда, разрабатывающая
-            ИИ-турменеджер «Навылет! AI» с 2023 года. Признаны экспертами по
-            применению искусственного интеллекта в туризме при Комитете ТПП РФ.
+            ООО «ИИМПАКТ ПЛЮС» — российский разработчик ИИ-турменеджера
+            «Навылет! AI». Развиваем продукт с 2023 года и признаны экспертами
+            по применению искусственного интеллекта в туризме при Комитете
+            ТПП РФ.
           </p>
-        </section>
-
-        {/* Team cards */}
-        <section className="mx-auto max-w-5xl px-5 pb-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {team.map((member) => (
-              <article
-                key={member.id}
-                id={member.id}
-                className="rounded-2xl border border-blue-subtle/50 bg-white p-7 sm:p-8"
-              >
-                <div className="mb-5 flex items-start gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/15 to-accent/5">
-                    <member.icon className="h-6 w-6 text-accent" />
-                  </div>
-                  <div>
-                    <h2 className="font-display text-xl font-bold text-heading sm:text-2xl">
-                      {member.name}
-                    </h2>
-                    <p className="mt-1 text-sm font-medium text-accent">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-sm leading-relaxed text-body sm:text-base">
-                  {member.bio}
-                </p>
-                <div className="mt-6 border-t border-blue-subtle/30 pt-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                    Фокус экспертизы
-                  </p>
-                  <ul className="mt-3 flex flex-wrap gap-2">
-                    {member.focus.map((f) => (
-                      <li
-                        key={f}
-                        className="rounded-full border border-blue-subtle/50 bg-blue-ice/30 px-3 py-1 text-xs font-medium text-heading"
-                      >
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
         </section>
 
         {/* Recognition */}
@@ -262,7 +141,7 @@ export default function AboutTeamPage() {
                 Признание индустрии
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base text-body">
-                Экспертиза команды подтверждена ведущими отраслевыми
+                Экспертиза проекта подтверждена ведущими отраслевыми
                 институтами России.
               </p>
             </div>
@@ -307,7 +186,7 @@ export default function AboutTeamPage() {
         {/* Speaking events */}
         <section className="mx-auto max-w-3xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
           <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl">
-            Где выступала команда
+            Участие в отраслевых событиях
           </h2>
           <p className="mt-4 text-base text-body">
             Конгрессы туроператоров, заседания ТПП РФ, форумы и научные
@@ -404,7 +283,7 @@ export default function AboutTeamPage() {
             Хотите обсудить проект?
           </h2>
           <p className="mt-4 text-base text-body sm:text-lg">
-            Команда отвечает на запросы лично — по email, телефону или через
+            Мы отвечаем на запросы лично — по email, телефону или через
             форму заявки.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
