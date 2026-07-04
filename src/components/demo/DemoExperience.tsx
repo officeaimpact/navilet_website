@@ -102,15 +102,30 @@ export default function DemoExperience() {
             как на сайте агентства.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Button variant="primary" size="lg" onClick={openChat}>
-              <span className="flex items-center gap-2">
-                <MessageSquare className="h-5 w-5" />
-                Открыть чат
-              </span>
-            </Button>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Button variant="primary" size="lg" onClick={openChat}>
+                <span className="flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5" />
+                  Открыть чат
+                </span>
+              </Button>
+              <a
+                href={lkUrls.register}
+                onClick={handleTrialClick}
+                className="group inline-flex items-center justify-center gap-2 rounded-lg border-2 border-accent/30 px-6 py-3.5 text-base font-semibold text-accent transition-colors duration-200 hover:border-accent hover:bg-blue-ice sm:px-8 sm:py-4 sm:text-lg"
+              >
+                <Rocket className="h-5 w-5" />
+                Зарегистрироваться за 2 минуты
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+            <p className="inline-flex items-center gap-2 rounded-full bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent">
+              <Sparkles className="h-4 w-4" />
+              Свой ассистент за 2 минуты — доступ на 7 дней бесплатно, без карты
+            </p>
             <span className="text-sm text-muted">
-              или кнопка чата в правом нижнем углу →
+              или откройте чат кнопкой в правом нижнем углу →
             </span>
           </div>
 
