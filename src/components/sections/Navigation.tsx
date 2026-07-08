@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { navLinks } from "@/lib/content";
+import { navLinks, lkUrls } from "@/lib/content";
 import { Menu, X } from "lucide-react";
-import Button from "@/components/ui/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 function isCtaLink(href: string) {
   return href === "/#cta";
@@ -94,7 +94,7 @@ export default function Navigation() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className="flex items-center"
+            className="flex shrink-0 items-center"
           >
             <Image
               src="/logo.svg"
@@ -108,32 +108,41 @@ export default function Navigation() {
             />
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-5 lg:flex xl:gap-8">
             {navLinks.map((link) =>
               renderNavLink(
                 link,
-                "text-sm font-medium text-body transition-colors duration-200 hover:text-accent"
+                "whitespace-nowrap text-sm font-medium text-body transition-colors duration-200 hover:text-accent"
               )
             )}
           </div>
 
-          <div className="hidden md:block">
-            <Button variant="primary" size="sm" href="/demo">
-              Попробовать демо
-            </Button>
-          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={lkUrls.register}
+              onClick={() =>
+                reachMetrikaGoal(metrikaGoals.trialClick, { source: "nav" })
+              }
+              className="hidden items-center justify-center whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-accent-hover sm:inline-flex"
+            >
+              <span className="hidden xl:inline">Подключить за 2 минуты</span>
+              <span className="xl:hidden">Подключить</span>
+            </a>
 
-          <button
-            onClick={() => (mobileOpen ? closeMobileMenu() : setMobileOpen(true))}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-heading md:hidden"
-            aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
-          >
-            {mobileOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+            <button
+              onClick={() =>
+                mobileOpen ? closeMobileMenu() : setMobileOpen(true)
+              }
+              className="inline-flex items-center justify-center rounded-lg p-2 text-heading lg:hidden"
+              aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
+            >
+              {mobileOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -144,7 +153,7 @@ export default function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={closeMobileMenu}
           >
             <motion.div
@@ -152,7 +161,8 @@ export default function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 h-full w-72 bg-white px-6 pb-6 pt-20 shadow-2xl"
+              className="absolute right-0 top-0 h-full w-72 overflow-y-auto bg-white px-6 pb-6 shadow-2xl"
+              style={{ paddingTop: "calc(var(--promo-h, 0px) + 88px)" }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col gap-6">
@@ -163,14 +173,22 @@ export default function Navigation() {
                     closeMobileMenu
                   )
                 )}
-                <div className="mt-4">
-                  <Link
-                    href="/demo"
-                    onClick={closeMobileMenu}
+                <div className="mt-4 space-y-3">
+                  <a
+                    href={lkUrls.register}
+                    onClick={() => {
+                      reachMetrikaGoal(metrikaGoals.trialClick, {
+                        source: "nav_mobile",
+                      });
+                      closeMobileMenu();
+                    }}
                     className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
-                    Попробовать демо
-                  </Link>
+                    Подключить за 2 минуты
+                  </a>
+                  <p className="text-center text-xs text-muted">
+                    7 дней бесплатно · без карты
+                  </p>
                 </div>
               </div>
             </motion.div>

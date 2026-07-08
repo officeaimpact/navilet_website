@@ -244,7 +244,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var k='promo_dismissed_2026-07-15T23:59:59+03:00';if(localStorage.getItem(k)!=='1'){var r=document.documentElement;r.style.setProperty('--promo-pad','40px');r.style.setProperty('--promo-h','40px');}}catch(e){}})();`,
+            __html: `(function(){try{var k='promo_dismissed_2026-07-20T23:59:59+03:00';if(localStorage.getItem(k)!=='1'){var r=document.documentElement;r.style.setProperty('--promo-pad','40px');r.style.setProperty('--promo-h','40px');}}catch(e){}})();`,
           }}
         />
         <meta name="theme-color" content="#0062EF" />

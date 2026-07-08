@@ -15,6 +15,7 @@ const staticEntries: Entry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1.0 },
   { path: "/tarify", changeFrequency: "weekly", priority: 0.9 },
   { path: "/demo", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/start", changeFrequency: "monthly", priority: 0.8 },
   { path: "/dlya-turagentstv", changeFrequency: "monthly", priority: 0.9 },
   { path: "/dlya-turoperatorov", changeFrequency: "monthly", priority: 0.9 },
   { path: "/integraciya-tourvisor", changeFrequency: "monthly", priority: 0.8 },

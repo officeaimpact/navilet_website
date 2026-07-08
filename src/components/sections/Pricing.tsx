@@ -13,6 +13,7 @@ import {
 } from "@/lib/content";
 import { isPromoActive, promoDaysLeft, pluralDays } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
+import { lkUrls } from "@/lib/content";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
 import {
@@ -24,6 +25,7 @@ import {
   MessageSquare,
   Layers,
   Info,
+  Zap,
 } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
@@ -42,18 +44,22 @@ function ChannelBadge({ icon: Icon, label }: { icon: typeof Globe; label: string
 function PlanCard({
   plan,
   onSelect,
+  onRegister,
 }: {
   plan: PricingPlan;
   onSelect: (plan: PricingPlan) => void;
+  onRegister: (plan: PricingPlan) => void;
 }) {
-  const { name, price, dialogs, extraDialog, effectivePerDialog, tagline, popular } = plan;
+  const { name, price, dialogs, extraDialog, effectivePerDialog, popular, selfServe } =
+    plan;
 
   const card = (
     <motion.div
+      id={plan.id}
       variants={fadeInUp}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className={`group relative flex h-full flex-col rounded-2xl bg-white p-6 transition-all duration-300 lg:p-7 ${
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
+      className={`group relative flex h-full flex-col scroll-mt-28 rounded-2xl bg-white p-6 transition-shadow duration-200 lg:p-7 ${
         popular
           ? "shadow-[0_4px_24px_rgba(0,82,204,0.12)] hover:shadow-[0_8px_40px_rgba(0,82,204,0.16)]"
           : "border border-blue-subtle/50 shadow-[0_1px_3px_rgba(0,82,204,0.04),0_4px_16px_rgba(0,82,204,0.05)] hover:border-accent/25 hover:shadow-[0_4px_12px_rgba(0,82,204,0.08),0_12px_40px_rgba(0,82,204,0.07)]"
@@ -65,6 +71,12 @@ function PlanCard({
           Популярный
         </div>
       )}
+      {selfServe && (
+        <div className="absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-full border border-accent/25 bg-white px-3 py-1 text-xs font-bold text-accent shadow-sm">
+          <Zap className="h-3 w-3" fill="currentColor" />
+          Сам за 2 минуты
+        </div>
+      )}
 
       {/* Header: name + channel badges */}
       <div className="mb-4 flex items-center justify-between gap-2">
@@ -73,13 +85,13 @@ function PlanCard({
         </h3>
         <div className="flex flex-wrap items-center gap-1">
           <ChannelBadge icon={Globe} label="Web" />
-          <ChannelBadge icon={MessageSquare} label="MAX" />
+          {!selfServe && <ChannelBadge icon={MessageSquare} label="MAX" />}
         </div>
       </div>
 
       {/* Price */}
       <div className="mb-1 flex flex-wrap items-baseline gap-x-1">
-        <span className="whitespace-nowrap font-display text-3xl font-bold text-heading lg:text-4xl">
+        <span className="whitespace-nowrap font-display text-3xl font-bold text-heading">
           {fmt(price)}&nbsp;₽
         </span>
         <span className="text-sm font-medium text-muted">/ мес</span>
@@ -89,9 +101,6 @@ function PlanCard({
       </p>
 
       <div className="my-5 h-px w-full bg-blue-subtle/60" />
-
-      {/* Tagline */}
-      <p className="mb-5 text-sm leading-snug text-body">{tagline}</p>
 
       {/* Details */}
       <ul className="mb-7 flex-1 space-y-2.5 text-sm text-body">
@@ -115,21 +124,39 @@ function PlanCard({
             </span>
           </span>
         </li>
-        <li className="flex items-start gap-2.5">
-          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-            <Check className="h-3 w-3 text-accent" />
-          </span>
-          <span>Канал на выбор — Web или MAX</span>
-        </li>
+        {selfServe ? (
+          <li className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+              <Check className="h-3 w-3 text-accent" />
+            </span>
+            <span>Web-виджет на сайте</span>
+          </li>
+        ) : (
+          <li className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+              <Check className="h-3 w-3 text-accent" />
+            </span>
+            <span>Канал на выбор — Web или MAX</span>
+          </li>
+        )}
       </ul>
 
       <Button
-        variant={popular ? "primary" : "outline"}
+        variant={popular || selfServe ? "primary" : "outline"}
         size="md"
-        onClick={() => onSelect(plan)}
+        onClick={() => onRegister(plan)}
       >
-        Выбрать тариф
+        Начать бесплатно
       </Button>
+      <p className="mt-2 text-center text-xs font-medium text-accent">
+        Сами, за 2 минуты — без менеджера
+      </p>
+      <button
+        onClick={() => onSelect(plan)}
+        className="mt-0.5 cursor-pointer py-1.5 text-center text-xs font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
+      >
+        Не хотите сами? Подключим с менеджером
+      </button>
     </motion.div>
   );
 
@@ -275,11 +302,24 @@ export default function Pricing() {
 
   const handlePromoCta = () => {
     reachMetrikaGoal(metrikaGoals.promoClick);
-    openForm();
+    window.location.href = lkUrls.register;
   };
 
   const handleSelectPlan = (plan: PricingPlan, channel?: "web" | "max" | "cross") =>
-    openForm({ planId: plan.id, planName: plan.name, channelId: channel });
+    plan.selfServe
+      ? openForm()
+      : openForm({ planId: plan.id, planName: plan.name, channelId: channel });
+
+  /** Самостоятельная регистрация в ЛК с меткой тарифа */
+  const handleRegister = (plan?: PricingPlan) => {
+    reachMetrikaGoal(metrikaGoals.trialClick, {
+      source: "pricing",
+      plan_id: plan?.id,
+    });
+    window.location.href = plan
+      ? `${lkUrls.register}?plan=${plan.id}`
+      : lkUrls.register;
+  };
 
   return (
     <SectionWrapper id="pricing">
@@ -373,10 +413,15 @@ export default function Pricing() {
       {/* Main plan cards */}
       <motion.div
         variants={staggerContainer}
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        className="grid grid-cols-1 gap-5 pt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
       >
         {pricingPlans.map((plan) => (
-          <PlanCard key={plan.id} plan={plan} onSelect={(p) => handleSelectPlan(p)} />
+          <PlanCard
+            key={plan.id}
+            plan={plan}
+            onSelect={(p) => handleSelectPlan(p)}
+            onRegister={(p) => handleRegister(p)}
+          />
         ))}
       </motion.div>
 
@@ -446,15 +491,28 @@ export default function Pricing() {
           )}
         </div>
 
-        {/* Installation cards by plan */}
+        {/* Installation cards by plan (Lite — самообслуживание, без инсталляции) */}
         <motion.div
           variants={staggerContainer}
           className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
         >
-          {pricingPlans.map((plan) => (
-            <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
-          ))}
+          {pricingPlans
+            .filter((plan) => !plan.selfServe)
+            .map((plan) => (
+              <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
+            ))}
         </motion.div>
+
+        <motion.p
+          variants={fadeInUp}
+          className="mx-auto mt-4 flex max-w-2xl items-start justify-center gap-1.5 text-center text-xs text-muted"
+        >
+          <Zap className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="currentColor" />
+          <span>
+            Тариф «Lite» — без инсталляции: вы подключаете виджет
+            самостоятельно за 2 минуты, платёж за подключение — 0 ₽.
+          </span>
+        </motion.p>
 
         {/* MAX installation — separate */}
         <motion.div
@@ -468,12 +526,24 @@ export default function Pricing() {
             <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">
               Инсталляция MAX-канала
             </p>
-            <p className="font-display text-lg font-bold text-heading">
-              <span className="whitespace-nowrap">
-                {fmt(maxChannelInstallation)}&nbsp;₽
-              </span>{" "}
-              <span className="text-sm font-medium text-muted">разово</span>
-            </p>
+            {promoActive ? (
+              <p className="font-display text-lg font-bold text-heading">
+                <span className="mr-1.5 text-sm font-medium text-muted line-through">
+                  {fmt(maxChannelInstallation)}&nbsp;₽
+                </span>
+                <span className="text-accent">0&nbsp;₽</span>
+                <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-accent">
+                  бесплатно {promo.deadlineLabel}
+                </span>
+              </p>
+            ) : (
+              <p className="font-display text-lg font-bold text-heading">
+                <span className="whitespace-nowrap">
+                  {fmt(maxChannelInstallation)}&nbsp;₽
+                </span>{" "}
+                <span className="text-sm font-medium text-muted">разово</span>
+              </p>
+            )}
             <p className="mt-0.5 text-xs text-body">
               Отдельный ценник за подключение MAX — поверх инсталляции Web или
               как самостоятельный платёж для MAX-only клиентов.
@@ -496,13 +566,22 @@ export default function Pricing() {
       </motion.div>
 
       {/* CTA */}
-      <motion.div variants={fadeInUp} className="mt-14 flex justify-center">
-        <Button variant="primary" size="lg" onClick={() => openForm()}>
+      <motion.div
+        variants={fadeInUp}
+        className="mt-14 flex flex-col items-center gap-3"
+      >
+        <Button variant="primary" size="lg" onClick={() => handleRegister()}>
           <span className="flex items-center gap-2">
-            Начать бесплатно
+            Начать бесплатно — подключение за 2 минуты
             <ArrowRight className="h-4 w-4" />
           </span>
         </Button>
+        <button
+          onClick={() => openForm()}
+          className="cursor-pointer text-sm font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
+        >
+          Нужна помощь с подключением? Оставьте заявку
+        </button>
       </motion.div>
     </SectionWrapper>
   );

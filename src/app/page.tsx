@@ -83,11 +83,21 @@ const homepageJsonLd = {
       offers: {
         "@type": "AggregateOffer",
         priceCurrency: "RUB",
-        lowPrice: "3290",
+        lowPrice: "1990",
         highPrice: "14990",
-        offerCount: 4,
+        offerCount: 5,
         availability: "https://schema.org/InStock",
         offers: [
+          {
+            "@type": "Offer",
+            name: "Lite",
+            price: "1990",
+            priceCurrency: "RUB",
+            description:
+              "30 диалогов в месяц • Web-виджет • самостоятельное подключение, 0 ₽ за инсталляцию",
+            url: `${siteUrl}/tarify#lite`,
+            availability: "https://schema.org/InStock",
+          },
           {
             "@type": "Offer",
             name: "Старт",

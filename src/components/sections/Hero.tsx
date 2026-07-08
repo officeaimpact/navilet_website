@@ -9,12 +9,13 @@ import {
   scaleIn,
   fadeIn,
 } from "@/lib/animations";
-import { heroContent, promo } from "@/lib/content";
+import { heroContent, promo, lkUrls } from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import Button from "@/components/ui/Button";
 import DemoWidget from "@/components/DemoWidget";
 import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
 import { demoScenarios } from "@/lib/scenarios";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import { Globe, MessageSquare, Sparkles } from "lucide-react";
 
 function PartnerLogos() {
@@ -103,15 +104,29 @@ export default function Hero() {
 
           <motion.div
             variants={fadeInUp}
-            className="mb-10 flex flex-wrap justify-center gap-4 lg:justify-start"
+            className="mb-3 flex flex-wrap justify-center gap-4 lg:justify-start"
           >
-            <Button variant="primary" size="lg" href="/demo">
+            <Button
+              variant="primary"
+              size="lg"
+              href={lkUrls.register}
+              onClick={() =>
+                reachMetrikaGoal(metrikaGoals.trialClick, { source: "hero" })
+              }
+            >
               {heroContent.ctaPrimary}
             </Button>
-            <Button variant="outline" size="lg" href="/#how-it-works">
+            <Button variant="outline" size="lg" href="/demo">
               {heroContent.ctaSecondary}
             </Button>
           </motion.div>
+
+          <motion.p
+            variants={fadeInUp}
+            className="mb-10 text-sm text-muted"
+          >
+            7 дней бесплатно · без карты · регистрация за 2 минуты
+          </motion.p>
 
           <PartnerLogos />
         </motion.div>

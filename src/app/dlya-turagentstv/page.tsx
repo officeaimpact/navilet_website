@@ -94,6 +94,15 @@ const outcomes = [
 const recommendedTariffs = [
   {
     icon: Store,
+    title: "Пробуете сами, без внедрения",
+    rec: "Тариф «Lite»",
+    price: "1 990 ₽/мес",
+    detail: "30 диалогов в месяц. Подключение самостоятельно — 0 ₽.",
+    when: "Одиночный агент или небольшой сайт, до 1 диалога в день",
+    href: "/tarify#lite",
+  },
+  {
+    icon: Store,
     title: "Одиночный офис или филиал",
     rec: "Тариф «Старт»",
     price: "3 290 ₽/мес",
@@ -307,7 +316,7 @@ export default function ForAgenciesPage() {
                 Подбираем по размеру офиса, потоку заявок и зрелости процессов.
               </p>
             </div>
-            <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
               {recommendedTariffs.map((t) => (
                 <div
                   key={t.title}

@@ -3,11 +3,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Zap } from "lucide-react";
-import { useLeadForm } from "@/contexts/LeadFormContext";
+import { lkUrls } from "@/lib/content";
+import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 export default function FloatingCTA() {
   const [visible, setVisible] = useState(false);
-  const { openForm } = useLeadForm();
+
+  const handleClick = () => {
+    reachMetrikaGoal(metrikaGoals.trialClick, { source: "floating_cta" });
+    window.location.href = lkUrls.register;
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -40,12 +45,12 @@ export default function FloatingCTA() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          onClick={() => openForm()}
+          onClick={handleClick}
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          aria-label="Подключить ИИ-ассистента"
+          aria-label="Подключить ИИ-ассистента за 2 минуты"
           className="fixed bottom-4 right-4 z-30 flex cursor-pointer items-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-lg shadow-accent/30 transition-shadow duration-300 hover:shadow-xl hover:shadow-accent/40 sm:bottom-6 sm:right-6"
           style={{
             background:

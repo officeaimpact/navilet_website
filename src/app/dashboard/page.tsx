@@ -98,7 +98,7 @@ export default function DashboardPage() {
               {
                 href: "/tarify",
                 title: "Тарифы",
-                text: "Прозрачные планы от 3 290 ₽/мес",
+                text: "Прозрачные планы от 1 990 ₽/мес",
               },
               {
                 href: "/integraciya-tourvisor",
