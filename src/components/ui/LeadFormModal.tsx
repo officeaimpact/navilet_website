@@ -242,9 +242,8 @@ export default function LeadFormModal() {
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">
                           Тариф
                         </label>
-                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                          {/* Lite — только самостоятельная регистрация, в заявку не входит */}
-                          {pricingPlans.filter((p) => !p.selfServe).map((p) => {
+                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+                          {pricingPlans.map((p) => {
                             const active = selectedPlanId === p.id;
                             return (
                               <button

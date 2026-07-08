@@ -25,21 +25,11 @@ import {
   MessageSquare,
   Layers,
   Info,
-  Zap,
 } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
 /** Форматирование чисел с тонкими неразрывными пробелами */
 const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u202F");
-
-function ChannelBadge({ icon: Icon, label }: { icon: typeof Globe; label: string }) {
-  return (
-    <span className="inline-flex items-center gap-1 rounded-md bg-blue-ice px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary">
-      <Icon className="h-3 w-3" />
-      {label}
-    </span>
-  );
-}
 
 function PlanCard({
   plan,
@@ -50,8 +40,7 @@ function PlanCard({
   onSelect: (plan: PricingPlan) => void;
   onRegister: (plan: PricingPlan) => void;
 }) {
-  const { name, price, dialogs, extraDialog, effectivePerDialog, popular, selfServe } =
-    plan;
+  const { name, price, dialogs, extraDialog, effectivePerDialog, popular } = plan;
 
   const card = (
     <motion.div
@@ -71,22 +60,11 @@ function PlanCard({
           Популярный
         </div>
       )}
-      {selfServe && (
-        <div className="absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-full border border-accent/25 bg-white px-3 py-1 text-xs font-bold text-accent shadow-sm">
-          <Zap className="h-3 w-3" fill="currentColor" />
-          Сам за 2 минуты
-        </div>
-      )}
-
-      {/* Header: name + channel badges */}
-      <div className="mb-4 flex items-center justify-between gap-2">
+      {/* Header */}
+      <div className="mb-4">
         <h3 className="font-display text-lg font-bold uppercase tracking-wide text-heading">
           {name}
         </h3>
-        <div className="flex flex-wrap items-center gap-1">
-          <ChannelBadge icon={Globe} label="Web" />
-          {!selfServe && <ChannelBadge icon={MessageSquare} label="MAX" />}
-        </div>
       </div>
 
       {/* Price */}
@@ -124,38 +102,26 @@ function PlanCard({
             </span>
           </span>
         </li>
-        {selfServe ? (
-          <li className="flex items-start gap-2.5">
-            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-              <Check className="h-3 w-3 text-accent" />
-            </span>
-            <span>Web-виджет на сайте</span>
-          </li>
-        ) : (
-          <li className="flex items-start gap-2.5">
-            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-              <Check className="h-3 w-3 text-accent" />
-            </span>
-            <span>Канал на выбор — Web или MAX</span>
-          </li>
-        )}
+        <li className="flex items-start gap-2.5">
+          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+            <Check className="h-3 w-3 text-accent" />
+          </span>
+          <span>Канал на выбор — Web или MAX</span>
+        </li>
       </ul>
 
       <Button
-        variant={popular || selfServe ? "primary" : "outline"}
+        variant={popular ? "primary" : "outline"}
         size="md"
         onClick={() => onRegister(plan)}
       >
         Начать бесплатно
       </Button>
-      <p className="mt-2 text-center text-xs font-medium text-accent">
-        Сами, за 2 минуты — без менеджера
-      </p>
       <button
         onClick={() => onSelect(plan)}
-        className="mt-0.5 cursor-pointer py-1.5 text-center text-xs font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
+        className="mt-1.5 cursor-pointer py-1.5 text-center text-xs font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
       >
-        Не хотите сами? Подключим с менеджером
+        Или подключим с менеджером — оставьте заявку
       </button>
     </motion.div>
   );
@@ -269,7 +235,11 @@ function InstallationCard({
         <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
           {plan.name}
         </p>
-        {promoActive ? (
+        {plan.installation === 0 ? (
+          <p className="font-display text-base font-bold text-heading">
+            <span className="text-accent">0&nbsp;₽</span>
+          </p>
+        ) : promoActive ? (
           <p className="font-display text-base font-bold text-heading">
             <span className="mr-1.5 text-sm font-medium text-muted line-through">
               {fmt(plan.installation)}&nbsp;₽
@@ -306,9 +276,7 @@ export default function Pricing() {
   };
 
   const handleSelectPlan = (plan: PricingPlan, channel?: "web" | "max" | "cross") =>
-    plan.selfServe
-      ? openForm()
-      : openForm({ planId: plan.id, planName: plan.name, channelId: channel });
+    openForm({ planId: plan.id, planName: plan.name, channelId: channel });
 
   /** Самостоятельная регистрация в ЛК с меткой тарифа */
   const handleRegister = (plan?: PricingPlan) => {
@@ -451,7 +419,7 @@ export default function Pricing() {
 
         <motion.div
           variants={staggerContainer}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
         >
           {crossChannelAddons.map((addon) => {
             const plan = pricingPlans.find((p) => p.id === addon.planId)!;
@@ -491,28 +459,15 @@ export default function Pricing() {
           )}
         </div>
 
-        {/* Installation cards by plan (Lite — самообслуживание, без инсталляции) */}
+        {/* Installation cards by plan */}
         <motion.div
           variants={staggerContainer}
-          className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5"
         >
-          {pricingPlans
-            .filter((plan) => !plan.selfServe)
-            .map((plan) => (
-              <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
-            ))}
+          {pricingPlans.map((plan) => (
+            <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
+          ))}
         </motion.div>
-
-        <motion.p
-          variants={fadeInUp}
-          className="mx-auto mt-4 flex max-w-2xl items-start justify-center gap-1.5 text-center text-xs text-muted"
-        >
-          <Zap className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="currentColor" />
-          <span>
-            Тариф «Lite» — без инсталляции: вы подключаете виджет
-            самостоятельно за 2 минуты, платёж за подключение — 0 ₽.
-          </span>
-        </motion.p>
 
         {/* MAX installation — separate */}
         <motion.div

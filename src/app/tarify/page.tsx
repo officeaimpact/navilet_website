@@ -156,10 +156,10 @@ export default function TarifyPage() {
             «Навылет! AI»
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">
-            Прозрачная подписка для турагентств и туроператоров. «Lite» —
-            самостоятельное подключение за 2 минуты, тарифы от «Старта»
-            работают в Web-виджете или MAX-мессенджере. Хотите оба канала
-            сразу — добавьте «Второй канал» с льготным лимитом диалогов.
+            Прозрачная подписка для турагентств и туроператоров. Каждый
+            базовый тариф работает в Web-виджете или MAX-мессенджере. Хотите
+            оба канала сразу — добавьте «Второй канал» с льготным лимитом
+            диалогов.
           </p>
 
           {/* Comparison table */}
@@ -207,7 +207,7 @@ export default function TarifyPage() {
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-right text-body">
                         {p.installation === 0
-                          ? "0 ₽ · сам за 2 мин"
+                          ? "0 ₽"
                           : `${fmt(p.installation)} ₽`}
                       </td>
                     </tr>

@@ -94,7 +94,7 @@ const homepageJsonLd = {
             price: "1990",
             priceCurrency: "RUB",
             description:
-              "30 диалогов в месяц • Web-виджет • самостоятельное подключение, 0 ₽ за инсталляцию",
+              "30 диалогов в месяц • Web или MAX • инсталляция 0 ₽ • регистрация за 2 минуты",
             url: `${siteUrl}/tarify#lite`,
             availability: "https://schema.org/InStock",
           },

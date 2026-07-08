@@ -165,8 +165,8 @@ export default function StartLanding() {
                 <span className="font-semibold text-heading">
                   Lite: {litePlan ? fmt(litePlan.price) : "1 990"} ₽/мес
                 </span>{" "}
-                за {litePlan?.dialogs ?? 30} диалогов, подключение 0 ₽. Нужен
-                объём больше — тарифы до 400 диалогов/мес.
+                за {litePlan?.dialogs ?? 30} диалогов. Нужен объём больше —
+                тарифы до 400 диалогов/мес.
               </p>
               <p className="mt-3 text-xs text-muted">
                 Никаких автосписаний: карту вы не привязываете, оплата — только
