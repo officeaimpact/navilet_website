@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   BarChart3,
+  TrendingUp,
   Code2,
   Activity,
   UserCircle,
@@ -17,6 +18,7 @@ import {
 type Screen =
   | "overview"
   | "analytics"
+  | "reports"
   | "conversations"
   | "widget"
   | "system"
@@ -27,6 +29,7 @@ const NAV_ITEMS: { id: Screen; icon: typeof LayoutDashboard; label: string }[] =
     { id: "overview", icon: LayoutDashboard, label: "Обзор" },
     { id: "conversations", icon: MessageSquare, label: "Диалоги" },
     { id: "analytics", icon: BarChart3, label: "Аналитика" },
+    { id: "reports", icon: TrendingUp, label: "Прогнозы" },
     { id: "widget", icon: Code2, label: "Виджет" },
     { id: "system", icon: Activity, label: "Система" },
     { id: "account", icon: UserCircle, label: "Аккаунт" },
@@ -35,6 +38,7 @@ const NAV_ITEMS: { id: Screen; icon: typeof LayoutDashboard; label: string }[] =
 const SCREEN_TITLES: Record<Screen, string> = {
   overview: "Обзор",
   analytics: "Аналитика",
+  reports: "Отчёты и прогнозы",
   conversations: "Диалоги",
   widget: "Настройки виджета",
   system: "Статус системы",

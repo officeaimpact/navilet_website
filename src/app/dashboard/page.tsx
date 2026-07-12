@@ -5,6 +5,7 @@ import Footer from "@/components/sections/Footer";
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import DashboardValueMetrics from "@/components/dashboard/DashboardValueMetrics";
 import DashboardAnalyticsShowcase from "@/components/dashboard/DashboardAnalyticsShowcase";
+import DashboardForecastShowcase from "@/components/dashboard/DashboardForecastShowcase";
 import DashboardConversationsShowcase from "@/components/dashboard/DashboardConversationsShowcase";
 import DashboardWidgetShowcase from "@/components/dashboard/DashboardWidgetShowcase";
 import DashboardBenefits from "@/components/dashboard/DashboardBenefits";
@@ -13,7 +14,7 @@ import DashboardCTA from "@/components/dashboard/DashboardCTA";
 export const metadata = {
   title: { absolute: "Личный кабинет ИИ-турменеджера | Навылет! AI" },
   description:
-    "Аналитика диалогов, управление виджетом, история заявок и мониторинг системы. Полный контроль над ИИ-турменеджером для турагентств в едином личном кабинете на lk.navilet.ru.",
+    "Аналитика диалогов, прогнозы спроса и продаж, управление виджетом, история заявок и мониторинг. Полный контроль над ИИ-турменеджером для турагентств в едином личном кабинете на lk.navilet.ru.",
   keywords: [
     "личный кабинет турагентства",
     "аналитика ИИ турагентство",
@@ -77,6 +78,7 @@ export default function DashboardPage() {
         <DashboardHero />
         <DashboardValueMetrics />
         <DashboardAnalyticsShowcase />
+        <DashboardForecastShowcase />
         <DashboardConversationsShowcase />
         <DashboardWidgetShowcase />
         <DashboardBenefits />
