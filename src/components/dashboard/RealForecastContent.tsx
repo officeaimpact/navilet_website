@@ -24,13 +24,13 @@ const MONTH = {
   label: "Июль",
   elapsedDays: 12,
   totalDays: 31,
-  trend: "1.08",
-  dialogs: "≈ 340",
-  dialogsMtd: "факт: 124",
-  engaged: "≈ 60",
-  engagedMtd: "факт: 22",
-  paid: "1,1–2,2 млн ₽",
-  income: "доход ≈ 110–220 тыс. ₽",
+  trend: "1.09",
+  dialogs: "≈ 1 300",
+  dialogsMtd: "факт: 470",
+  engaged: "≈ 185",
+  engagedMtd: "факт: 66",
+  paid: "4–8 млн ₽",
+  income: "доход ≈ 400–790 тыс. ₽",
 };
 
 const AI_LINES = [
@@ -40,10 +40,10 @@ const AI_LINES = [
 ];
 
 const FACT = [
-  { label: "Диалогов", value: "486", accent: "#0038FF", icon: MessageSquare },
-  { label: "С интересом", value: "12%", accent: "#8B5CF6", icon: MousePointerClick },
-  { label: "Ср. чек интереса", value: "182 тыс. ₽", accent: "#10B981", icon: Wallet },
-  { label: "Корзина интереса", value: "10,6 млн ₽", accent: "#F59E0B", icon: TrendingUp },
+  { label: "Диалогов", value: "1 240", accent: "#0038FF", icon: MessageSquare },
+  { label: "С интересом", value: "14%", accent: "#8B5CF6", icon: MousePointerClick },
+  { label: "Ср. чек интереса", value: "214 тыс. ₽", accent: "#10B981", icon: Wallet },
+  { label: "Корзина интереса", value: "37 млн ₽", accent: "#F59E0B", icon: TrendingUp },
 ];
 
 /** Барометр спроса по сети: доля спроса + тренд в п.п. + сезонность. */
@@ -220,7 +220,7 @@ export default function RealForecastContent({
                     />
                   </div>
                   <div
-                    className="font-bold text-[#1E293B]"
+                    className="font-bold text-[#1E293B] whitespace-nowrap"
                     style={{ fontSize: 10.5 * s, marginTop: 2 * s }}
                   >
                     {f.value}
@@ -302,7 +302,7 @@ export default function RealForecastContent({
           }}
         >
           <span>
-            Медианный чек сети: <b className="text-[#1E293B]">168 000 ₽</b>
+            Медианный чек сети: <b className="text-[#1E293B]">190 000 ₽</b>
           </span>
           <span className="inline-flex items-center gap-0.5">
             <Leaf size={6 * s} className="text-[#10B981]" /> — в сезоне
@@ -412,9 +412,9 @@ function ForecastCell({
         {label}
       </div>
       <div
-        className="font-bold"
+        className="font-bold whitespace-nowrap"
         style={{
-          fontSize: (money ? 8.5 : 11) * s,
+          fontSize: (money ? 10 : 11) * s,
           marginTop: 2 * s,
           color: money ? "#059669" : "#1E293B",
           lineHeight: 1.15,

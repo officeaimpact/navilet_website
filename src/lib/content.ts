@@ -3,7 +3,7 @@ export const navLinks = [
   { label: "Тарифы", href: "/tarify" },
   { label: "Демо", href: "/demo" },
   { label: "Личный кабинет", href: "/dashboard" },
-  { label: "Прогнозы", href: "/prognozy" },
+  { label: "ИИ-аналитика", href: "/prognozy" },
   { label: "Контакты", href: "/#cta" },
 ];
 
