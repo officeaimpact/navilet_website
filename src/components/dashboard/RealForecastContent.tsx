@@ -414,7 +414,7 @@ function ForecastCell({
       <div
         className="font-bold whitespace-nowrap"
         style={{
-          fontSize: (money ? 10 : 11) * s,
+          fontSize: (money ? 9 : 11) * s,
           marginTop: 2 * s,
           color: money ? "#059669" : "#1E293B",
           lineHeight: 1.15,

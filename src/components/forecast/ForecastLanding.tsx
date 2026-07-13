@@ -300,7 +300,9 @@ export default function ForecastLanding() {
                       <CountUp end={stat.value} separator={stat.separator} />
                       {stat.suffix}
                     </div>
-                    <div className="mt-1 text-xs text-muted">{stat.label}</div>
+                    <div className="mt-1 break-words text-xs leading-tight text-muted">
+                      {stat.label}
+                    </div>
                   </div>
                 ))}
               </div>
