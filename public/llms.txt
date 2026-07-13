@@ -152,6 +152,9 @@
 - Живое демо ассистента (без регистрации): https://navilet.ru/demo
 - Вопросы и ответы про ИИ для турагентств: https://navilet.ru/voprosy
 - Прогнозы и предиктивная аналитика для турагентств: https://navilet.ru/prognozy
+- Виджет подбора туров на сайт (инструкции для Tilda, WordPress, Битрикс и др.): https://navilet.ru/vidzhet
+- Решения типовых задач турагентств: https://navilet.ru/resheniya
+- Спрос на туры по направлениям (статистика диалогов сети): https://navilet.ru/spros
 - Тарифы и калькулятор: https://navilet.ru/tarify
 - Для турагентств: https://navilet.ru/dlya-turagentstv
 - Для туроператоров: https://navilet.ru/dlya-turoperatorov

@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getAllPostsMeta } from "@/lib/blog";
+import { platformPages } from "@/lib/seo/platform-pages";
+import { scenarioPages } from "@/lib/seo/scenario-pages";
+import { demandPages } from "@/lib/seo/demand-pages";
 
 export const dynamic = "force-static";
 
@@ -26,13 +29,37 @@ const staticEntries: Entry[] = [
   { path: "/faq", changeFrequency: "monthly", priority: 0.7 },
   { path: "/dashboard", changeFrequency: "monthly", priority: 0.7 },
   { path: "/prognozy", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/vidzhet", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/resheniya", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/spros", changeFrequency: "weekly", priority: 0.8 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
+];
+
+const clusterEntries: Entry[] = [
+  ...platformPages.map((p) => ({
+    path: `/vidzhet/${p.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  })),
+  ...scenarioPages.map((p) => ({
+    path: `/resheniya/${p.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  })),
+  ...demandPages.map((p) => ({
+    path: `/spros/${p.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  })),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticUrls: MetadataRoute.Sitemap = staticEntries.map((e) => ({
+  const staticUrls: MetadataRoute.Sitemap = [
+    ...staticEntries,
+    ...clusterEntries,
+  ].map((e) => ({
     url: `${siteUrl}${e.path === "/" ? "/" : e.path}`,
     lastModified: now,
     changeFrequency: e.changeFrequency,

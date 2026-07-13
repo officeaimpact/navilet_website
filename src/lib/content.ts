@@ -827,7 +827,9 @@ export const footerLinks = {
       { label: "Возможности", href: "/#features" },
       { label: "Тарифы", href: "/tarify" },
       { label: "Личный кабинет", href: "/dashboard" },
+      { label: "ИИ-аналитика и прогнозы", href: "/prognozy" },
       { label: "Демо", href: "/demo" },
+      { label: "Виджет на сайт", href: "/vidzhet" },
       { label: "Интеграция с Tourvisor", href: "/integraciya-tourvisor" },
     ],
   },
@@ -836,6 +838,8 @@ export const footerLinks = {
     links: [
       { label: "Для турагентств", href: "/dlya-turagentstv" },
       { label: "Для туроператоров", href: "/dlya-turoperatorov" },
+      { label: "Задачи агентств", href: "/resheniya" },
+      { label: "Спрос по направлениям", href: "/spros" },
       { label: "Кейс МГП", href: "/keisy/mgp" },
       { label: "Мероприятия", href: "/#events" },
     ],
