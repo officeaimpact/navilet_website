@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import DemoExperience from "@/components/demo/DemoExperience";
@@ -37,6 +37,20 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
+};
+
+/**
+ * На /demo встроен чат-виджет (iframe от lk.navilet.ru) с полем ввода.
+ * На iOS Safari фокус на поле с font-size < 16px вызывает авто-зум,
+ * который сам не отменяется — пользователь «залипает» в поле. Viewport
+ * верхней страницы (а не iframe) управляет зумом, поэтому здесь задаём
+ * maximum-scale=1: авто-зум при фокусе подавляется (ручной pinch на iOS
+ * остаётся). Ограничено только страницей /demo — остальной сайт не трогаем.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function DemoPage() {
