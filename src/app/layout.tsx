@@ -7,6 +7,7 @@ import LeadFormModal from "@/components/ui/LeadFormModal";
 import CookieConsent from "@/components/ui/CookieConsent";
 import PromoBanner from "@/components/ui/PromoBanner";
 import MetrikaClickTracker from "@/components/analytics/MetrikaClickTracker";
+import ScrollReset from "@/components/utils/ScrollReset";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -240,7 +241,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${manrope.variable}`}>
+    // data-scroll-behavior: Next 16 отключает CSS smooth-скролл на время
+    // перехода между страницами — иначе новая страница открывается не сверху.
+    <html
+      lang="ru"
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${manrope.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -285,6 +292,7 @@ ym(${YANDEX_METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecomme
           </div>
         </noscript>
         <LeadFormProvider>
+          <ScrollReset />
           <MetrikaClickTracker />
           <PromoBanner />
           {children}

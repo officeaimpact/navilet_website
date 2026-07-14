@@ -6,7 +6,6 @@ import NetworkResults from "@/components/sections/NetworkResults";
 import Metrics from "@/components/sections/Metrics";
 import Partners from "@/components/sections/Partners";
 import Events from "@/components/sections/Events";
-import Audience from "@/components/sections/Audience";
 import Pricing from "@/components/sections/Pricing";
 import Integration from "@/components/sections/Integration";
 import DashboardPromo from "@/components/sections/DashboardPromo";
@@ -164,7 +163,6 @@ export default function Home() {
         <Metrics />
         <Partners />
         <Events />
-        <Audience />
         <Pricing />
         <Integration />
         <FAQ />

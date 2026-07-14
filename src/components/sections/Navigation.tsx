@@ -118,24 +118,13 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span
-              aria-hidden
-              className="hidden h-5 w-px bg-blue-subtle/70 xl:block"
-            />
             <a
               href={`tel:${companyInfo.phoneRaw}`}
-              className="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-semibold text-heading transition-colors hover:text-accent xl:inline-flex"
-              aria-label="Позвонить нам"
-            >
-              <Phone className="h-4 w-4 text-accent" />
-              {companyInfo.phone}
-            </a>
-            <a
-              href={`tel:${companyInfo.phoneRaw}`}
-              className="inline-flex items-center justify-center rounded-lg p-2 text-accent transition-colors hover:bg-blue-ice xl:hidden"
+              title={companyInfo.phone}
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-subtle/60 text-accent transition-colors hover:border-accent hover:bg-blue-ice"
               aria-label={`Позвонить: ${companyInfo.phone}`}
             >
-              <Phone className="h-5 w-5" />
+              <Phone className="h-4 w-4" />
             </a>
             <a
               href={lkUrls.register}
