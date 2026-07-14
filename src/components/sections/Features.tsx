@@ -40,8 +40,15 @@ export default function Features() {
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
           Возможности ИИ-турменеджера —{" "}
-          <span className="text-accent">быстрее живого менеджера в 10 раз</span>
+          <span className="text-accent">
+            менеджеры работают в 10 раз эффективнее
+          </span>
         </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base text-body sm:text-lg">
+          Ассистент на базе Tourvisor берёт на себя до 80% рутины — подбор,
+          консультации, типовые вопросы — и передаёт менеджеру готовую заявку
+          с контактами.
+        </p>
       </motion.div>
 
       <motion.div

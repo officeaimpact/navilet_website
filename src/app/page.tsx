@@ -1,11 +1,8 @@
 import Navigation from "@/components/sections/Navigation";
 import Hero from "@/components/sections/Hero";
-import ProblemSolution from "@/components/sections/ProblemSolution";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Features from "@/components/sections/Features";
-import LiveDemo from "@/components/sections/LiveDemo";
 import NetworkResults from "@/components/sections/NetworkResults";
-import Technologies from "@/components/sections/Technologies";
 import Metrics from "@/components/sections/Metrics";
 import Partners from "@/components/sections/Partners";
 import Events from "@/components/sections/Events";
@@ -70,7 +67,7 @@ const homepageJsonLd = {
       isAccessibleForFree: false,
       featureList: [
         "Подбор туров по 50+ странам в реальном времени через Tourvisor",
-        "Живой диалог на естественном русском языке (LLM GPT-5-mini)",
+        "Живой диалог на естественном русском языке",
         "Актуальные цены и наличие от туроператоров",
         "Консультация по отелям: пляж, питание, инфраструктура",
         "Информация о перелётах, авиакомпаниях, пересадках",
@@ -157,22 +154,19 @@ export default function Home() {
       <main>
         <Hero />
         <NetworkResults />
-        <ProblemSolution />
         <InlineCTA
-          text="Хотите перестать терять заявки?"
+          text="Ассистент берёт до 80% рутины — менеджеру остаётся готовая заявка"
           buttonText="Подключить за 1 день"
         />
         <HowItWorks />
         <Features />
-        <LiveDemo />
-        <Technologies />
+        <DashboardPromo />
         <Metrics />
         <Partners />
         <Events />
         <Audience />
         <Pricing />
         <Integration />
-        <DashboardPromo />
         <FAQ />
         <CallToAction />
       </main>

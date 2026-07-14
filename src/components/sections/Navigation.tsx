@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { navLinks, lkUrls } from "@/lib/content";
-import { Menu, X } from "lucide-react";
+import { navLinks, lkUrls, companyInfo } from "@/lib/content";
+import { Menu, X, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -118,6 +118,25 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="hidden h-5 w-px bg-blue-subtle/70 xl:block"
+            />
+            <a
+              href={`tel:${companyInfo.phoneRaw}`}
+              className="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-semibold text-heading transition-colors hover:text-accent xl:inline-flex"
+              aria-label="Позвонить нам"
+            >
+              <Phone className="h-4 w-4 text-accent" />
+              {companyInfo.phone}
+            </a>
+            <a
+              href={`tel:${companyInfo.phoneRaw}`}
+              className="inline-flex items-center justify-center rounded-lg p-2 text-accent transition-colors hover:bg-blue-ice xl:hidden"
+              aria-label={`Позвонить: ${companyInfo.phone}`}
+            >
+              <Phone className="h-5 w-5" />
+            </a>
             <a
               href={lkUrls.register}
               onClick={() =>
@@ -189,6 +208,13 @@ export default function Navigation() {
                   <p className="text-center text-xs text-muted">
                     7 дней бесплатно · без карты
                   </p>
+                  <a
+                    href={`tel:${companyInfo.phoneRaw}`}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-blue-subtle/60 px-6 py-3 text-base font-semibold text-heading transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Phone className="h-4 w-4 text-accent" />
+                    {companyInfo.phone}
+                  </a>
                 </div>
               </div>
             </motion.div>

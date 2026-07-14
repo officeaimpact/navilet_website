@@ -315,7 +315,7 @@ A: На российском рынке нет аналогов с полной 
 - Tourvisor-интеграция: https://navilet.ru/integraciya-tourvisor
 - Личный кабинет: https://navilet.ru/dashboard
 - Прогнозы и предиктивная аналитика: https://navilet.ru/prognozy
-- Демо-виджет: https://navilet.ru/#demo
+- Живое демо ассистента: https://navilet.ru/demo
 - Политика конфиденциальности: https://navilet.ru/privacy
 - Telegram: https://t.me/navylet_ai
 - Email: office@aimpact.ru

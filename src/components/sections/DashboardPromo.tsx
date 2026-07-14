@@ -15,8 +15,9 @@ import {
   BarChart3,
   MessageSquare,
   Palette,
-  Activity,
+  TrendingUp,
   ArrowRight,
+  PlayCircle,
 } from "lucide-react";
 
 const miniFeatures = [
@@ -24,6 +25,11 @@ const miniFeatures = [
     icon: BarChart3,
     title: "Аналитика в реальном времени",
     description: "15+ графиков, воронки, тепловые карты, экспорт CSV",
+  },
+  {
+    icon: TrendingUp,
+    title: "Прогнозы и ИИ-аналитика",
+    description: "Прогноз заявок и выручки, барометр спроса по сети",
   },
   {
     icon: MessageSquare,
@@ -34,11 +40,6 @@ const miniFeatures = [
     icon: Palette,
     title: "Кастомизация виджета",
     description: "Цвета, логотип, аватары — белый лейбл под ваш бренд",
-  },
-  {
-    icon: Activity,
-    title: "Мониторинг системы",
-    description: "Статус инфраструктуры, ИИ-ассистенты, аптайм",
   },
 ];
 
@@ -109,9 +110,15 @@ export default function DashboardPromo() {
 
       <motion.div
         variants={fadeInUp}
-        className="mt-10 text-center"
+        className="mt-10 flex flex-wrap items-center justify-center gap-4"
       >
-        <Button variant="primary" size="lg" href="/dashboard">
+        <Button variant="primary" size="lg" href="/demo">
+          <span className="flex items-center gap-2">
+            <PlayCircle className="h-5 w-5" />
+            Протестировать демо
+          </span>
+        </Button>
+        <Button variant="outline" size="lg" href="/dashboard">
           <span className="flex items-center gap-2">
             Подробнее о личном кабинете
             <ArrowRight className="h-4 w-4" />
