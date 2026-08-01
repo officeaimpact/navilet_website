@@ -9,13 +9,13 @@ import {
   scaleIn,
   fadeIn,
 } from "@/lib/animations";
-import { heroContent, promo, lkUrls } from "@/lib/content";
+import { heroContent, promo } from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import Button from "@/components/ui/Button";
 import DemoWidget from "@/components/DemoWidget";
 import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
 import { demoScenarios } from "@/lib/scenarios";
-import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
+import { useLeadForm } from "@/contexts/LeadFormContext";
 import { Globe, MessageSquare, Sparkles } from "lucide-react";
 
 function PartnerLogos() {
@@ -45,6 +45,7 @@ function PartnerLogos() {
 export default function Hero() {
   const words = heroContent.title.split(" ");
   const heroScenario = demoScenarios[0];
+  const { openForm } = useLeadForm();
   const [promoOn, setPromoOn] = useState(false);
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export default function Hero() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-semibold text-accent"
             >
               <Sparkles className="h-4 w-4" />
-              {promo.deadlineLabel} — 0&nbsp;₽ за подключение
+              {promo.headline}
             </motion.div>
           )}
 
@@ -109,10 +110,7 @@ export default function Hero() {
             <Button
               variant="primary"
               size="lg"
-              href={lkUrls.register}
-              onClick={() =>
-                reachMetrikaGoal(metrikaGoals.trialClick, { source: "hero" })
-              }
+              onClick={() => openForm({ source: "hero" })}
             >
               {heroContent.ctaPrimary}
             </Button>
@@ -125,7 +123,7 @@ export default function Hero() {
             variants={fadeInUp}
             className="mb-10 text-sm text-muted"
           >
-            7 дней бесплатно · без карты · регистрация за 2 минуты
+            Месяц бесплатно · подключение 0 ₽ · дальше от 1 990 ₽/мес
           </motion.p>
 
           <PartnerLogos />

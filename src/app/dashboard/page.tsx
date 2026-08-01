@@ -12,9 +12,9 @@ import DashboardBenefits from "@/components/dashboard/DashboardBenefits";
 import DashboardCTA from "@/components/dashboard/DashboardCTA";
 
 export const metadata = {
-  title: { absolute: "Личный кабинет ИИ-турменеджера | Навылет! AI" },
+  title: { absolute: "Личный кабинет ИИ-ассистента | Навылет! AI" },
   description:
-    "Аналитика диалогов, прогнозы спроса и продаж, управление виджетом, история заявок и мониторинг. Полный контроль над ИИ-турменеджером для турагентств в едином личном кабинете на lk.navilet.ru.",
+    "Аналитика диалогов, прогнозы спроса и продаж, управление виджетом, история заявок и мониторинг. Полный контроль над ИИ-ассистентом для турагентств в едином личном кабинете на lk.navilet.ru.",
   keywords: [
     "личный кабинет турагентства",
     "аналитика ИИ турагентство",
@@ -25,7 +25,7 @@ export const metadata = {
   ],
   alternates: { canonical: "/dashboard" },
   openGraph: {
-    title: "Личный кабинет ИИ-турменеджера — Навылет! AI",
+    title: "Личный кабинет ИИ-ассистента — Навылет! AI",
     description:
       "Аналитика, история диалогов, настройка виджета и мониторинг. Управляйте ИИ-ассистентом для турагентства из единого интерфейса.",
     url: "https://navilet.ru/dashboard",
@@ -35,7 +35,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Личный кабинет ИИ-турменеджера — Навылет! AI",
+    title: "Личный кабинет ИИ-ассистента — Навылет! AI",
     description:
       "Аналитика, история диалогов, настройка виджета и мониторинг.",
     images: ["/og-image.png"],

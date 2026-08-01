@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { navLinks, lkUrls, companyInfo } from "@/lib/content";
+import { navLinks, companyInfo } from "@/lib/content";
 import { Menu, X, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
-import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 function isCtaLink(href: string) {
   return href === "/#cta";
@@ -98,7 +97,7 @@ export default function Navigation() {
           >
             <Image
               src="/logo.svg"
-              alt="Навылет! AI — ИИ-турменеджер для турагентств"
+              alt="Навылет! AI — ИИ-ассистент для турагентств"
               width={220}
               height={48}
               priority
@@ -126,16 +125,13 @@ export default function Navigation() {
             >
               <Phone className="h-4 w-4" />
             </a>
-            <a
-              href={lkUrls.register}
-              onClick={() =>
-                reachMetrikaGoal(metrikaGoals.trialClick, { source: "nav" })
-              }
-              className="hidden items-center justify-center whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-accent-hover sm:inline-flex"
+            <button
+              onClick={() => openForm({ source: "nav" })}
+              className="hidden cursor-pointer items-center justify-center whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-accent-hover sm:inline-flex"
             >
-              <span className="hidden xl:inline">Подключить за 2 минуты</span>
+              <span className="hidden xl:inline">Подключить бесплатно</span>
               <span className="xl:hidden">Подключить</span>
-            </a>
+            </button>
 
             <button
               onClick={() =>
@@ -182,20 +178,17 @@ export default function Navigation() {
                   )
                 )}
                 <div className="mt-4 space-y-3">
-                  <a
-                    href={lkUrls.register}
+                  <button
                     onClick={() => {
-                      reachMetrikaGoal(metrikaGoals.trialClick, {
-                        source: "nav_mobile",
-                      });
                       closeMobileMenu();
+                      openForm({ source: "nav_mobile" });
                     }}
-                    className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-hover"
+                    className="inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
-                    Подключить за 2 минуты
-                  </a>
+                    Подключить бесплатно
+                  </button>
                   <p className="text-center text-xs text-muted">
-                    7 дней бесплатно · без карты
+                    Месяц бесплатно · подключение 0 ₽
                   </p>
                   <a
                     href={`tel:${companyInfo.phoneRaw}`}

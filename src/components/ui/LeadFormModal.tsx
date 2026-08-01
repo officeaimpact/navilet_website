@@ -1,65 +1,65 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { submitLeadForm } from "@/lib/submitForm";
-import {
-  pricingPlans,
-  crossChannelAddons,
-  channelOptions,
-  type ChannelId,
-  type PricingPlan,
-} from "@/lib/content";
+import { pricingPlans, lkUrls, promo, trial, type PricingPlan } from "@/lib/content";
+import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import Link from "next/link";
 import {
   X,
   User,
-  Building2,
   Phone,
-  Mail,
   CheckCircle,
   Sparkles,
   Loader2,
   Globe,
   MessageSquare,
-  Layers,
+  ArrowRight,
+  ArrowLeft,
+  ChevronRight,
+  Gift,
+  TrendingUp,
+  Zap,
+  Headset,
 } from "lucide-react";
 
-const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u202F");
+type TrialChannelId = "web" | "max";
 
-const channelIcons: Record<ChannelId, typeof Globe> = {
-  web: Globe,
-  max: MessageSquare,
-  cross: Layers,
-};
+const trialChannels: { id: TrialChannelId; label: string; Icon: typeof Globe }[] = [
+  { id: "web", label: "Web-виджет", Icon: Globe },
+  { id: "max", label: "MAX-мессенджер", Icon: MessageSquare },
+];
 
-const channelShortLabel: Record<ChannelId, string> = {
+const channelShortLabel: Record<TrialChannelId, string> = {
   web: "Web",
   max: "MAX",
-  cross: "Web + MAX",
 };
+
+type Step = "choice" | "request";
 
 export default function LeadFormModal() {
   const { isOpen, preset, closeForm } = useLeadForm();
 
+  const [step, setStep] = useState<Step>("choice");
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [consent, setConsent] = useState(false);
   const [started, setStarted] = useState(false);
+  const [promoOn, setPromoOn] = useState(false);
 
-  const [selectedPlanId, setSelectedPlanId] = useState<PricingPlan["id"] | null>(null);
-  const [selectedChannel, setSelectedChannel] = useState<ChannelId>("web");
+  const [presetPlanId, setPresetPlanId] = useState<PricingPlan["id"] | null>(null);
+  const [selectedChannel, setSelectedChannel] = useState<TrialChannelId>("web");
+  /** Крупный поток: больше лимита бесплатного месяца, условия индивидуально. */
+  const [bigVolume, setBigVolume] = useState(false);
 
   const handleFormStart = () => {
     if (started) return;
     setStarted(true);
-    reachMetrikaGoal(metrikaGoals.leadFormStart, {
-      form: "modal",
-      plan_id: selectedPlanId ?? undefined,
-    });
+    reachMetrikaGoal(metrikaGoals.leadFormStart, { form: "modal" });
   };
 
   /** Восстановить пресет при открытии */
@@ -70,20 +70,24 @@ export default function LeadFormModal() {
     setError(null);
     setConsent(false);
     setStarted(false);
+    setBigVolume(false);
+    setPromoOn(isPromoActive());
+    setStep(preset?.path === "request" ? "request" : "choice");
 
-    // Plan: либо по id, либо угадаем по имени (legacy)
+    // Пресет тарифа (клик на карточке) — уходит в ЛК и менеджеру как контекст
+    let planId: PricingPlan["id"] | null = null;
     if (preset?.planId) {
-      setSelectedPlanId(preset.planId);
+      planId = preset.planId;
     } else if (preset?.planName) {
-      const found = pricingPlans.find(
-        (p) => p.name.toLowerCase() === preset.planName!.toLowerCase()
-      );
-      setSelectedPlanId(found?.id ?? null);
-    } else {
-      setSelectedPlanId(null);
+      planId =
+        pricingPlans.find(
+          (p) => p.name.toLowerCase() === preset.planName!.toLowerCase()
+        )?.id ?? null;
     }
+    setPresetPlanId(planId);
 
-    setSelectedChannel(preset?.channelId ?? "web");
+    // На тест — один канал: «cross» сводим к web, второй добавляется позже
+    setSelectedChannel(preset?.channelId === "max" ? "max" : "web");
 
     return () => {
       document.body.style.overflow = "";
@@ -98,35 +102,19 @@ export default function LeadFormModal() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, closeForm]);
 
-  const selectedPlan = useMemo(
-    () => pricingPlans.find((p) => p.id === selectedPlanId) ?? null,
-    [selectedPlanId]
-  );
+  const presetPlan = presetPlanId
+    ? pricingPlans.find((p) => p.id === presetPlanId) ?? null
+    : null;
 
-  const crossAddon = useMemo(
-    () =>
-      selectedPlan
-        ? crossChannelAddons.find((a) => a.planId === selectedPlan.id) ?? null
-        : null,
-    [selectedPlan]
-  );
-
-  /** Превью «итого / диалоги» под селекторами */
-  const preview = useMemo(() => {
-    if (!selectedPlan) return null;
-    if (selectedChannel === "cross" && crossAddon) {
-      return {
-        total: crossAddon.totalPrice,
-        dialogs: crossAddon.totalDialogs,
-        channel: "Web + MAX",
-      };
-    }
-    return {
-      total: selectedPlan.price,
-      dialogs: selectedPlan.dialogs,
-      channel: selectedChannel === "max" ? "MAX" : "Web",
-    };
-  }, [selectedPlan, selectedChannel, crossAddon]);
+  const handleSelfRegister = () => {
+    reachMetrikaGoal(metrikaGoals.trialClick, {
+      source: "lead_form_modal",
+      plan_id: presetPlanId ?? undefined,
+    });
+    window.location.href = presetPlanId
+      ? `${lkUrls.register}?plan=${presetPlanId}`
+      : lkUrls.register;
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,20 +122,18 @@ export default function LeadFormModal() {
     setError(null);
     try {
       await submitLeadForm(e.currentTarget, {
-        planName: selectedPlan?.name ?? null,
-        channelLabel: selectedPlan ? channelShortLabel[selectedChannel] : null,
-        monthlyPrice: preview?.total ?? null,
-        dialogs: preview?.dialogs ?? null,
+        planName: presetPlan?.name ?? null,
+        dialogsRange: bigVolume
+          ? "больше 200 диалогов/мес — обсудить индивидуально"
+          : null,
+        channelLabel: channelShortLabel[selectedChannel],
         source: "modal",
       });
       reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
         form: "modal",
-        plan_id: selectedPlan?.id,
-        plan_name: selectedPlan?.name,
+        plan_id: presetPlanId ?? undefined,
         channel_id: selectedChannel,
-        channel: selectedPlan ? channelShortLabel[selectedChannel] : null,
-        monthly_price: preview?.total,
-        dialogs: preview?.dialogs,
+        big_volume: bigVolume,
       });
       setSubmitted(true);
     } catch (err) {
@@ -156,6 +142,14 @@ export default function LeadFormModal() {
       setSending(false);
     }
   };
+
+  const badgeText =
+    promoOn && promo.deadlineLabel
+      ? `${trial.label} — акция ${promo.deadlineLabel}`
+      : trial.label;
+
+  const inputClass =
+    "w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10";
 
   return (
     <AnimatePresence>
@@ -200,26 +194,143 @@ export default function LeadFormModal() {
 
             <div className="flex-1 overflow-y-auto px-6 pb-6 pt-6 sm:px-8 sm:pb-7">
               <AnimatePresence mode="wait">
-                {!submitted ? (
+                {submitted ? (
                   <motion.div
-                    key="form"
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, y: -8 }}
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.22, 1, 0.36, 1] as const,
+                    }}
+                    className="flex flex-col items-center gap-4 py-8"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        delay: 0.15,
+                        duration: 0.5,
+                        ease: [0.22, 1, 0.36, 1] as const,
+                      }}
+                      className="flex h-16 w-16 items-center justify-center rounded-full bg-green-50"
+                    >
+                      <CheckCircle className="h-10 w-10 text-green-500" />
+                    </motion.div>
+                    <h3 className="font-display text-2xl font-bold text-heading">
+                      Заявка отправлена!
+                    </h3>
+                    <p className="max-w-xs text-center text-sm text-muted">
+                      Мы свяжемся с вами в ближайшее время и подключим
+                      бесплатный период — {trial.days} дней.
+                    </p>
+                    <button
+                      onClick={closeForm}
+                      className="mt-2 cursor-pointer rounded-lg px-6 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent/5"
+                    >
+                      Закрыть
+                    </button>
+                  </motion.div>
+                ) : step === "choice" ? (
+                  /* ── Шаг 1: выбор пути ──────────────────────── */
+                  <motion.div
+                    key="choice"
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -12 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {/* Header */}
                     <div className="mb-5">
                       <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-accent/5 px-3 py-1 text-xs font-semibold text-accent">
                         <Sparkles className="h-3.5 w-3.5" />
-                        7 дней бесплатно
+                        {badgeText}
                       </div>
                       <h3 className="font-display text-2xl font-bold text-heading">
-                        Подключить ИИ-ассистента
+                        Первый месяц — бесплатно
                       </h3>
                       <p className="mt-1.5 text-sm text-muted">
-                        {selectedPlan
-                          ? "Выберите тариф и канал — мы свяжемся для настройки за 1 день."
-                          : "Оставьте заявку и мы свяжемся для настройки за 1 день."}
+                        {trial.days} дней и {trial.capLabel}. Как вам удобнее
+                        подключиться?
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <button
+                        type="button"
+                        onClick={handleSelfRegister}
+                        className="group flex w-full cursor-pointer items-center gap-4 rounded-2xl border border-accent/25 bg-gradient-to-br from-blue-ice/40 to-white p-4 text-left transition-all duration-200 hover:border-accent/50 hover:shadow-[0_4px_16px_rgba(0,151,245,0.15)] sm:p-5"
+                      >
+                        <span
+                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-md"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, #0062EF 0%, #0097F5 60%, #00CCF5 100%)",
+                          }}
+                        >
+                          <Zap className="h-5 w-5" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center gap-2 font-display text-base font-bold text-heading">
+                            Подключусь сам
+                            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent">
+                              2 минуты
+                            </span>
+                          </span>
+                          <span className="mt-0.5 block text-sm text-body">
+                            Регистрация в личном кабинете — код виджета сразу.
+                          </span>
+                        </span>
+                        <ChevronRight className="h-5 w-5 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setStep("request")}
+                        className="group flex w-full cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 text-left transition-all duration-200 hover:border-accent/40 hover:bg-blue-ice/20 sm:p-5"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                          <Headset className="h-5 w-5 text-accent" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-display text-base font-bold text-heading">
+                            Оставить заявку менеджеру
+                          </span>
+                          <span className="mt-0.5 block text-sm text-body">
+                            Подключим под ключ и свяжемся в тот же день.
+                          </span>
+                        </span>
+                        <ChevronRight className="h-5 w-5 shrink-0 text-muted transition-transform group-hover:translate-x-0.5" />
+                      </button>
+                    </div>
+
+                    <p className="mt-5 text-center text-xs text-muted">
+                      {trial.label} • {trial.capLabel} • Подключение 0 ₽
+                    </p>
+                  </motion.div>
+                ) : (
+                  /* ── Шаг 2: заявка менеджеру ────────────────── */
+                  <motion.div
+                    key="request"
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 12 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="mb-5">
+                      <button
+                        type="button"
+                        onClick={() => setStep("choice")}
+                        className="mb-3 inline-flex cursor-pointer items-center gap-1 text-xs font-semibold text-muted transition-colors hover:text-accent"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                        Назад
+                      </button>
+                      <h3 className="font-display text-2xl font-bold text-heading">
+                        Заявка на подключение
+                      </h3>
+                      <p className="mt-1.5 text-sm text-muted">
+                        Менеджер настроит всё под ключ и свяжется с вами в тот
+                        же день.
                       </p>
                     </div>
 
@@ -237,55 +348,30 @@ export default function LeadFormModal() {
                         aria-hidden="true"
                         className="absolute left-[-9999px] h-0 w-0 opacity-0"
                       />
-                      {/* ── Plan selector ──────────────────────── */}
-                      <div>
-                        <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">
-                          Тариф
-                        </label>
-                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-                          {pricingPlans.map((p) => {
-                            const active = selectedPlanId === p.id;
-                            return (
-                              <button
-                                key={p.id}
-                                type="button"
-                                onClick={() => {
-                                  setSelectedPlanId(p.id);
-                                  reachMetrikaGoal(
-                                    metrikaGoals.leadFormPlanSelect,
-                                    { plan_id: p.id, plan_name: p.name }
-                                  );
-                                }}
-                                className={`group relative flex flex-col items-center gap-0.5 rounded-xl border px-2 py-2.5 text-center transition-all duration-200 ${
-                                  active
-                                    ? "border-accent bg-accent/5 shadow-[0_2px_8px_rgba(0,151,245,0.15)]"
-                                    : "border-gray-200 bg-white hover:border-accent/40 hover:bg-blue-ice/40"
-                                }`}
-                              >
-                                <span
-                                  className={`text-[11px] font-bold uppercase tracking-wide ${
-                                    active ? "text-accent" : "text-heading"
-                                  }`}
-                                >
-                                  {p.name}
-                                </span>
-                                <span className="text-[11px] font-medium text-muted">
-                                  {fmt(p.price)} ₽
-                                </span>
-                              </button>
-                            );
-                          })}
+
+                      {/* ── Что входит в бесплатный месяц ──────── */}
+                      <div className="flex items-center gap-3 rounded-xl border border-accent/15 bg-gradient-to-br from-blue-ice/50 to-white px-4 py-3">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10">
+                          <Gift className="h-4 w-4 text-accent" />
+                        </span>
+                        <div>
+                          <p className="text-sm font-bold text-heading">
+                            Первый месяц бесплатно
+                          </p>
+                          <p className="text-xs text-body">
+                            {trial.days} дней · {trial.capLabel} · подключение
+                            0 ₽
+                          </p>
                         </div>
                       </div>
 
-                      {/* ── Channel selector ──────────────────── */}
+                      {/* ── Канал (один на тест) ───────────────── */}
                       <div>
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">
-                          Канал
+                          Какой канал подключаем
                         </label>
-                        <div className="grid grid-cols-3 gap-2">
-                          {channelOptions.map((ch) => {
-                            const Icon = channelIcons[ch.id];
+                        <div className="grid grid-cols-2 gap-2">
+                          {trialChannels.map((ch) => {
                             const active = selectedChannel === ch.id;
                             return (
                               <button
@@ -298,79 +384,92 @@ export default function LeadFormModal() {
                                     {
                                       channel_id: ch.id,
                                       channel_label: ch.label,
-                                      plan_id: selectedPlan?.id,
-                                      plan_name: selectedPlan?.name,
                                     }
                                   );
                                 }}
-                                className={`relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition-all duration-200 ${
+                                className={`flex items-center justify-center gap-2 rounded-xl border px-2 py-3 transition-all duration-200 ${
                                   active
                                     ? "border-accent bg-accent/5 shadow-[0_2px_8px_rgba(0,151,245,0.15)]"
                                     : "border-gray-200 bg-white hover:border-accent/40 hover:bg-blue-ice/40"
                                 }`}
                               >
-                                <Icon
+                                <ch.Icon
                                   className={`h-4 w-4 ${
                                     active ? "text-accent" : "text-muted"
                                   }`}
                                 />
                                 <span
-                                  className={`text-[11px] font-semibold leading-tight ${
+                                  className={`text-xs font-semibold ${
                                     active ? "text-accent" : "text-heading"
                                   }`}
                                 >
                                   {ch.label}
                                 </span>
-                                {ch.id === "cross" && (
-                                  <span className="text-[9px] font-medium uppercase tracking-wide text-muted">
-                                    Второй канал
-                                  </span>
-                                )}
                               </button>
                             );
                           })}
                         </div>
+                        <p className="mt-2 text-xs text-muted">
+                          Один канал на тест. Второй можно добавить после
+                          подключения.
+                        </p>
                       </div>
 
-                      {/* ── Live preview ─────────────────────── */}
-                      <AnimatePresence>
-                        {selectedPlan && preview && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
+                      {/* ── Крупный поток ──────────────────────── */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const next = !bigVolume;
+                          setBigVolume(next);
+                          if (next) {
+                            reachMetrikaGoal(metrikaGoals.leadFormPlanSelect, {
+                              dialogs_range: "больше 200",
+                            });
+                          }
+                        }}
+                        className={`flex w-full cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all duration-200 ${
+                          bigVolume
+                            ? "border-accent bg-accent/5 shadow-[0_2px_8px_rgba(0,151,245,0.15)]"
+                            : "border-gray-200 bg-white hover:border-accent/40 hover:bg-blue-ice/40"
+                        }`}
+                      >
+                        <span
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                            bigVolume ? "bg-accent/15" : "bg-gray-100"
+                          }`}
+                        >
+                          <TrendingUp
+                            className={`h-4 w-4 ${
+                              bigVolume ? "text-accent" : "text-muted"
+                            }`}
+                          />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span
+                            className={`block text-sm font-semibold ${
+                              bigVolume ? "text-accent" : "text-heading"
+                            }`}
                           >
-                            <div className="flex items-center justify-between gap-3 rounded-xl border border-accent/15 bg-gradient-to-br from-blue-ice/50 to-white px-4 py-3">
-                              <div>
-                                <p className="text-[10px] font-semibold uppercase tracking-wide text-accent">
-                                  {selectedPlan.name} · {preview.channel}
-                                </p>
-                                <p className="mt-0.5 font-display text-lg font-bold text-heading">
-                                  {fmt(preview.total)} ₽
-                                  <span className="ml-1 text-xs font-medium text-muted">
-                                    / мес
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">
-                                  Диалогов
-                                </p>
-                                <p className="font-display text-base font-bold text-heading">
-                                  {preview.dialogs}
-                                  <span className="ml-1 text-xs font-medium text-muted">
-                                    / мес
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                            У нас больше 200 диалогов в месяц
+                          </span>
+                          <span className="block text-xs text-body">
+                            Обсудим индивидуальные условия и лимиты.
+                          </span>
+                        </span>
+                        <span
+                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
+                            bigVolume
+                              ? "border-accent bg-accent"
+                              : "border-gray-300 bg-white"
+                          }`}
+                        >
+                          {bigVolume && (
+                            <CheckCircle className="h-3.5 w-3.5 text-white" />
+                          )}
+                        </span>
+                      </button>
 
-                      {/* ── Contact fields ──────────────────── */}
+                      {/* ── Контакты: имя + телефон ────────────── */}
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div className="relative">
                           <label htmlFor="modal-name" className="sr-only">
@@ -383,8 +482,7 @@ export default function LeadFormModal() {
                             name="name"
                             required
                             placeholder="Имя"
-                            autoFocus
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
+                            className={inputClass}
                           />
                         </div>
                         <div className="relative">
@@ -398,35 +496,7 @@ export default function LeadFormModal() {
                             name="phone"
                             required
                             placeholder="Телефон"
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
-                          />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div className="relative">
-                          <label htmlFor="modal-company" className="sr-only">
-                            Компания
-                          </label>
-                          <Building2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                          <input
-                            id="modal-company"
-                            type="text"
-                            name="company"
-                            placeholder="Компания (необязательно)"
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
-                          />
-                        </div>
-                        <div className="relative">
-                          <label htmlFor="modal-email" className="sr-only">
-                            Email
-                          </label>
-                          <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                          <input
-                            id="modal-email"
-                            type="email"
-                            name="email"
-                            placeholder="Email (необязательно)"
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10"
+                            className={inputClass}
                           />
                         </div>
                       </div>
@@ -466,7 +536,10 @@ export default function LeadFormModal() {
                             Отправка...
                           </>
                         ) : (
-                          "Отправить заявку"
+                          <>
+                            Отправить заявку
+                            <ArrowRight className="h-4 w-4" />
+                          </>
                         )}
                       </button>
 
@@ -477,46 +550,9 @@ export default function LeadFormModal() {
                       )}
 
                       <p className="text-center text-xs text-muted">
-                        Бесплатный период • Без карты • Интеграция за 1 день
+                        {trial.label} • {trial.capLabel} • Подключение 0 ₽
                       </p>
                     </form>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1] as const,
-                    }}
-                    className="flex flex-col items-center gap-4 py-8"
-                  >
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{
-                        delay: 0.15,
-                        duration: 0.5,
-                        ease: [0.22, 1, 0.36, 1] as const,
-                      }}
-                      className="flex h-16 w-16 items-center justify-center rounded-full bg-green-50"
-                    >
-                      <CheckCircle className="h-10 w-10 text-green-500" />
-                    </motion.div>
-                    <h3 className="font-display text-2xl font-bold text-heading">
-                      Заявка отправлена!
-                    </h3>
-                    <p className="max-w-xs text-center text-sm text-muted">
-                      Мы свяжемся с вами в ближайшее время для настройки
-                      ИИ-ассистента.
-                    </p>
-                    <button
-                      onClick={closeForm}
-                      className="mt-2 cursor-pointer rounded-lg px-6 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent/5"
-                    >
-                      Закрыть
-                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>

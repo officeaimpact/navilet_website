@@ -145,7 +145,7 @@ export default function ResheniyaHubPage() {
               Узнали свою проблему? Решите её за сегодня
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-white/70">
-              Регистрация за 2 минуты, 7 дней бесплатно, без карты.
+              Регистрация за 2 минуты, 30 дней бесплатно, подключение 0 ₽.
             </p>
             <div className="mt-6 flex justify-center">
               <RegisterCta source="resheniya_hub_bottom" compact dark />

@@ -4,15 +4,15 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import Pricing from "@/components/sections/Pricing";
 import FloatingCTA from "@/components/ui/FloatingCTA";
-import { pricingPlans, crossChannelAddons, maxChannelInstallation } from "@/lib/content";
+import { pricingPlans, crossChannelAddons } from "@/lib/content";
 import { ChevronRight, Check, Sparkles, Phone, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Тарифы ИИ-турменеджера — от 1 990 ₽/мес | Навылет! AI" },
+  title: { absolute: "Тарифы ИИ-ассистента — от 1 990 ₽/мес | Навылет! AI" },
   description:
-    "Прозрачные тарифы для турагентств и туроператоров: «Lite» 1 990 ₽/мес, «Старт» 3 290 ₽/мес, «Стандарт» 5 290 ₽/мес, «Бизнес» 7 990 ₽/мес, «Сеть» 14 990 ₽/мес. Web-виджет или MAX-мессенджер. 7 дней бесплатно.",
+    "Прозрачные тарифы для турагентств и туроператоров: «Lite» 1 990 ₽/мес, «Старт» 3 290 ₽/мес, «Стандарт» 5 290 ₽/мес, «Бизнес» 7 990 ₽/мес, «Сеть» 14 990 ₽/мес. Web-виджет или MAX-мессенджер. 30 дней бесплатно.",
   keywords: [
-    "тарифы ИИ-турменеджер",
+    "тарифы ИИ-ассистент",
     "стоимость ИИ-ассистент для турагентства",
     "цена чат-бот турагентство",
     "ИИ виджет цена",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/tarify" },
   openGraph: {
-    title: "Тарифы ИИ-турменеджера «Навылет! AI» — от 1 990 ₽/мес",
+    title: "Тарифы ИИ-ассистента «Навылет! AI» — от 1 990 ₽/мес",
     description:
       "Пять тарифов: от самостоятельного Lite до сетевого. Прозрачная цена за диалог, без скрытых платежей. Надстройка «Второй канал».",
     url: "https://navilet.ru/tarify",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Тарифы ИИ-турменеджера «Навылет! AI» — от 1 990 ₽/мес",
+    title: "Тарифы ИИ-ассистента «Навылет! AI» — от 1 990 ₽/мес",
     description:
-      "От 1 990 ₽/мес за ИИ-ассистента для турагентства. 7 дней бесплатно.",
+      "От 1 990 ₽/мес за ИИ-ассистента для турагентства. 30 дней бесплатно.",
     images: ["/og-image.png"],
   },
 };
@@ -70,7 +70,7 @@ const tarifyJsonLd = {
       "@type": "WebPage",
       "@id": `${siteUrl}/tarify#webpage`,
       url: `${siteUrl}/tarify`,
-      name: "Тарифы ИИ-турменеджера «Навылет! AI»",
+      name: "Тарифы ИИ-ассистента «Навылет! AI»",
       description:
         "Прозрачные тарифы для турагентств: Старт, Стандарт, Бизнес, Сеть. Web-виджет или MAX-мессенджер. Надстройка «Второй канал».",
       inLanguage: "ru-RU",
@@ -82,7 +82,7 @@ const tarifyJsonLd = {
     {
       "@type": "Product",
       "@id": `${siteUrl}/tarify#product`,
-      name: "Навылет! AI — ИИ-турменеджер (подписка)",
+      name: "Навылет! AI — ИИ-ассистент (подписка)",
       description:
         "ИИ-ассистент для турагентств и туроператоров. Подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Работает в Web-виджете или MAX-мессенджере.",
       brand: { "@id": `${siteUrl}/#organization` },
@@ -96,7 +96,7 @@ const tarifyJsonLd = {
         priceCurrency: "RUB",
         url: `${siteUrl}/tarify#${p.id}`,
         availability: "https://schema.org/InStock",
-        description: `${p.dialogs} диалогов в месяц. Инсталляция ${fmt(p.installation)} ₽. ${p.tagline}.`,
+        description: `${p.dialogs} диалогов в месяц. Подключение бесплатно. ${p.tagline}.`,
         eligibleRegion: { "@type": "Country", name: "Россия" },
         priceSpecification: {
           "@type": "UnitPriceSpecification",
@@ -148,11 +148,11 @@ export default function TarifyPage() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
             <Sparkles className="h-4 w-4 text-accent" />
             <span className="text-xs font-semibold text-accent sm:text-sm">
-              7 дней бесплатно · Без карты · Отмена в любой момент
+              30 дней бесплатно · Подключение 0 ₽ · Отмена в любой момент
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            Тарифы <span className="text-accent">ИИ-турменеджера</span>{" "}
+            Тарифы <span className="text-accent">ИИ-ассистента</span>{" "}
             «Навылет! AI»
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">
@@ -161,61 +161,6 @@ export default function TarifyPage() {
             оба канала сразу — добавьте «Второй канал» с льготным лимитом
             диалогов.
           </p>
-
-          {/* Comparison table */}
-          <div className="mt-10 overflow-hidden rounded-2xl border border-blue-subtle/50 bg-white text-left">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead className="bg-surface-alt">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-heading">
-                      Тариф
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Цена/мес
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Диалогов
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Сверхлимит
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Инсталляция
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-blue-subtle/30">
-                  {pricingPlans.map((p) => (
-                    <tr key={p.id} className="bg-white hover:bg-blue-ice/20">
-                      <td className="px-4 py-3 font-display font-semibold text-heading">
-                        {p.name}
-                        {p.popular && (
-                          <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
-                            популярный
-                          </span>
-                        )}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-heading">
-                        {fmt(p.price)} ₽
-                      </td>
-                      <td className="px-4 py-3 text-right text-body">
-                        {p.dialogs}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-right text-body">
-                        {p.extraDialog} ₽
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-right text-body">
-                        {p.installation === 0
-                          ? "0 ₽"
-                          : `${fmt(p.installation)} ₽`}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </section>
 
         {/* Reuse existing Pricing block for visual cards + cross-channel + installation */}
@@ -257,76 +202,144 @@ export default function TarifyPage() {
           </div>
         </section>
 
-        {/* Cross-channel summary */}
-        <section className="mx-auto max-w-5xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <h2 className="text-center font-display text-3xl font-bold text-heading sm:text-4xl">
-            Стоимость <span className="text-accent">«Второго канала»</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-body">
-            Подключите Web и MAX одновременно. Дополнительные диалоги во втором
-            канале — по льготной цене.
-          </p>
-          <div className="mt-10 overflow-hidden rounded-2xl border border-blue-subtle/50 bg-white">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead className="bg-surface-alt">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-heading">
-                      Тариф
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Доплата
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      +Диалоги
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Итого/мес
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Итого диалогов
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-heading">
-                      Сверхлимит во 2-м канале
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-blue-subtle/30">
-                  {crossChannelAddons.map((a) => {
-                    const plan = pricingPlans.find((p) => p.id === a.planId)!;
-                    return (
-                      <tr
-                        key={a.planId}
-                        className="bg-white hover:bg-blue-ice/20"
-                      >
-                        <td className="px-4 py-3 font-display font-semibold text-heading">
-                          {plan.name}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-right text-body">
-                          +{fmt(a.addonPrice)} ₽
-                        </td>
-                        <td className="px-4 py-3 text-right text-body">
-                          +{a.extraDialogs}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-heading">
-                          {fmt(a.totalPrice)} ₽
-                        </td>
-                        <td className="px-4 py-3 text-right text-body">
-                          {a.totalDialogs}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-right text-body">
-                          {a.extraDialogPrice} ₽
-                        </td>
+        {/* Сравнительные таблицы — свёрнуты, раскрываются по клику */}
+        <section className="mx-auto max-w-5xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
+          <details className="group rounded-2xl border border-blue-subtle/50 bg-white">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 sm:px-6 [&::-webkit-details-marker]:hidden">
+              <span className="font-display text-lg font-bold text-heading sm:text-xl">
+                Сравнить тарифы в таблице
+              </span>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/10 transition-transform duration-200 group-open:rotate-180">
+                <ChevronRight className="h-4 w-4 rotate-90 text-accent" />
+              </span>
+            </summary>
+
+            <div className="border-t border-blue-subtle/40 px-5 pb-6 pt-5 sm:px-6">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">
+                Базовые тарифы
+              </h3>
+              <div className="overflow-hidden rounded-xl border border-blue-subtle/50">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead className="bg-surface-alt">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-semibold text-heading">
+                          Тариф
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Цена/мес
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Диалогов
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Сверхлимит
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Подключение
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody className="divide-y divide-blue-subtle/30">
+                      {pricingPlans.map((p) => (
+                        <tr key={p.id} className="bg-white hover:bg-blue-ice/20">
+                          <td className="px-4 py-3 font-display font-semibold text-heading">
+                            {p.name}
+                            {p.popular && (
+                              <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
+                                популярный
+                              </span>
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-heading">
+                            {fmt(p.price)} ₽
+                          </td>
+                          <td className="px-4 py-3 text-right text-body">
+                            {p.dialogs}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-3 text-right text-body">
+                            {p.extraDialog} ₽
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-accent">
+                            0 ₽
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <h3 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-wide text-muted">
+                Надстройка «Второй канал» — Web и MAX одновременно
+              </h3>
+              <div className="overflow-hidden rounded-xl border border-blue-subtle/50">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead className="bg-surface-alt">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-semibold text-heading">
+                          Тариф
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Доплата
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          +Диалоги
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Итого/мес
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Итого диалогов
+                        </th>
+                        <th className="px-4 py-3 text-right font-semibold text-heading">
+                          Сверхлимит во 2-м канале
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-blue-subtle/30">
+                      {crossChannelAddons.map((a) => {
+                        const plan = pricingPlans.find(
+                          (p) => p.id === a.planId
+                        )!;
+                        return (
+                          <tr
+                            key={a.planId}
+                            className="bg-white hover:bg-blue-ice/20"
+                          >
+                            <td className="px-4 py-3 font-display font-semibold text-heading">
+                              {plan.name}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-3 text-right text-body">
+                              +{fmt(a.addonPrice)} ₽
+                            </td>
+                            <td className="px-4 py-3 text-right text-body">
+                              +{a.extraDialogs}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-heading">
+                              {fmt(a.totalPrice)} ₽
+                            </td>
+                            <td className="px-4 py-3 text-right text-body">
+                              {a.totalDialogs}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-3 text-right text-body">
+                              {a.extraDialogPrice} ₽
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <p className="mt-5 text-center text-sm text-muted">
+                Подключение MAX-канала бесплатное — разовых платежей нет. Все
+                цены с НДС.
+              </p>
             </div>
-          </div>
-          <p className="mt-6 text-center text-sm text-muted">
-            Разовая инсталляция MAX-канала — {fmt(maxChannelInstallation)} ₽.
-          </p>
+          </details>
         </section>
 
         {/* Contact CTA */}
@@ -337,7 +350,7 @@ export default function TarifyPage() {
             </h2>
             <p className="mt-4 text-base text-body sm:text-lg">
               Расскажите о вашем агентстве — поможем подобрать оптимальный
-              вариант. Можно начать с бесплатных 7 дней без карты.
+              вариант. Можно начать с бесплатных 30 дней.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a

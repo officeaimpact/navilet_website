@@ -5,9 +5,9 @@ import { useRef, useState } from "react";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer } from "@/lib/animations";
 import { integrationSteps, integrationCode } from "@/lib/content";
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import { Check, Copy, Code2, Settings, Rocket } from "lucide-react";
+import { Check, Copy, Code2, UserPlus, Rocket } from "lucide-react";
 
-const stepIcons = [Code2, Settings, Rocket];
+const stepIcons = [UserPlus, Code2, Rocket];
 
 function CodeBlock() {
   const [copied, setCopied] = useState(false);
@@ -117,8 +117,12 @@ export default function Integration() {
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
           Подключение за{" "}
-          <span className="text-accent">1 день</span>
+          <span className="text-accent">пару минут</span>
         </h2>
+        <p className="mx-auto mt-4 max-w-xl text-base text-body">
+          Сами через личный кабинет — или оставьте заявку, и менеджер настроит
+          всё под ключ.
+        </p>
       </motion.div>
 
       <div

@@ -6,7 +6,7 @@ interface SkolkovoBadgeProps {
 }
 
 /**
- * Официальный логотип «Участник проекта Сколково».
+ * Официальный логотип фонда «Сколково».
  *
  * По брендбуку Фонда запрещено менять цвет, пропорции и добавлять эффекты —
  * поэтому логотип используется как есть (официальный зелёный) и только
@@ -19,12 +19,12 @@ export default function SkolkovoBadge({
   return (
     <span
       className={`inline-flex items-center ${className}`}
-      title="Участник проекта «Сколково»"
+      title="Резидент ИТ-кластера Фонда «Сколково»"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/partners/skolkovo-uchastnik.png"
-        alt="Участник проекта «Сколково»"
+        alt="Резидент ИТ-кластера Фонда «Сколково»"
         loading="lazy"
         className={imgClassName}
         draggable={false}

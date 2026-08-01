@@ -6,14 +6,12 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 import {
   pricingPlans,
   crossChannelAddons,
-  maxChannelInstallation,
   promo,
   type PricingPlan,
   type CrossChannelAddon,
 } from "@/lib/content";
-import { isPromoActive, promoDaysLeft, pluralDays } from "@/lib/promo";
+import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
-import { lkUrls } from "@/lib/content";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
 import {
@@ -24,6 +22,7 @@ import {
   Globe,
   MessageSquare,
   Layers,
+  Inbox,
   Info,
 } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
@@ -214,80 +213,31 @@ function CrossChannelCard({
   );
 }
 
-function InstallationCard({
-  plan,
-  promoActive,
-}: {
-  plan: PricingPlan;
-  promoActive: boolean;
-}) {
-  return (
-    <motion.div
-      variants={fadeInUp}
-      className={`flex items-center gap-3 rounded-xl border bg-white px-3.5 py-3 transition-shadow duration-200 hover:shadow-[0_2px_12px_rgba(0,82,204,0.06)] sm:px-4 ${
-        promoActive ? "border-accent/30" : "border-blue-subtle/40"
-      }`}
-    >
-      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
-        <Settings className="h-4 w-4 text-accent" />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
-          {plan.name}
-        </p>
-        {plan.installation === 0 ? (
-          <p className="font-display text-base font-bold text-heading">
-            <span className="text-accent">0&nbsp;₽</span>
-          </p>
-        ) : promoActive ? (
-          <p className="font-display text-base font-bold text-heading">
-            <span className="mr-1.5 text-sm font-medium text-muted line-through">
-              {fmt(plan.installation)}&nbsp;₽
-            </span>
-            <span className="text-accent">0&nbsp;₽</span>
-            <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-accent">
-              по акции
-            </span>
-          </p>
-        ) : (
-          <p className="font-display text-base font-bold text-heading">
-            <span className="whitespace-nowrap">{fmt(plan.installation)}&nbsp;₽</span>
-            <span className="ml-1 text-xs font-medium text-muted">разово</span>
-          </p>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
 export default function Pricing() {
   const { openForm } = useLeadForm();
   const [promoActive, setPromoActive] = useState(false);
-  const [daysLeft, setDaysLeft] = useState(0);
 
   useEffect(() => {
     setPromoActive(isPromoActive());
-    setDaysLeft(promoDaysLeft());
   }, []);
 
   const handlePromoCta = () => {
     reachMetrikaGoal(metrikaGoals.promoClick);
-    window.location.href = lkUrls.register;
+    openForm();
   };
 
+  /** «Оставьте заявку» — сразу конструктор заявки, минуя выбор пути */
   const handleSelectPlan = (plan: PricingPlan, channel?: "web" | "max" | "cross") =>
-    openForm({ planId: plan.id, planName: plan.name, channelId: channel });
-
-  /** Самостоятельная регистрация в ЛК с меткой тарифа */
-  const handleRegister = (plan?: PricingPlan) => {
-    reachMetrikaGoal(metrikaGoals.trialClick, {
-      source: "pricing",
-      plan_id: plan?.id,
+    openForm({
+      planId: plan.id,
+      planName: plan.name,
+      channelId: channel,
+      path: "request",
     });
-    window.location.href = plan
-      ? `${lkUrls.register}?plan=${plan.id}`
-      : lkUrls.register;
-  };
+
+  /** «Начать бесплатно» — форма с выбором пути (сам / через менеджера) */
+  const handleRegister = (plan?: PricingPlan) =>
+    openForm(plan ? { planId: plan.id, planName: plan.name } : undefined);
 
   return (
     <SectionWrapper id="pricing">
@@ -296,11 +246,11 @@ export default function Pricing() {
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
           <Sparkles className="h-4 w-4 text-accent" />
           <span className="text-xs font-semibold text-accent sm:text-sm">
-            7 дней бесплатно • Без карты • Отмена в любой момент
+            30 дней бесплатно • Подключение 0 ₽ • Отмена в любой момент
           </span>
         </div>
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Тарифы <span className="text-accent">ИИ-турменеджера</span>
+          Тарифы <span className="text-accent">ИИ-ассистента</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-body">
           Каждый тариф работает в одном канале на выбор — Web-виджет или
@@ -332,16 +282,10 @@ export default function Pricing() {
               </span>
               <div>
                 <p className="font-display text-base font-bold text-heading sm:text-lg">
-                  Подключение бесплатно — 0&nbsp;₽ вместо инсталляции
+                  {promo.headline}
                 </p>
                 <p className="text-sm text-body">
-                  Только {promo.deadlineLabel}
-                  {daysLeft > 0 && (
-                    <span className="font-semibold text-accent">
-                      {" "}
-                      · осталось {daysLeft}&nbsp;{pluralDays(daysLeft)}
-                    </span>
-                  )}
+                  Подключение 0 ₽ · отмена в любой момент
                 </p>
               </div>
             </div>
@@ -435,87 +379,76 @@ export default function Pricing() {
         </motion.div>
       </motion.div>
 
-      {/* ── Installation ────────────────────────────────────────── */}
+      {/* ── Подключение бесплатно ───────────────────────────────── */}
       <motion.div variants={fadeInUp} className="mt-20">
         <div className="mb-6 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-subtle/60 bg-white px-4 py-1.5">
             <Settings className="h-4 w-4 text-accent" />
             <span className="text-xs font-semibold uppercase tracking-wide text-primary sm:text-sm">
-              Инсталляция · разовый платёж
+              Подключение · 0 ₽
             </span>
           </div>
           <h3 className="font-display text-2xl font-bold text-heading sm:text-3xl">
-            Подключение и настройка
+            Подключение и настройка — бесплатно
           </h3>
           <p className="mx-auto mt-3 max-w-xl text-sm text-body sm:text-base">
-            Разовый платёж при подключении — покрывает первичную настройку
-            ассистента и интеграцию с вашим сайтом или каналом.
+            Никаких разовых платежей ни на одном тарифе. Вы платите только
+            месячную подписку — настройку и запуск мы берём на себя.
           </p>
-          {promoActive && (
-            <p className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
-              <Sparkles className="h-4 w-4" />
-              {promo.deadlineLabel} подключение бесплатно для всех тарифов
-            </p>
-          )}
         </div>
 
-        {/* Installation cards by plan */}
+        {/* Что входит в подключение */}
         <motion.div
           variants={staggerContainer}
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5"
+          className="mx-auto grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4"
         >
-          {pricingPlans.map((plan) => (
-            <InstallationCard key={plan.id} plan={plan} promoActive={promoActive} />
+          {[
+            {
+              icon: Globe,
+              title: "Виджет на вашем сайте",
+              text: "Настройка под фирменный стиль и установка одной строкой кода.",
+            },
+            {
+              icon: Layers,
+              title: "Интеграция с Tourvisor",
+              text: "Уже подключена на нашей стороне — настраивать ничего не нужно.",
+            },
+            {
+              icon: MessageSquare,
+              title: "MAX-канал — тоже 0 ₽",
+              text: "Зарегистрируйтесь в MAX Бизнес — у вас появится свой чат-бот, и мы подключим его к ассистенту.",
+            },
+            {
+              icon: Inbox,
+              title: "Заявки — в CRM и на почту",
+              text: "Контакты клиентов из диалогов приходят на почту и передаются в вашу CRM по API.",
+            },
+          ].map((item) => (
+            <motion.div
+              key={item.title}
+              variants={fadeInUp}
+              className="flex items-start gap-3 rounded-xl border border-blue-subtle/40 bg-white px-4 py-3.5"
+            >
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
+                <item.icon className="h-4 w-4 text-accent" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-semibold text-heading">{item.title}</p>
+                <p className="mt-0.5 text-sm text-body">{item.text}</p>
+              </div>
+            </motion.div>
           ))}
-        </motion.div>
-
-        {/* MAX installation — separate */}
-        <motion.div
-          variants={fadeInUp}
-          className="mx-auto mt-5 flex max-w-2xl flex-col items-start gap-3 rounded-2xl border border-blue-subtle/50 bg-blue-ice/40 px-5 py-4 sm:flex-row sm:items-center sm:gap-4"
-        >
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-blue-subtle/60">
-            <MessageSquare className="h-5 w-5 text-accent" />
-          </div>
-          <div className="flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">
-              Инсталляция MAX-канала
-            </p>
-            {promoActive ? (
-              <p className="font-display text-lg font-bold text-heading">
-                <span className="mr-1.5 text-sm font-medium text-muted line-through">
-                  {fmt(maxChannelInstallation)}&nbsp;₽
-                </span>
-                <span className="text-accent">0&nbsp;₽</span>
-                <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-accent">
-                  бесплатно {promo.deadlineLabel}
-                </span>
-              </p>
-            ) : (
-              <p className="font-display text-lg font-bold text-heading">
-                <span className="whitespace-nowrap">
-                  {fmt(maxChannelInstallation)}&nbsp;₽
-                </span>{" "}
-                <span className="text-sm font-medium text-muted">разово</span>
-              </p>
-            )}
-            <p className="mt-0.5 text-xs text-body">
-              Отдельный ценник за подключение MAX — поверх инсталляции Web или
-              как самостоятельный платёж для MAX-only клиентов.
-            </p>
-          </div>
         </motion.div>
 
         {/* Small disclaimer */}
         <motion.p
           variants={fadeInUp}
-          className="mx-auto mt-4 flex max-w-2xl items-start justify-center gap-1.5 text-center text-xs text-muted"
+          className="mx-auto mt-6 flex max-w-2xl items-start justify-center gap-1.5 text-center text-xs text-muted"
         >
           <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
           <span>
             Все цены указаны с НДС — налог уже включён в стоимость подписок.
-            Подписка списывается ежемесячно, инсталляция — один раз при
-            подключении.
+            Подписка списывается ежемесячно, разовых платежей за подключение нет.
           </span>
         </motion.p>
       </motion.div>
@@ -532,7 +465,7 @@ export default function Pricing() {
           </span>
         </Button>
         <button
-          onClick={() => openForm()}
+          onClick={() => openForm({ path: "request" })}
           className="cursor-pointer text-sm font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
         >
           Нужна помощь с подключением? Оставьте заявку

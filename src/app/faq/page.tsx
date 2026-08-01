@@ -7,12 +7,12 @@ import { faqItems } from "@/lib/content";
 import { ChevronRight, HelpCircle, MessageCircleQuestion } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Частые вопросы про ИИ-турменеджер | Навылет! AI" },
+  title: { absolute: "Частые вопросы про ИИ-ассистент | Навылет! AI" },
   description:
     "Ответы на частые вопросы про ИИ-ассистент для турагентств: цены, технологии, подключение, безопасность, лимиты диалогов, интеграция с Tourvisor и MAX. Полный гид для турбизнеса.",
   keywords: [
     "ИИ-ассистент турагентство FAQ",
-    "ИИ-турменеджер вопросы",
+    "ИИ-ассистент вопросы",
     "Навылет AI вопросы",
     "как работает ИИ-ассистент в туризме",
     "виджет подбора туров FAQ",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/faq" },
   openGraph: {
-    title: "FAQ — частые вопросы про ИИ-турменеджер «Навылет! AI»",
+    title: "FAQ — частые вопросы про ИИ-ассистент «Навылет! AI»",
     description:
       "Полный гид: цены, технологии, подключение, безопасность, интеграции.",
     url: "https://navilet.ru/faq",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQ — частые вопросы про ИИ-турменеджер «Навылет! AI»",
+    title: "FAQ — частые вопросы про ИИ-ассистент «Навылет! AI»",
     description: "Ответы на популярные вопросы про ИИ-ассистент для турбизнеса.",
     images: ["/og-image.png"],
   },
@@ -54,7 +54,7 @@ const faqSections = [
     title: "Цены и тарифы",
     icon: HelpCircle,
     matcher: (q: string) =>
-      /сколько стоит|тариф|второй канал|инсталляц|диалог|лимит/i.test(q),
+      /сколько стоит|тариф|второй канал|подключени|диалог|лимит/i.test(q),
   },
   {
     id: "channels",
@@ -186,7 +186,7 @@ export default function FAQPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            Всё про <span className="text-accent">ИИ-турменеджер</span>{" "}
+            Всё про <span className="text-accent">ИИ-ассистент</span>{" "}
             «Навылет! AI»
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">

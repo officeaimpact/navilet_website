@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { X, Sparkles } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { promo } from "@/lib/content";
-import { isPromoActive, promoDaysLeft, pluralDays } from "@/lib/promo";
+import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
-const BANNER_H = 40;
+const BANNER_H = 36;
 const DISMISS_KEY = "promo_dismissed_" + promo.endDate;
 
 export default function PromoBanner() {
@@ -16,12 +16,10 @@ export default function PromoBanner() {
   const [dismissed, setDismissed] = useState(false);
   const [offset, setOffset] = useState(0);
   const [active, setActive] = useState(false);
-  const [days, setDays] = useState(0);
 
   useEffect(() => {
     setMounted(true);
     setActive(isPromoActive());
-    setDays(promoDaysLeft());
     try {
       setDismissed(localStorage.getItem(DISMISS_KEY) === "1");
     } catch {}
@@ -60,12 +58,12 @@ export default function PromoBanner() {
 
   const handleCta = () => {
     reachMetrikaGoal(metrikaGoals.promoClick);
-    openForm();
+    openForm({ source: "promo_banner" });
   };
 
   return (
     <div
-      className="fixed inset-x-0 top-0 z-[55] flex h-10 items-center justify-center gap-2 px-9 text-sm text-white sm:gap-3"
+      className="fixed inset-x-0 top-0 z-[55] flex h-9 items-center justify-center gap-2 px-9 text-[13px] text-white sm:gap-3"
       style={{
         transform: `translateY(-${offset}px)`,
         background:
@@ -74,20 +72,13 @@ export default function PromoBanner() {
     >
       <button
         onClick={handleCta}
-        className="flex min-w-0 cursor-pointer items-center gap-2 font-medium"
+        className="flex h-full min-w-0 cursor-pointer items-center gap-2 font-medium"
       >
-        <Sparkles className="hidden h-4 w-4 shrink-0 text-white/90 sm:block" />
+        <Sparkles className="hidden h-3.5 w-3.5 shrink-0 text-white/90 sm:block" />
         <span className="truncate sm:hidden">
           {active ? promo.short : promo.evergreenHeadline}
         </span>
-        <span className="hidden truncate sm:inline">
-          {headline}
-          {active && days > 0 && (
-            <span className="ml-1.5 font-semibold">
-              · осталось {days}&nbsp;{pluralDays(days)}
-            </span>
-          )}
-        </span>
+        <span className="hidden truncate sm:inline">{headline}</span>
       </button>
       <button
         onClick={handleCta}

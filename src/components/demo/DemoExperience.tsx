@@ -44,7 +44,7 @@ const steps = [
   {
     icon: Rocket,
     title: "Подключите себе",
-    text: "Такой же ассистент работает на вашем сайте и в мессенджерах. Запуск за 1 день.",
+    text: "Такой же ассистент работает на вашем сайте и в мессенджерах. Запуск за пару минут.",
   },
 ];
 
@@ -94,7 +94,7 @@ export default function DemoExperience() {
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.1] text-heading sm:text-5xl">
-            Попробуйте ИИ-турменеджера вживую
+            Попробуйте ИИ-ассистента вживую
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-body">
             Спросите ассистента про любой тур — направление, даты, бюджет, число
@@ -122,7 +122,7 @@ export default function DemoExperience() {
             </div>
             <p className="inline-flex items-center gap-2 rounded-full bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent">
               <Sparkles className="h-4 w-4" />
-              Свой ассистент за 2 минуты — доступ на 7 дней бесплатно, без карты
+              Свой ассистент за 2 минуты — доступ на 30 дней бесплатно
             </p>
             <span className="text-sm text-muted">
               или откройте чат кнопкой в правом нижнем углу →
@@ -245,14 +245,14 @@ export default function DemoExperience() {
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center sm:px-6 lg:px-8 lg:py-24">
           <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5" />
-            7 дней бесплатно
+            30 дней бесплатно
           </div>
           <h2 className="font-display text-3xl font-bold text-white sm:text-4xl">
             Хотите такого ассистента себе?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg text-white/70">
             Подключим ИИ-ассистента на ваш сайт и в мессенджеры (Web-виджет и
-            MAX). Запуск за 1 день — с вашим брендом и данными.
+            MAX). Запуск за пару минут — с вашим брендом и данными.
           </p>
 
           <div className="mt-9 flex flex-col items-center gap-3">
@@ -264,7 +264,7 @@ export default function DemoExperience() {
               Зарегистрироваться и начать пробный период
             </a>
             <span className="text-xs text-white/45">
-              Регистрация в личном кабинете · 7 дней бесплатно
+              Регистрация в личном кабинете · 30 дней бесплатно
             </span>
           </div>
 

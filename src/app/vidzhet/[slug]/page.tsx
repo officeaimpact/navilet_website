@@ -264,7 +264,7 @@ export default async function PlatformPage({
               Ассистент на вашем сайте {page.name} — уже сегодня
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-white/70">
-              Регистрация за 2 минуты, 7 дней бесплатно, карта не нужна.
+              Регистрация за 2 минуты, 30 дней бесплатно, карта не нужна.
             </p>
             <div className="mt-6 flex justify-center">
               <RegisterCta source={`vidzhet_${page.slug}_bottom`} compact dark />

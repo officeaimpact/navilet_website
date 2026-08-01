@@ -29,13 +29,13 @@ export default function Footer() {
               <h4 className="mb-4 font-display text-sm font-semibold text-heading">
                 {section.title}
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-3 [overflow-wrap:anywhere]">
                 {section.links.map((link) =>
                   CTA_HREFS.has(link.href) ? (
                     <li key={link.label}>
                       <button
                         onClick={() => openForm()}
-                        className="cursor-pointer text-sm text-body transition-colors hover:text-accent"
+                        className="cursor-pointer text-left text-sm text-body transition-colors hover:text-accent"
                       >
                         {link.label}
                       </button>
@@ -100,7 +100,7 @@ export default function Footer() {
             >
               <Image
                 src="/logo.svg"
-                alt="Навылет! AI — ИИ-турменеджер для турагентств"
+                alt="Навылет! AI — ИИ-ассистент для турагентств"
                 width={130}
                 height={29}
                 className="h-7 w-auto"

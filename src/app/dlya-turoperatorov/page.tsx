@@ -20,7 +20,7 @@ import {
 export const metadata: Metadata = {
   title: { absolute: "ИИ для туроператора — B2B и B2C | Навылет! AI" },
   description:
-    "ИИ-турменеджер для туроператоров: вооружите агентов мгновенным подбором по вашей базе или встройте виджет на B2C-сайт — клиенты получают предложения 24/7 без ожидания. Интеграция с Tourvisor, white-label, MAX-мессенджер.",
+    "ИИ-ассистент для туроператоров: вооружите агентов мгновенным подбором по вашей базе или встройте виджет на B2C-сайт — клиенты получают предложения 24/7 без ожидания. Интеграция с Tourvisor, white-label, MAX-мессенджер.",
   keywords: [
     "ИИ для туроператора",
     "ИИ-ассистент туроператор",
@@ -96,7 +96,7 @@ const tariffsForOperators = [
     icon: Users,
     title: "Региональный туроператор",
     rec: "Тариф «Стандарт» + Второй канал",
-    detail: "180 диалогов в месяц, Web + MAX, инсталляция 3 000 ₽",
+    detail: "180 диалогов в месяц, Web + MAX, подключение 0 ₽",
     price: "7 280 ₽/мес",
     when: "До 5 агентств-партнёров, базовая B2C-витрина",
     href: "/tarify#standart",
@@ -105,7 +105,7 @@ const tariffsForOperators = [
     icon: Briefcase,
     title: "Туроператор федерального уровня",
     rec: "Тариф «Бизнес» + Второй канал",
-    detail: "300 диалогов в месяц, Web + MAX, инсталляция 5 000 ₽",
+    detail: "300 диалогов в месяц, Web + MAX, подключение 0 ₽",
     price: "10 980 ₽/мес",
     when: "Активная B2C-витрина + 5–15 агентских партнёров",
     isPopular: true,
@@ -115,7 +115,7 @@ const tariffsForOperators = [
     icon: Network,
     title: "Сетевой холдинг / ассоциация",
     rec: "Тариф «Сеть» + Второй канал",
-    detail: "600 диалогов в месяц, Web + MAX, инсталляция 15 000 ₽",
+    detail: "600 диалогов в месяц, Web + MAX, подключение 0 ₽",
     price: "19 980 ₽/мес",
     when: "Региональные сети, ассоциации, B2B-маркетплейсы туров",
     href: "/tarify#set",
@@ -144,7 +144,7 @@ const operatorJsonLd = {
       url: `${siteUrl}/dlya-turoperatorov`,
       name: "ИИ для туроператора — «Навылет! AI»",
       description:
-        "ИИ-турменеджер для туроператоров: B2B-инструмент для агентов и B2C-виджет на сайт.",
+        "ИИ-ассистент для туроператоров: B2B-инструмент для агентов и B2C-виджет на сайт.",
       inLanguage: "ru-RU",
       isPartOf: { "@id": `${siteUrl}/#website` },
       breadcrumb: { "@id": `${siteUrl}/dlya-turoperatorov#breadcrumb` },
@@ -155,7 +155,7 @@ const operatorJsonLd = {
     {
       "@type": "Service",
       "@id": `${siteUrl}/dlya-turoperatorov#service`,
-      name: "ИИ-турменеджер «Навылет! AI» для туроператоров",
+      name: "ИИ-ассистент «Навылет! AI» для туроператоров",
       serviceType: "ИИ-автоматизация туроператоров (B2B + B2C)",
       provider: { "@id": `${siteUrl}/#organization` },
       areaServed: { "@type": "Country", name: "Россия" },
@@ -408,7 +408,7 @@ export default function ForOperatorsPage() {
             </h2>
             <p className="mt-4 text-base text-body sm:text-lg">
               Расскажите о ваших задачах — поможем спроектировать сценарий и
-              подобрать тариф. 7 дней бесплатно, без карты.
+              подобрать тариф. 30 дней бесплатно, подключение 0 ₽.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link

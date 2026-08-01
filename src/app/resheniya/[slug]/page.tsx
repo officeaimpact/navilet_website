@@ -268,7 +268,7 @@ export default async function ScenarioPage({
               Проверьте на своём агентстве — бесплатно
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-white/70">
-              Регистрация за 2 минуты, 7 дней теста, без карты и созвонов.
+              Регистрация за 2 минуты, 30 дней теста, без созвонов.
             </p>
             <div className="mt-6 flex justify-center">
               <RegisterCta source={`resheniya_${page.slug}_bottom`} compact dark />

@@ -23,7 +23,7 @@ const homepageJsonLd = {
       "@type": "WebPage",
       "@id": `${siteUrl}/#webpage`,
       url: siteUrl,
-      name: `${siteName} — ИИ-турменеджер для турагентств | подбор туров 24/7`,
+      name: `${siteName} — ИИ-ассистент для турагентств | подбор туров 24/7`,
       description: siteDescription,
       inLanguage: "ru-RU",
       isPartOf: { "@id": `${siteUrl}/#website` },
@@ -50,7 +50,7 @@ const homepageJsonLd = {
     {
       "@type": "SoftwareApplication",
       "@id": `${siteUrl}/#product`,
-      name: "Навылет! AI — ИИ-турменеджер",
+      name: "Навылет! AI — ИИ-ассистент",
       alternateName: ["Навылет AI", "navylet AI", "Navilet"],
       applicationCategory: "BusinessApplication",
       applicationSubCategory: "TravelApplication",
@@ -58,7 +58,7 @@ const homepageJsonLd = {
       browserRequirements: "Requires JavaScript",
       softwareVersion: "2.0",
       description:
-        "ИИ-турменеджер для турагентств и туроператоров: автоматический подбор туров, консультация по отелям, показ перелётов и актуальных цен — в живом диалоге с клиентом. Интеграция с агрегатором Tourvisor. Работает 24/7.",
+        "ИИ-ассистент для турагентств и туроператоров: автоматический подбор туров, консультация по отелям, показ перелётов и актуальных цен — в живом диалоге с клиентом. Интеграция с агрегатором Tourvisor. Работает 24/7.",
       url: siteUrl,
       image: `${siteUrl}/og-image.png`,
       screenshot: `${siteUrl}/og-image.png`,
@@ -74,7 +74,7 @@ const homepageJsonLd = {
         "Личный кабинет с аналитикой диалогов",
         "White-label кастомизация виджета под бренд",
         "Работает в Web-виджете и MAX-мессенджере",
-        "Подключение за 1 рабочий день",
+        "Подключение за пару минут",
       ],
       offers: {
         "@type": "AggregateOffer",
@@ -90,7 +90,7 @@ const homepageJsonLd = {
             price: "1990",
             priceCurrency: "RUB",
             description:
-              "30 диалогов в месяц • Web или MAX • инсталляция 0 ₽ • регистрация за 2 минуты",
+              "30 диалогов в месяц • Web или MAX • подключение 0 ₽ • регистрация за 2 минуты",
             url: `${siteUrl}/tarify#lite`,
             availability: "https://schema.org/InStock",
           },
@@ -99,7 +99,7 @@ const homepageJsonLd = {
             name: "Старт",
             price: "3290",
             priceCurrency: "RUB",
-            description: "50 диалогов в месяц • Web или MAX • инсталляция от 1 000 ₽",
+            description: "50 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#start`,
             availability: "https://schema.org/InStock",
           },
@@ -108,7 +108,7 @@ const homepageJsonLd = {
             name: "Стандарт",
             price: "5290",
             priceCurrency: "RUB",
-            description: "120 диалогов в месяц • Web или MAX • инсталляция 3 000 ₽",
+            description: "120 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#standart`,
             availability: "https://schema.org/InStock",
           },
@@ -117,7 +117,7 @@ const homepageJsonLd = {
             name: "Бизнес",
             price: "7990",
             priceCurrency: "RUB",
-            description: "200 диалогов в месяц • Web или MAX • инсталляция 5 000 ₽",
+            description: "200 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#biznes`,
             availability: "https://schema.org/InStock",
           },
@@ -126,7 +126,7 @@ const homepageJsonLd = {
             name: "Сеть",
             price: "14990",
             priceCurrency: "RUB",
-            description: "400 диалогов в месяц • Web или MAX • инсталляция 15 000 ₽",
+            description: "400 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#set`,
             availability: "https://schema.org/InStock",
           },
@@ -155,7 +155,7 @@ export default function Home() {
         <NetworkResults />
         <InlineCTA
           text="Ассистент берёт до 80% рутины — менеджеру остаётся готовая заявка"
-          buttonText="Подключить за 1 день"
+          buttonText="Подключить бесплатно"
         />
         <HowItWorks />
         <Features />

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import FloatingCTA from "@/components/ui/FloatingCTA";
+import RegisterCta from "@/components/seo/RegisterCta";
+import DemoFirstCta from "@/components/seo/DemoFirstCta";
 import {
   ChevronRight,
   Database,
@@ -17,10 +19,13 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Интеграция с Tourvisor — ИИ-подбор туров | Навылет! AI" },
+  title: {
+    absolute: "Tourvisor + ИИ: подбор туров для турагентства 24/7 | Навылет! AI",
+  },
   description:
-    "Готовая интеграция ИИ-ассистента «Навылет! AI» с агрегатором Tourvisor: 50+ стран, 500+ курортов, тысячи отелей. Live-цены, наличие, перелёты — в живом диалоге с клиентом 24/7. Подключение за 1 день.",
+    "Агентствам, которые работают с Tourvisor: ИИ-ассистент уже подключён к АПИ — вставьте одну строку кода на сайт, и он подбирает туры с живыми ценами в диалоге с клиентом круглосуточно. Демо без регистрации, 30 дней бесплатно, подключение 0 ₽.",
   keywords: [
+    "Tourvisor для турагентства",
     "интеграция Tourvisor",
     "Tourvisor API",
     "ИИ подбор туров",
@@ -34,10 +39,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/integraciya-tourvisor" },
   openGraph: {
-    title:
-      "Интеграция «Навылет! AI» с Tourvisor — ИИ-подбор туров в реальном времени",
+    title: "Tourvisor + ИИ-ассистент: подбор туров для турагентства 24/7",
     description:
-      "ИИ-ассистент с готовой интеграцией Tourvisor. 50+ стран, live-цены, мгновенный подбор.",
+      "АПИ Tourvisor уже подключён — одна строка кода на сайт, и ассистент подбирает туры с живыми ценами. Демо без регистрации.",
     url: "https://navilet.ru/integraciya-tourvisor",
     type: "website",
     locale: "ru_RU",
@@ -45,10 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Интеграция «Навылет! AI» с Tourvisor — ИИ-подбор туров",
+    title: "Tourvisor + ИИ: подбор туров для турагентства 24/7",
     description:
-      "ИИ-ассистент работает на базе АПИ Tourvisor — крупнейшего агрегатора туроператоров России.",
+      "АПИ Tourvisor уже подключён на нашей стороне. Одна строка кода — и ассистент работает. Демо без регистрации.",
     images: ["/og-image.png"],
   },
 };
@@ -117,7 +120,7 @@ const tourvisorJsonLd = {
       "@id": `${siteUrl}/integraciya-tourvisor#howto`,
       name: "Как подключить ИИ-ассистент с Tourvisor на сайт турагентства",
       description:
-        "Пошаговая инструкция подключения ИИ-турменеджера «Навылет! AI» с готовой интеграцией Tourvisor.",
+        "Пошаговая инструкция подключения ИИ-ассистента «Навылет! AI» с готовой интеграцией Tourvisor.",
       totalTime: "PT1H",
       estimatedCost: {
         "@type": "MonetaryAmount",
@@ -186,20 +189,13 @@ export default function TourvisorIntegrationPage() {
             интеграцию: вы вставляете одну строку кода на сайт, и ИИ-ассистент
             начинает подбирать туры в реальном времени.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/tarify"
-              className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-[1.02]"
-            >
-              Посмотреть тарифы
-            </Link>
-            <Link
-              href="/demo"
-              className="inline-flex items-center gap-2 rounded-xl border border-blue-subtle/50 bg-white px-6 py-3 font-semibold text-heading transition-colors hover:bg-blue-ice/30"
-            >
-              Попробовать демо
-            </Link>
-          </div>
+          <DemoFirstCta
+            source="integraciya_tourvisor_hero"
+            className="mt-8 justify-center"
+          />
+          <p className="mt-4 text-sm text-muted">
+            30 дней бесплатно · подключение 0 ₽ · одна строка кода на сайт
+          </p>
         </section>
 
         {/* Что такое Tourvisor */}
@@ -301,7 +297,7 @@ export default function TourvisorIntegrationPage() {
         <section className="mx-auto max-w-4xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="text-center">
             <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl">
-              Как подключить за <span className="text-accent">1 день</span>
+              Как подключить за <span className="text-accent">пару минут</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base text-body">
               Никаких сложных интеграций с Tourvisor — он уже подключён на
@@ -364,29 +360,69 @@ export default function TourvisorIntegrationPage() {
           </div>
         </section>
 
+        {/* По теме */}
+        <section className="mx-auto max-w-5xl px-5 py-12 sm:px-6 lg:px-8">
+          <h2 className="font-display text-2xl font-bold text-heading sm:text-3xl">
+            По теме
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+              {
+                href: "/blog/integraciya-tourvisor-ii-podbor",
+                title: "Как ИИ подбирает туры через Tourvisor",
+                text: "Откуда берутся цены, почему ассистент не выдумывает предложения и как это выглядит в диалоге.",
+              },
+              {
+                href: "/vidzhet",
+                title: "Установка виджета на ваш сайт",
+                text: "Пошаговые инструкции для Tilda, WordPress, 1С-Битрикс, Wix и самописных сайтов.",
+              },
+              {
+                href: "/dlya-turagentstv",
+                title: "Что получает турагентство",
+                text: "Ночные заявки, скорость ответа и разгрузка менеджеров — с цифрами по сети партнёров.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 transition-colors hover:border-accent/40 hover:bg-blue-ice/20"
+              >
+                <p className="font-display font-semibold text-heading group-hover:text-accent">
+                  {item.title}
+                </p>
+                <p className="mt-2 text-sm text-body">{item.text}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                  Читать
+                  <ChevronRight className="h-4 w-4" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="mx-auto max-w-3xl px-5 py-16 text-center sm:px-6 lg:px-8 lg:py-20">
           <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl">
             Готовая интеграция — без настроек на вашей стороне
           </h2>
           <p className="mt-4 text-base text-body sm:text-lg">
-            Попробуйте бесплатно 7 дней. Без карты, без сложных договоров —
+            Попробуйте бесплатно 30 дней. Подключение 0 ₽, без сложных договоров —
             одна строка кода и аналитика в личном кабинете.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/tarify"
-              className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-[1.02]"
-            >
-              Выбрать тариф
-            </Link>
+          <RegisterCta
+            source="integraciya_tourvisor_bottom"
+            className="mt-8 justify-center"
+          />
+          <p className="mt-6 text-sm text-muted">
+            Остались вопросы?{" "}
             <Link
               href="/faq"
-              className="inline-flex items-center gap-2 rounded-xl border border-blue-subtle/50 bg-white px-6 py-3 font-semibold text-heading transition-colors hover:bg-blue-ice/30"
+              className="font-medium text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
             >
-              Частые вопросы
+              Частые вопросы о подключении
             </Link>
-          </div>
+          </p>
         </section>
       </main>
       <Footer />

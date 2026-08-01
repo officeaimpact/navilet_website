@@ -5,6 +5,8 @@ export interface LeadFormMeta {
   channelLabel?: string | null;
   monthlyPrice?: number | null;
   dialogs?: number | null;
+  /** Диапазон из квалификации в форме, например «до 120 диалогов/мес». */
+  dialogsRange?: string | null;
   /** Откуда пришла заявка: "modal" | "section_cta" | ... */
   source?: string | null;
 }
@@ -44,6 +46,7 @@ async function notifyTelegram(
       channel: meta.channelLabel ?? "",
       monthly_price: meta.monthlyPrice != null ? String(meta.monthlyPrice) : "",
       dialogs: meta.dialogs != null ? String(meta.dialogs) : "",
+      dialogs_range: meta.dialogsRange ?? "",
       source: meta.source ?? "",
       page: typeof window !== "undefined" ? window.location.pathname : "",
       ...utm,
@@ -74,7 +77,8 @@ export async function submitLeadForm(
   const normalized: LeadFormMeta =
     typeof meta === "string" ? { planName: meta } : meta ?? {};
 
-  const { planName, channelLabel, monthlyPrice, dialogs } = normalized;
+  const { planName, channelLabel, monthlyPrice, dialogs, dialogsRange } =
+    normalized;
 
   // Дублируем в Telegram параллельно с отправкой на email (не блокируем UX).
   void notifyTelegram(data, normalized);
@@ -82,6 +86,7 @@ export async function submitLeadForm(
   // Subject
   const subjectParts: string[] = ["Новая заявка — Навылет! AI"];
   if (planName) subjectParts.push(`тариф «${planName}»`);
+  if (dialogsRange) subjectParts.push(dialogsRange);
   if (channelLabel) subjectParts.push(`канал ${channelLabel}`);
   data.append("subject", subjectParts.join(" · "));
   data.append("from_name", "Навылет! AI — Заявка с сайта");
@@ -91,6 +96,7 @@ export async function submitLeadForm(
   if (channelLabel) data.append("channel", channelLabel);
   if (monthlyPrice != null) data.append("monthly_price_rub", String(monthlyPrice));
   if (dialogs != null) data.append("dialogs_per_month", String(dialogs));
+  if (dialogsRange) data.append("dialogs_range", dialogsRange);
 
   const res = await fetch("https://api.web3forms.com/submit", {
     method: "POST",

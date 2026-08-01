@@ -32,6 +32,7 @@ const staticEntries: Entry[] = [
   { path: "/vidzhet", changeFrequency: "monthly", priority: 0.8 },
   { path: "/resheniya", changeFrequency: "monthly", priority: 0.8 },
   { path: "/spros", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/karta-sayta", changeFrequency: "weekly", priority: 0.4 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
 ];
 

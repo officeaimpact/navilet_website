@@ -236,7 +236,7 @@ export default function DemoWidget({
         <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white/20 p-1">
           <Image
             src="/logo-icon.svg"
-            alt="Навылет! AI — ИИ-турменеджер"
+            alt="Навылет! AI — ИИ-ассистент"
             width={28}
             height={24}
             className="h-6 w-auto brightness-0 invert"
@@ -244,7 +244,7 @@ export default function DemoWidget({
         </div>
         <div className="flex-1">
           <div className="text-sm font-semibold text-white">
-ИИ-турменеджер
+ИИ-ассистент
           </div>
           <div className="flex items-center gap-1.5 text-xs text-white/70">
             <span className="h-1.5 w-1.5 rounded-full bg-green-400" />

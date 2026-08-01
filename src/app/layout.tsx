@@ -28,15 +28,15 @@ const YANDEX_METRIKA_ID = 108200337;
 
 export const siteName = "Навылет! AI";
 const siteDescription =
-  "ИИ-турменеджер для турагентств и туроператоров: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за 1 день. 7 дней бесплатно. Российская разработка.";
+  "ИИ-ассистент для турагентств и туроператоров: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за пару минут. 30 дней бесплатно. Российская разработка.";
 
 const keywords = [
   "Навылет! AI",
   "Навылет AI",
   "навылет ИИ",
   "navylet ai",
-  "ИИ-турменеджер",
-  "AI-турменеджер",
+  "ИИ-ассистент",
+  "AI-ассистент",
   "искусственный интеллект в туризме",
   "ИИ в туризме",
   "ИИ ассистент для турагентства",
@@ -72,7 +72,7 @@ const keywords = [
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} — ИИ-турменеджер для турагентств | подбор туров 24/7`,
+    default: `${siteName} — ИИ-ассистент для турагентств | подбор туров 24/7`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     languages: { "ru-RU": "/" },
   },
   openGraph: {
-    title: `${siteName} — ИИ-турменеджер для турагентств`,
+    title: `${siteName} — ИИ-ассистент для турагентств`,
     description: siteDescription,
     url: siteUrl,
     siteName,
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1376,
         height: 768,
-        alt: "Навылет! AI — ИИ-турменеджер для турагентств: подбор туров 24/7",
+        alt: "Навылет! AI — ИИ-ассистент для турагентств: подбор туров 24/7",
         type: "image/png",
       },
     ],
@@ -100,12 +100,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} — ИИ-турменеджер для турагентств`,
+    title: `${siteName} — ИИ-ассистент для турагентств`,
     description: siteDescription,
     images: [
       {
         url: "/og-image.png",
-        alt: "Навылет! AI — ИИ-турменеджер для турагентств",
+        alt: "Навылет! AI — ИИ-ассистент для турагентств",
       },
     ],
     creator: "@navylet_ai",
@@ -210,7 +210,7 @@ const siteWideJsonLd = {
         alternateName: "Инновационный центр «Сколково»",
         url: "https://sk.ru",
       },
-      award: "Участник проекта «Сколково»",
+      award: "Резидент ИТ-кластера Фонда «Сколково»",
       sameAs: [
         "https://t.me/navylet_ai",
         "https://lk.navilet.ru",

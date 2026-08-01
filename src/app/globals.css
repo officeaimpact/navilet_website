@@ -50,6 +50,11 @@ body {
   /* Резерв высоты под промо-баннер (фиксированный сверху), чтобы шапка
      не перекрывала контент. Устанавливается из PromoBanner / inline-скрипта. */
   padding-top: var(--promo-pad, 0px);
+  /* Секции выезжают из-за края по x (framer-motion slideInLeft/Right), пока
+     не попали в зону видимости. На узких экранах это давало горизонтальный
+     скролл. clip вместо hidden — не создаёт scroll-контейнер. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {

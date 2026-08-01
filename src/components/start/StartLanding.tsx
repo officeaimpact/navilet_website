@@ -65,11 +65,11 @@ export default function StartLanding() {
         <div className="relative mx-auto max-w-3xl px-5 pt-28 pb-12 text-center sm:px-6 sm:pt-32 lg:px-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-accent">
             <Sparkles className="h-3.5 w-3.5" />
-            7 дней бесплатно · без карты
+            30 дней бесплатно · подключение 0 ₽
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.08] text-heading sm:text-5xl">
-            ИИ-турменеджер на вашем сайте —{" "}
+            ИИ-ассистент на вашем сайте —{" "}
             <span className="text-accent">подключение за 2 минуты</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-body">
@@ -161,7 +161,7 @@ export default function StartLanding() {
                 Сколько стоит после теста
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-body">
-                7 дней — бесплатно и без карты. Дальше — тариф{" "}
+                30 дней — бесплатно, подключение 0 ₽. Дальше — тариф{" "}
                 <span className="font-semibold text-heading">
                   Lite: {litePlan ? fmt(litePlan.price) : "1 990"} ₽/мес
                 </span>{" "}
@@ -244,7 +244,7 @@ export default function StartLanding() {
             Ассистент может работать у вас уже сегодня
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg text-white/70">
-            Регистрация за 2 минуты, 7 дней бесплатно, без карты и созвонов.
+            Регистрация за 2 минуты, 30 дней бесплатно, без созвонов.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3">
             <a

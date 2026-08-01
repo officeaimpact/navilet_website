@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, MessageSquare } from "lucide-react";
-import { lkUrls } from "@/lib/content";
+import { useLeadForm } from "@/contexts/LeadFormContext";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 interface RegisterCtaProps {
@@ -22,15 +22,15 @@ export default function RegisterCta({
   dark = false,
   className = "",
 }: RegisterCtaProps) {
+  const { openForm } = useLeadForm();
   return (
     <div className={`flex flex-col items-center gap-3 sm:flex-row ${className}`}>
-      <a
-        href={lkUrls.register}
-        onClick={() => reachMetrikaGoal(metrikaGoals.trialClick, { source })}
+      <button
+        onClick={() => openForm({ source })}
         className={
           dark
-            ? "inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-base font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
-            : "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:shadow-xl hover:shadow-accent/35"
+            ? "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-base font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
+            : "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:shadow-xl hover:shadow-accent/35"
         }
         style={
           dark
@@ -41,11 +41,12 @@ export default function RegisterCta({
               }
         }
       >
-        Подключить за 2 минуты
+        Подключить бесплатно
         <ArrowRight className="h-4 w-4" />
-      </a>
+      </button>
       <Link
         href="/demo"
+        onClick={() => reachMetrikaGoal(metrikaGoals.demoClick, { source })}
         className={
           dark
             ? "inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
@@ -59,7 +60,7 @@ export default function RegisterCta({
         <span
           className={`text-sm sm:hidden ${dark ? "text-white/60" : "text-muted"}`}
         >
-          7 дней бесплатно · без карты
+          Месяц бесплатно · подключение 0 ₽
         </span>
       )}
     </div>

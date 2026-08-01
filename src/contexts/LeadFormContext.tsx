@@ -9,6 +9,10 @@ export interface LeadFormPreset {
   /** Имя тарифа (для обратной совместимости со старыми вызовами) */
   planName?: string;
   channelId?: ChannelId;
+  /** "request" — открыть сразу конструктор заявки, минуя выбор пути. */
+  path?: "request";
+  /** Откуда открыли форму: "nav" | "hero" | "floating_cta" | ... */
+  source?: string;
 }
 
 interface LeadFormContextValue {
@@ -40,6 +44,7 @@ export function LeadFormProvider({ children }: { children: React.ReactNode }) {
         plan_id: p?.planId,
         plan_name: p?.planName,
         channel_id: p?.channelId,
+        source: p?.source,
       });
     }
     setIsOpen(true);

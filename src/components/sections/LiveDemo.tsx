@@ -123,7 +123,7 @@ export default function LiveDemo() {
           <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
             Демонстрация{" "}
             <span className="bg-gradient-to-r from-[#0062EF] to-[#00E7FD] bg-clip-text text-transparent">
-              ИИ-турменеджера
+              ИИ-ассистента
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-body">
