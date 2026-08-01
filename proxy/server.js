@@ -75,24 +75,30 @@ function hostAllowed(req) {
   }
 }
 
-function sendTelegram(text) {
+// У хостера фильтруется ЧАСТЬ подсети Telegram: DNS отдаёт 149.154.166.110
+// (закрыт), при этом 149.154.167.220/.99 доступны. Поэтому шлём с перебором:
+// сначала известные рабочие IP c SNI=api.telegram.org (TLS-сертификат
+// валидируется по servername, соединение честное), затем обычный DNS.
+const TG_ENDPOINTS = [
+  { host: "149.154.167.220", servername: "api.telegram.org" },
+  { host: "149.154.167.99", servername: "api.telegram.org" },
+  { host: "api.telegram.org" },
+];
+
+function sendTelegramVia(endpoint, payload) {
   return new Promise((resolve, reject) => {
-    const payload = JSON.stringify({
-      chat_id: CHAT_ID,
-      text,
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    });
     const req = https.request(
       {
-        hostname: "api.telegram.org",
+        host: endpoint.host,
+        servername: endpoint.servername || undefined,
         path: `/bot${TOKEN}/sendMessage`,
         method: "POST",
         headers: {
+          Host: "api.telegram.org",
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(payload),
         },
-        timeout: 10000,
+        timeout: 8000,
       },
       (res) => {
         let data = "";
@@ -103,11 +109,30 @@ function sendTelegram(text) {
         });
       }
     );
-    req.on("error", reject);
+    req.on("error", (e) => reject(new Error(`${e.code || ""} ${e.message}`)));
     req.on("timeout", () => req.destroy(new Error("TG timeout")));
     req.write(payload);
     req.end();
   });
+}
+
+async function sendTelegram(text) {
+  const payload = JSON.stringify({
+    chat_id: CHAT_ID,
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+  });
+  let lastErr;
+  for (const ep of TG_ENDPOINTS) {
+    try {
+      return await sendTelegramVia(ep, payload);
+    } catch (e) {
+      lastErr = e;
+      console.error(`telegram via ${ep.host} failed: ${e.message}`);
+    }
+  }
+  throw lastErr || new Error("TG unreachable");
 }
 
 function buildMessage(d) {
@@ -125,6 +150,7 @@ function buildMessage(d) {
   if (plan.length) lines.push(`📦 <b>Тариф:</b> ${plan.join(" · ")}`);
   if (d.monthly_price) lines.push(`💰 <b>Цена/мес:</b> ${esc(clip(d.monthly_price, 40))} ₽`);
   if (d.dialogs) lines.push(`💬 <b>Диалогов/мес:</b> ${esc(clip(d.dialogs, 40))}`);
+  if (d.dialogs_range) lines.push(`💬 <b>Объём:</b> ${esc(clip(d.dialogs_range, 60))}`);
 
   const utm = [];
   for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
