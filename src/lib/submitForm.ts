@@ -13,13 +13,13 @@ export interface LeadFormMeta {
 
 /**
  * Дублирует заявку в Telegram через собственный прокси (/api/lead).
- * Токен бота живёт на сервере, а не в коде сайта. Ошибку глушим —
- * это дополнительный канал уведомлений, он не должен ломать сабмит.
+ * Токен бота живёт на сервере, а не в коде сайта.
+ * Возвращает true, если прокси подтвердил доставку.
  */
 async function notifyTelegram(
   data: FormData,
   meta: LeadFormMeta
-): Promise<void> {
+): Promise<boolean> {
   try {
     const utm: Record<string, string> = {};
     if (typeof window !== "undefined") {
@@ -52,20 +52,22 @@ async function notifyTelegram(
       ...utm,
     };
 
-    await fetch("/api/lead", {
+    const res = await fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
       keepalive: true,
     });
+    return res.ok;
   } catch {
-    // Telegram — вспомогательный канал; email через Web3Forms остаётся основным.
+    return false;
   }
 }
 
 /**
- * Submit lead form to web3forms. Backwards compatible: accepts either
- * a plain plan name string (legacy) or a richer meta object.
+ * Отправляет заявку в два канала — email (Web3Forms) и Telegram (свой прокси).
+ * Бросает ошибку, только если не сработал ни один. Принимает либо имя тарифа
+ * строкой (legacy-вызовы), либо объект с контекстом заявки.
  */
 export async function submitLeadForm(
   form: HTMLFormElement,
@@ -80,8 +82,10 @@ export async function submitLeadForm(
   const { planName, channelLabel, monthlyPrice, dialogs, dialogsRange } =
     normalized;
 
-  // Дублируем в Telegram параллельно с отправкой на email (не блокируем UX).
-  void notifyTelegram(data, normalized);
+  // Оба канала идут параллельно: Telegram — через свой прокси, email — через
+  // Web3Forms. Заявка засчитывается, если сработал хотя бы один: api.web3forms.com
+  // у части клиентов режется провайдером, и терять из-за этого лид нельзя.
+  const telegramSent = notifyTelegram(data, normalized);
 
   // Subject
   const subjectParts: string[] = ["Новая заявка — Навылет! AI"];
@@ -98,13 +102,25 @@ export async function submitLeadForm(
   if (dialogs != null) data.append("dialogs_per_month", String(dialogs));
   if (dialogsRange) data.append("dialogs_range", dialogsRange);
 
-  const res = await fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    body: data,
-  });
+  let emailOk = false;
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: data,
+    });
+    const json = await res.json();
+    emailOk = res.ok && Boolean(json?.success);
+  } catch {
+    emailOk = false;
+  }
 
-  if (!res.ok) throw new Error("Ошибка отправки");
-  const json = await res.json();
-  if (!json.success) throw new Error(json.message || "Ошибка отправки");
-  return json;
+  const tgOk = await telegramSent;
+
+  if (!emailOk && !tgOk) {
+    throw new Error(
+      "Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам — ответим сразу."
+    );
+  }
+
+  return { emailOk, tgOk };
 }
