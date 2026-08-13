@@ -1,16 +1,21 @@
 import { promo } from "@/lib/content";
 
-const endMs = () => new Date(promo.endDate).getTime();
+const endMs = () => (promo.endDate ? new Date(promo.endDate).getTime() : null);
 
-/** Акция активна сейчас (включена в конфиге и дедлайн не прошёл). */
+/**
+ * Акция активна сейчас: включена в конфиге и, если задан дедлайн, он не прошёл.
+ * Без дедлайна предложение бессрочное и активно всегда.
+ */
 export function isPromoActive(): boolean {
-  return promo.active && Date.now() < endMs();
+  const end = endMs();
+  return promo.active && (end === null || Date.now() < end);
 }
 
-/** Сколько целых дней осталось до дедлайна (не меньше 0). */
+/** Сколько целых дней осталось до дедлайна (0, если дедлайна нет). */
 export function promoDaysLeft(): number {
-  const ms = endMs() - Date.now();
-  return Math.max(0, Math.ceil(ms / 86_400_000));
+  const end = endMs();
+  if (end === null) return 0;
+  return Math.max(0, Math.ceil((end - Date.now()) / 86_400_000));
 }
 
 /** Склонение слова «день» по числу. */

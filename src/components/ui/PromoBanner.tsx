@@ -8,7 +8,9 @@ import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 const BANNER_H = 36;
-const DISMISS_KEY = "promo_dismissed_" + promo.endDate;
+// Ключ привязан к тексту акции: сменили условия — баннер снова показывается
+// тем, кто закрывал прошлый.
+const DISMISS_KEY = "promo_dismissed_" + (promo.endDate ?? "evergreen");
 
 export default function PromoBanner() {
   const { openForm } = useLeadForm();
@@ -27,7 +29,7 @@ export default function PromoBanner() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (!mounted || dismissed || !promo.active) {
+    if (!mounted || dismissed || !active) {
       root.style.setProperty("--promo-h", "0px");
       root.style.setProperty("--promo-pad", "0px");
       return;
@@ -41,11 +43,9 @@ export default function PromoBanner() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [mounted, dismissed]);
+  }, [mounted, dismissed, active]);
 
-  if (!mounted || dismissed || !promo.active) return null;
-
-  const headline = active ? promo.headline : promo.evergreenHeadline;
+  if (!mounted || dismissed || !active) return null;
 
   const dismiss = () => {
     setDismissed(true);
@@ -76,10 +76,8 @@ export default function PromoBanner() {
         className="flex h-full min-w-0 cursor-pointer items-center gap-2 font-medium"
       >
         <Sparkles className="hidden h-3.5 w-3.5 shrink-0 text-white/90 sm:block" />
-        <span className="truncate sm:hidden">
-          {active ? promo.short : promo.evergreenHeadline}
-        </span>
-        <span className="hidden truncate sm:inline">{headline}</span>
+        <span className="truncate sm:hidden">{promo.short}</span>
+        <span className="hidden truncate sm:inline">{promo.headline}</span>
       </button>
       <button
         onClick={handleCta}
