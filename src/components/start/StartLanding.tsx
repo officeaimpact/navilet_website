@@ -9,6 +9,7 @@ import {
   Sparkles,
   MessageSquare,
   Check,
+  ClipboardList,
 } from "lucide-react";
 import Link from "next/link";
 import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
@@ -20,6 +21,7 @@ import {
   pricingPlans,
 } from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
+import { useLeadForm } from "@/contexts/LeadFormContext";
 
 const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u202F");
 
@@ -50,6 +52,7 @@ const included = [
 
 export default function StartLanding() {
   const litePlan = pricingPlans.find((p) => p.id === "lite");
+  const { openForm } = useLeadForm();
 
   const register = (source: string) => {
     reachMetrikaGoal(metrikaGoals.trialClick, { source });
@@ -65,7 +68,7 @@ export default function StartLanding() {
         <div className="relative mx-auto max-w-3xl px-5 pt-28 pb-12 text-center sm:px-6 sm:pt-32 lg:px-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-accent">
             <Sparkles className="h-3.5 w-3.5" />
-            30 дней бесплатно · подключение 0 ₽
+            30 дней бесплатно · подключение 0 ₽
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.08] text-heading sm:text-5xl">
@@ -89,10 +92,21 @@ export default function StartLanding() {
               }}
             >
               Подключить ассистента за 2 минуты
-              <ArrowRight className="h-5 w-5" />
+              {/* На узком экране подпись переносится в две строки — стрелка
+                  рядом с ней смотрится случайной, поэтому убираем её. */}
+              <ArrowRight className="hidden h-5 w-5 sm:block" />
             </a>
+            {/* Второй путь для тех, кто не хочет настраивать сам */}
+            <button
+              type="button"
+              onClick={() => openForm({ source: "start_landing_hero_request" })}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-subtle/70 bg-white px-5 py-2.5 text-sm font-semibold text-heading shadow-sm transition-colors duration-200 hover:border-accent/40 hover:bg-blue-ice/40 hover:text-accent"
+            >
+              <ClipboardList className="h-4 w-4 text-accent" />
+              Оставить заявку на подключение
+            </button>
             <span className="text-sm text-muted">
-              Без созвонов и ожидания — всё самостоятельно
+              Сами за 2 минуты или менеджер настроит под ключ — цена одна
             </span>
           </div>
 
@@ -148,7 +162,7 @@ export default function StartLanding() {
             </ul>
             <Link
               href="/demo"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline"
+              className="mt-4 inline-flex min-h-10 items-center gap-1.5 text-sm font-semibold text-accent hover:underline"
             >
               <MessageSquare className="h-4 w-4" />
               Попробовать демо-чат перед регистрацией
@@ -161,12 +175,16 @@ export default function StartLanding() {
                 Сколько стоит после теста
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-body">
-                30 дней — бесплатно, подключение 0 ₽. Дальше — тариф{" "}
+                30 дней — бесплатно, подключение 0 ₽. Дальше — от{" "}
                 <span className="font-semibold text-heading">
-                  Lite: {litePlan ? fmt(litePlan.price) : "1 990"} ₽/мес
+                  {litePlan ? fmt(litePlan.lid.price) : "990"} ₽/мес
                 </span>{" "}
-                за {litePlan?.dialogs ?? 30} диалогов. Нужен объём больше —
-                тарифы до 400 диалогов/мес.
+                (версия «Лид», {litePlan?.lid.dialogs ?? 40} диалогов) или от{" "}
+                <span className="font-semibold text-heading">
+                  {litePlan ? fmt(litePlan.price) : "1 990"} ₽/мес
+                </span>{" "}
+                (версия «Про»). Нужен объём больше — тарифы до 500
+                диалогов/мес.
               </p>
               <p className="mt-3 text-xs text-muted">
                 Никаких автосписаний: карту вы не привязываете, оплата — только
@@ -175,7 +193,7 @@ export default function StartLanding() {
             </div>
             <Link
               href="/tarify"
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline"
+              className="mt-3 inline-flex min-h-10 items-center gap-1.5 text-sm font-semibold text-accent hover:underline"
             >
               Все тарифы
               <ArrowRight className="h-4 w-4" />
@@ -216,7 +234,7 @@ export default function StartLanding() {
               key={item.question}
               className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 shadow-card sm:p-6"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform group-open:rotate-45">
                   +
@@ -244,7 +262,8 @@ export default function StartLanding() {
             Ассистент может работать у вас уже сегодня
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg text-white/70">
-            Регистрация за 2 минуты, 30 дней бесплатно, без созвонов.
+            Регистрация за 2 минуты или заявка менеджеру — первый месяц
+            бесплатно в обоих случаях.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3">
             <a
@@ -255,9 +274,19 @@ export default function StartLanding() {
               Подключить ассистента за 2 минуты
               <ArrowRight className="h-5 w-5" />
             </a>
+            <button
+              type="button"
+              onClick={() =>
+                openForm({ source: "start_landing_bottom_request" })
+              }
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/35 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10"
+            >
+              <ClipboardList className="h-4 w-4" />
+              Оставить заявку на подключение
+            </button>
             <Link
               href="/demo"
-              className="text-sm text-white/60 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white"
+              className="inline-flex min-h-10 items-center px-2 text-sm text-white/60 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white"
             >
               Сначала посмотреть демо
             </Link>

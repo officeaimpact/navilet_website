@@ -33,7 +33,7 @@ function CodeBlock() {
         <button
           onClick={handleCopy}
           aria-label="Скопировать код"
-          className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
+          className="flex h-10 cursor-pointer items-center gap-1.5 rounded-md px-3 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
         >
           {copied ? (
             <>

@@ -302,7 +302,7 @@ export default function RealForecastContent({
           }}
         >
           <span>
-            Медианный чек сети: <b className="text-[#1E293B]">190 000 ₽</b>
+            Медианный чек сети: <b className="text-[#1E293B]">190 000 ₽</b>
           </span>
           <span className="inline-flex items-center gap-0.5">
             <Leaf size={6 * s} className="text-[#10B981]" /> — в сезоне

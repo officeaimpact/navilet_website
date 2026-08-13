@@ -141,7 +141,11 @@ export default function LiveDemo() {
           >
             <div className="relative">
               <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-[#0097F5]/8 to-[#00E7FD]/8 blur-xl" />
-              <DemoWidget scenario={activeScenario} className="relative" />
+              <DemoWidget
+                scenario={activeScenario}
+                className="relative"
+                interactive
+              />
             </div>
           </motion.div>
 

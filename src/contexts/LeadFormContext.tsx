@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import type { ChannelId, PricingPlan } from "@/lib/content";
+import type { AssistantVersionId, ChannelId, PricingPlan } from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 export interface LeadFormPreset {
@@ -9,6 +9,8 @@ export interface LeadFormPreset {
   /** Имя тарифа (для обратной совместимости со старыми вызовами) */
   planName?: string;
   channelId?: ChannelId;
+  /** Версия ассистента, которую выбрал посетитель («Лид» / «Про») */
+  versionId?: AssistantVersionId;
   /** "request" — открыть сразу конструктор заявки, минуя выбор пути. */
   path?: "request";
   /** Откуда открыли форму: "nav" | "hero" | "floating_cta" | ... */
@@ -44,6 +46,7 @@ export function LeadFormProvider({ children }: { children: React.ReactNode }) {
         plan_id: p?.planId,
         plan_name: p?.planName,
         channel_id: p?.channelId,
+        version_id: p?.versionId,
         source: p?.source,
       });
     }

@@ -1,6 +1,7 @@
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata = {
   title: { absolute: "Политика конфиденциальности | Навылет! AI" },
@@ -37,7 +38,7 @@ export default function PrivacyPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbLd) }}
       />
       <Navigation />
       <main className="mx-auto max-w-3xl px-5 pb-20 pt-32 sm:px-6 lg:px-8">
@@ -58,7 +59,7 @@ export default function PrivacyPage() {
           <h2>1. Общие положения</h2>
           <p>
             Оператор обрабатывает персональные данные в соответствии с
-            Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» и
+            Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» и
             иными нормативными правовыми актами Российской Федерации. Заполняя
             форму обратной связи на Сайте, пользователь выражает согласие с
             условиями настоящей Политики.

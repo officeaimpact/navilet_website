@@ -60,7 +60,7 @@ export default function RegisterCta({
         <span
           className={`text-sm sm:hidden ${dark ? "text-white/60" : "text-muted"}`}
         >
-          Месяц бесплатно · подключение 0 ₽
+          Месяц бесплатно · подключение 0 ₽
         </span>
       )}
     </div>

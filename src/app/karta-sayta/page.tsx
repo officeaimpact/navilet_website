@@ -7,6 +7,7 @@ import { getAllPostsMeta } from "@/lib/blog";
 import { platformPages } from "@/lib/seo/platform-pages";
 import { scenarioPages } from "@/lib/seo/scenario-pages";
 import { demandPages } from "@/lib/seo/demand-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: { absolute: "Карта сайта — все разделы Навылет! AI" },
@@ -38,7 +39,23 @@ const groups: Group[] = [
     links: [
       { href: "/", label: "Главная — ИИ-ассистент для турагентств" },
       { href: "/demo", label: "Демо — попробовать ассистента без регистрации" },
+      {
+        href: "/versii",
+        label: "Версии ассистента: «Лид» и «Про» — сравнение",
+      },
+      {
+        href: "/podborki",
+        label: "Подборки: страница с турами по ссылке клиенту",
+      },
+      {
+        href: "/vozvrat-klientov",
+        label: "Возврат клиентов: догоняющие сообщения и подписки",
+      },
       { href: "/tarify", label: "Тарифы и что входит в подписку" },
+      {
+        href: "/skolko-stoit",
+        label: "Сколько стоит ИИ-ассистент: цены, сравнение, окупаемость",
+      },
       { href: "/start", label: "Как начать: регистрация и код виджета" },
       { href: "/dashboard", label: "Личный кабинет: аналитика диалогов" },
       { href: "/prognozy", label: "ИИ-аналитика: прогнозы спроса и продаж" },
@@ -156,7 +173,7 @@ export default function KartaSaytaPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>

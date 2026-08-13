@@ -15,6 +15,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import RegisterCta from "@/components/seo/RegisterCta";
 import { demandPages, getDemandPage } from "@/lib/seo/demand-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -140,7 +141,7 @@ export default async function DemandPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>
@@ -325,6 +326,29 @@ export default async function DemandPage({
                 className="inline-flex items-center gap-1 font-semibold text-accent hover:underline"
               >
                 Посмотреть, как ассистент отвечает на эти вопросы{" "}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              {/* Связки с другими кластерами: без них страницы спроса
+                  стоят в стороне от остального сайта. */}
+              <Link
+                href="/resheniya/nochnye-zayavki"
+                className="inline-flex items-center gap-1 font-semibold text-accent hover:underline"
+              >
+                Что делать с заявками, которые приходят ночью{" "}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link
+                href="/vidzhet"
+                className="inline-flex items-center gap-1 font-semibold text-accent hover:underline"
+              >
+                Как поставить виджет подбора туров на сайт{" "}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link
+                href="/skolko-stoit"
+                className="inline-flex items-center gap-1 font-semibold text-accent hover:underline"
+              >
+                Сколько стоит ассистент — от 990 ₽/мес{" "}
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>

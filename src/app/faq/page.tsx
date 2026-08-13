@@ -5,11 +5,12 @@ import Footer from "@/components/sections/Footer";
 import FloatingCTA from "@/components/ui/FloatingCTA";
 import { faqItems } from "@/lib/content";
 import { ChevronRight, HelpCircle, MessageCircleQuestion } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: { absolute: "Частые вопросы про ИИ-ассистент | Навылет! AI" },
   description:
-    "Ответы на частые вопросы про ИИ-ассистент для турагентств: цены, технологии, подключение, безопасность, лимиты диалогов, интеграция с Tourvisor и MAX. Полный гид для турбизнеса.",
+    "Ответы на частые вопросы про ИИ-ассистент для турагентств: цены от 990 ₽/мес, технологии, подключение, безопасность, лимиты диалогов, интеграция с Tourvisor и MAX. Полный гид для турбизнеса.",
   keywords: [
     "ИИ-ассистент турагентство FAQ",
     "ИИ-ассистент вопросы",
@@ -153,7 +154,7 @@ export default function FAQPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
       />
       <Navigation />
       <main>

@@ -5,6 +5,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import RegisterCta from "@/components/seo/RegisterCta";
 import { scenarioPages } from "@/lib/seo/scenario-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -82,7 +83,7 @@ export default function ResheniyaHubPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>
@@ -145,7 +146,7 @@ export default function ResheniyaHubPage() {
               Узнали свою проблему? Решите её за сегодня
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-white/70">
-              Регистрация за 2 минуты, 30 дней бесплатно, подключение 0 ₽.
+              Регистрация за 2 минуты, 30 дней бесплатно, подключение 0 ₽.
             </p>
             <div className="mt-6 flex justify-center">
               <RegisterCta source="resheniya_hub_bottom" compact dark />

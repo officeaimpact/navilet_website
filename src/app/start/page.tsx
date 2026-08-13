@@ -3,15 +3,17 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import StartLanding from "@/components/start/StartLanding";
 import { startFaqItems } from "@/lib/content";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Подключить ИИ-ассистента за 2 минуты — 30 дней бесплатно",
+    absolute:
+      "Подключить ИИ-ассистента за 2 минуты — месяц бесплатно, дальше от 990 ₽/мес",
   },
   description:
-    "Зарегистрируйтесь, получите код виджета и вставьте на сайт — ИИ-ассистент на базе Tourvisor начнёт отвечать туристам 24/7. Без созвонов и разовых платежей. Тарифы от 1 990 ₽/мес.",
+    "Зарегистрируйтесь, получите код виджета и вставьте на сайт — ИИ-ассистент на базе Tourvisor начнёт отвечать туристам 24/7. Без созвонов и разовых платежей. Тарифы от 990 ₽/мес.",
   keywords: [
     "подключить ИИ турагентство",
     "виджет подбора туров на сайт",
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ИИ-ассистент на вашем сайте — подключение за 2 минуты",
     description:
-      "Регистрация → код виджета → одна строка на сайт. 30 дней бесплатно, подключение 0 ₽. Подбор туров по базе Tourvisor 24/7.",
+      "Регистрация → код виджета → одна строка на сайт. 30 дней бесплатно, подключение 0 ₽. Подбор туров по базе Tourvisor 24/7.",
     url: `${siteUrl}/start`,
     type: "website",
     locale: "ru_RU",
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ИИ-ассистент — подключение за 2 минуты",
     description:
-      "Регистрация → код виджета → одна строка на сайт. 30 дней бесплатно, подключение 0 ₽.",
+      "Регистрация → код виджета → одна строка на сайт. 30 дней бесплатно, подключение 0 ₽.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
@@ -82,7 +84,7 @@ export default function StartPage() {
       <link rel="preconnect" href="https://lk.navilet.ru" />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>

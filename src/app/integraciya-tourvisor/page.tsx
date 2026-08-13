@@ -17,13 +17,14 @@ import {
   Server,
   Sparkles,
 } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: {
     absolute: "Tourvisor + ИИ: подбор туров для турагентства 24/7 | Навылет! AI",
   },
   description:
-    "Агентствам, которые работают с Tourvisor: ИИ-ассистент уже подключён к АПИ — вставьте одну строку кода на сайт, и он подбирает туры с живыми ценами в диалоге с клиентом круглосуточно. Демо без регистрации, 30 дней бесплатно, подключение 0 ₽.",
+    "Агентствам, которые работают с Tourvisor: ИИ-ассистент уже подключён к АПИ — вставьте одну строку кода на сайт, и он подбирает туры с живыми ценами в диалоге с клиентом круглосуточно. Демо без регистрации, 30 дней бесплатно, подключение 0 ₽.",
   keywords: [
     "Tourvisor для турагентства",
     "интеграция Tourvisor",
@@ -147,7 +148,7 @@ export default function TourvisorIntegrationPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(tourvisorJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(tourvisorJsonLd) }}
       />
       <Navigation />
       <main>
@@ -194,7 +195,7 @@ export default function TourvisorIntegrationPage() {
             className="mt-8 justify-center"
           />
           <p className="mt-4 text-sm text-muted">
-            30 дней бесплатно · подключение 0 ₽ · одна строка кода на сайт
+            30 дней бесплатно · подключение 0 ₽ · одна строка кода на сайт
           </p>
         </section>
 
@@ -407,7 +408,7 @@ export default function TourvisorIntegrationPage() {
             Готовая интеграция — без настроек на вашей стороне
           </h2>
           <p className="mt-4 text-base text-body sm:text-lg">
-            Попробуйте бесплатно 30 дней. Подключение 0 ₽, без сложных договоров —
+            Попробуйте бесплатно 30 дней. Подключение 0 ₽, без сложных договоров —
             одна строка кода и аналитика в личном кабинете.
           </p>
           <RegisterCta

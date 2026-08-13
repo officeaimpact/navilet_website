@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { features } from "@/lib/content";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import {
+  ArrowRight,
   Globe,
   Flame,
   Building2,
@@ -17,6 +19,11 @@ import {
   ArrowLeftRight,
   Users,
   HelpCircle,
+  Link2,
+  Send,
+  MousePointerClick,
+  Lock,
+  RotateCcw,
 } from "lucide-react";
 
 const iconMap = {
@@ -32,11 +39,16 @@ const iconMap = {
   ArrowLeftRight,
   Users,
   HelpCircle,
+  Link2,
+  Send,
+  MousePointerClick,
+  Lock,
+  RotateCcw,
 } as const;
 
 export default function Features() {
   return (
-    <SectionWrapper id="features" alt>
+    <SectionWrapper id="features">
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
           Возможности ИИ-ассистента —{" "}
@@ -76,6 +88,15 @@ export default function Features() {
                 <p className="text-sm leading-relaxed text-body">
                   {feature.description}
                 </p>
+                {"href" in feature && feature.href && (
+                  <Link
+                    href={feature.href}
+                    className="mt-1.5 inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-accent transition-colors hover:text-accent-hover"
+                  >
+                    Подробнее
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                )}
               </div>
             </motion.div>
           );

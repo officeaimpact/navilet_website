@@ -17,6 +17,7 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 const CARD_WIDTH = 360;
 const GAP = 20;
@@ -343,7 +344,7 @@ export default function Events() {
                         {event.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full bg-blue-ice px-2 py-0.5 text-[10px] font-medium text-accent"
+                            className="rounded-full bg-blue-ice px-2 py-0.5 text-[11px] font-medium text-accent"
                           >
                             {tag}
                           </span>
@@ -365,17 +366,17 @@ export default function Events() {
                 onClick={() => scroll("left")}
                 disabled={!canScrollLeft}
                 aria-label="Предыдущее мероприятие"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-blue-subtle/60 bg-white text-heading shadow-sm transition-all disabled:opacity-30"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-blue-subtle/60 bg-white text-heading shadow-sm transition-all disabled:opacity-30"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={() => scroll("right")}
                 disabled={!canScrollRight}
                 aria-label="Следующее мероприятие"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-blue-subtle/60 bg-white text-heading shadow-sm transition-all disabled:opacity-30"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-blue-subtle/60 bg-white text-heading shadow-sm transition-all disabled:opacity-30"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </motion.div>
@@ -383,7 +384,7 @@ export default function Events() {
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(
+              __html: jsonLdScript(
                 sorted.map((e) => ({
                   "@context": "https://schema.org",
                   "@type": "Event",

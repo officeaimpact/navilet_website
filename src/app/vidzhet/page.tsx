@@ -5,6 +5,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import RegisterCta from "@/components/seo/RegisterCta";
 import { platformPages } from "@/lib/seo/platform-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -101,7 +102,7 @@ export default function VidzhetHubPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>
@@ -196,7 +197,7 @@ export default function VidzhetHubPage() {
               Попробуйте на своём сайте — бесплатно
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-white/70">
-              30 дней теста, подключение 0 ₽. Установка за 10 минут по инструкции.
+              30 дней теста, подключение 0 ₽. Установка за 10 минут по инструкции.
             </p>
             <div className="mt-6 flex justify-center">
               <RegisterCta source="vidzhet_hub_bottom" compact dark />

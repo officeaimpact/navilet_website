@@ -8,6 +8,7 @@ import CookieConsent from "@/components/ui/CookieConsent";
 import PromoBanner from "@/components/ui/PromoBanner";
 import MetrikaClickTracker from "@/components/analytics/MetrikaClickTracker";
 import ScrollReset from "@/components/utils/ScrollReset";
+import { jsonLdScript } from "@/lib/schema";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -28,7 +29,7 @@ const YANDEX_METRIKA_ID = 108200337;
 
 export const siteName = "Навылет! AI";
 const siteDescription =
-  "ИИ-ассистент для турагентств и туроператоров: подбирает туры, консультирует по отелям, показывает перелёты и цены в живом диалоге с клиентом. Подключение за пару минут. 30 дней бесплатно. Российская разработка.";
+  "ИИ-ассистент для турагентств и туроператоров: подбирает туры по реальной базе, консультирует по отелям и перелётам и передаёт менеджеру готовую заявку. Две версии — от 990 ₽/мес. Первый месяц бесплатно, подключение за пару минут. Российская разработка.";
 
 const keywords = [
   "Навылет! AI",
@@ -67,12 +68,20 @@ const keywords = [
   "увеличить продажи туров",
   "ChatGPT для турагентства",
   "интеграция Tourvisor",
+  // Ценовой кластер: вход 990 ₽ — самое дешёвое предложение с реальной
+  // базой туров, поэтому запросы про стоимость выносим в приоритет.
+  "сколько стоит ИИ для турагентства",
+  "чат-бот для турагентства цена",
+  "ИИ-ассистент для турагентства цена",
+  "недорогой чат-бот для турагентства",
+  "ИИ-ассистент от 990 рублей",
+  "автоматизация турагентства стоимость",
 ];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} — ИИ-ассистент для турагентств | подбор туров 24/7`,
+    default: `${siteName} — ИИ-ассистент для турагентств от 990 ₽/мес | подбор туров 24/7`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
@@ -211,6 +220,54 @@ const siteWideJsonLd = {
         url: "https://sk.ru",
       },
       award: "Резидент ИТ-кластера Фонда «Сколково»",
+      slogan: "ИИ-ассистент, который подбирает туры и приводит заявки",
+      // Каталог предложений на уровне организации: цена входа становится
+      // свойством самой компании, а не только страницы тарифов. Яндекс
+      // рекомендует OfferCatalog для списков, а LLM берут отсюда ответ
+      // на вопрос «сколько стоит».
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Версии ИИ-ассистента «Навылет! AI»",
+        url: `${siteUrl}/versii`,
+        itemListElement: [
+          {
+            "@type": "Offer",
+            name: "Версия «Лид» — лидогенерация и заявки менеджеру",
+            description:
+              "Живой диалог, подбор туров по базе Tourvisor и готовая заявка менеджеру. Цена входа — 990 ₽/мес за 40 диалогов.",
+            url: `${siteUrl}/versii`,
+            price: "990",
+            priceCurrency: "RUB",
+            availability: "https://schema.org/InStock",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "990",
+              priceCurrency: "RUB",
+              unitText: "MONTHLY",
+              billingDuration: 1,
+              billingIncrement: 1,
+            },
+          },
+          {
+            "@type": "Offer",
+            name: "Версия «Про» — полноценный инструмент менеджера",
+            description:
+              "Консультации без ограничений, проверка цен в диалоге, возврат клиентов в MAX. Цена входа — 1990 ₽/мес за 30 диалогов.",
+            url: `${siteUrl}/versii`,
+            price: "1990",
+            priceCurrency: "RUB",
+            availability: "https://schema.org/InStock",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "1990",
+              priceCurrency: "RUB",
+              unitText: "MONTHLY",
+              billingDuration: 1,
+              billingIncrement: 1,
+            },
+          },
+        ],
+      },
       sameAs: [
         "https://t.me/navylet_ai",
         "https://lk.navilet.ru",
@@ -243,10 +300,13 @@ export default function RootLayout({
   return (
     // data-scroll-behavior: Next 16 отключает CSS smooth-скролл на время
     // перехода между страницами — иначе новая страница открывается не сверху.
+    // suppressHydrationWarning: скрипт ниже проставляет --promo-* на <html>
+    // до гидратации, чтобы не было прыжка контента при показе плашки акции.
     <html
       lang="ru"
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${manrope.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <script
@@ -260,7 +320,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteWideJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(siteWideJsonLd) }}
         />
         {/* Google Analytics — replace G-XXXXXXXXXX with your measurement ID
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />

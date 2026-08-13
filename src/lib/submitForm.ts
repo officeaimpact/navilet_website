@@ -3,6 +3,8 @@ const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
 export interface LeadFormMeta {
   planName?: string | null;
   channelLabel?: string | null;
+  /** Версия ассистента, выбранная посетителем: «Лид» / «Про» */
+  versionLabel?: string | null;
   monthlyPrice?: number | null;
   dialogs?: number | null;
   /** Диапазон из квалификации в форме, например «до 120 диалогов/мес». */
@@ -44,6 +46,7 @@ async function notifyTelegram(
       company_website: (data.get("company_website") as string) || "",
       plan: meta.planName ?? "",
       channel: meta.channelLabel ?? "",
+      version: meta.versionLabel ?? "",
       monthly_price: meta.monthlyPrice != null ? String(meta.monthlyPrice) : "",
       dialogs: meta.dialogs != null ? String(meta.dialogs) : "",
       dialogs_range: meta.dialogsRange ?? "",
@@ -79,8 +82,14 @@ export async function submitLeadForm(
   const normalized: LeadFormMeta =
     typeof meta === "string" ? { planName: meta } : meta ?? {};
 
-  const { planName, channelLabel, monthlyPrice, dialogs, dialogsRange } =
-    normalized;
+  const {
+    planName,
+    channelLabel,
+    versionLabel,
+    monthlyPrice,
+    dialogs,
+    dialogsRange,
+  } = normalized;
 
   // Оба канала идут параллельно: Telegram — через свой прокси, email — через
   // Web3Forms. Заявка засчитывается, если сработал хотя бы один: api.web3forms.com
@@ -89,6 +98,7 @@ export async function submitLeadForm(
 
   // Subject
   const subjectParts: string[] = ["Новая заявка — Навылет! AI"];
+  if (versionLabel) subjectParts.push(`версия «${versionLabel}»`);
   if (planName) subjectParts.push(`тариф «${planName}»`);
   if (dialogsRange) subjectParts.push(dialogsRange);
   if (channelLabel) subjectParts.push(`канал ${channelLabel}`);
@@ -97,6 +107,7 @@ export async function submitLeadForm(
 
   // Hidden context fields — попадут в письмо как отдельные поля
   if (planName) data.append("plan", planName);
+  if (versionLabel) data.append("assistant_version", versionLabel);
   if (channelLabel) data.append("channel", channelLabel);
   if (monthlyPrice != null) data.append("monthly_price_rub", String(monthlyPrice));
   if (dialogs != null) data.append("dialogs_per_month", String(dialogs));

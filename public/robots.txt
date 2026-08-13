@@ -31,22 +31,44 @@ Crawl-delay: 2
 User-agent: YandexImages
 Allow: /
 
-# === Bing ===
+# Отдельные роботы Яндекса, которые отвечают за показ страниц
+# в быстрых ответах с YandexGPT и в Поиске с Алисой. Запрет для них
+# убирает сайт из нейроответов, не влияя на обычную выдачу,
+# поэтому разрешаем явно.
+User-agent: YandexAdditional
+Allow: /
+
+User-agent: YandexAdditionalBot
+Allow: /
+
+# === Bing (индекс Bing питает поиск ChatGPT и Copilot) ===
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
 # === ИИ-краулеры и системы генеративного поиска (GEO) ===
-User-agent: GPTBot
-Allow: /
+# У каждого вендора роботы разделены по назначению: обучение,
+# поисковый индекс и разовая загрузка по запросу пользователя.
+# Разрешаем все три вида: цель — максимальная цитируемость.
 
-User-agent: ChatGPT-User
+# OpenAI: обучение / индекс поиска ChatGPT / переход по ссылке
+User-agent: GPTBot
 Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic: обучение / индекс поиска Claude / переход по ссылке
 User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
 Allow: /
 
 User-agent: Claude-Web
@@ -55,19 +77,43 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
+# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: Perplexity-User
 Allow: /
 
+# Google: Google-Extended управляет обучением Gemini и опорой на источники
 User-agent: Google-Extended
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+# Apple (Siri, Spotlight)
 User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
+Allow: /
+
+# Amazon (Alexa, Rufus)
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Amzn-SearchBot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: MistralAI-Index
+Allow: /
+
+# Common Crawl — открытый датасет, из которого учатся сторонние модели
+User-agent: CCBot
 Allow: /
 
 User-agent: cohere-ai

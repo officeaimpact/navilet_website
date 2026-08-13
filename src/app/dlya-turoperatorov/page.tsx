@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Layers,
 } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: { absolute: "ИИ для туроператора — B2B и B2C | Навылет! AI" },
@@ -96,8 +97,8 @@ const tariffsForOperators = [
     icon: Users,
     title: "Региональный туроператор",
     rec: "Тариф «Стандарт» + Второй канал",
-    detail: "180 диалогов в месяц, Web + MAX, подключение 0 ₽",
-    price: "7 280 ₽/мес",
+    detail: "180 диалогов в месяц, Web + MAX, подключение 0 ₽",
+    price: "7 280 ₽/мес",
     when: "До 5 агентств-партнёров, базовая B2C-витрина",
     href: "/tarify#standart",
   },
@@ -105,8 +106,8 @@ const tariffsForOperators = [
     icon: Briefcase,
     title: "Туроператор федерального уровня",
     rec: "Тариф «Бизнес» + Второй канал",
-    detail: "300 диалогов в месяц, Web + MAX, подключение 0 ₽",
-    price: "10 980 ₽/мес",
+    detail: "300 диалогов в месяц, Web + MAX, подключение 0 ₽",
+    price: "10 980 ₽/мес",
     when: "Активная B2C-витрина + 5–15 агентских партнёров",
     isPopular: true,
     href: "/tarify#biznes",
@@ -115,8 +116,8 @@ const tariffsForOperators = [
     icon: Network,
     title: "Сетевой холдинг / ассоциация",
     rec: "Тариф «Сеть» + Второй канал",
-    detail: "600 диалогов в месяц, Web + MAX, подключение 0 ₽",
-    price: "19 980 ₽/мес",
+    detail: "600 диалогов в месяц, Web + MAX, подключение 0 ₽",
+    price: "19 980 ₽/мес",
     when: "Региональные сети, ассоциации, B2B-маркетплейсы туров",
     href: "/tarify#set",
   },
@@ -176,7 +177,7 @@ export default function ForOperatorsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(operatorJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(operatorJsonLd) }}
       />
       <Navigation />
       <main>
@@ -354,7 +355,15 @@ export default function ForOperatorsPage() {
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base text-body">
               Для туроператоров обычно нужен «Второй канал» (Web + MAX
-              одновременно): B2C-витрина + чат-канал с клиентом.
+              одновременно): B2C-витрина + чат-канал с клиентом. Цены ниже — для
+              версии «Про» с двумя каналами; вся линейка начинается от{" "}
+              <Link
+                href="/skolko-stoit"
+                className="font-medium text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
+              >
+                990 ₽/мес
+              </Link>
+              , если хватает одного канала и версии «Лид».
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -408,7 +417,7 @@ export default function ForOperatorsPage() {
             </h2>
             <p className="mt-4 text-base text-body sm:text-lg">
               Расскажите о ваших задачах — поможем спроектировать сценарий и
-              подобрать тариф. 30 дней бесплатно, подключение 0 ₽.
+              подобрать тариф. 30 дней бесплатно, подключение 0 ₽.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link

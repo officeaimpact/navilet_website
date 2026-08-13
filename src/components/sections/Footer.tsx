@@ -22,20 +22,22 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-blue-subtle/40 bg-surface">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-5 lg:gap-12">
+      <div className="mx-auto max-w-7xl px-5 py-11 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-5 lg:gap-12">
           {sections.map((section) => (
             <div key={section.title}>
               <h4 className="mb-4 font-display text-sm font-semibold text-heading">
                 {section.title}
               </h4>
-              <ul className="space-y-3 [overflow-wrap:anywhere]">
+              {/* Пункты держат высоту 40px — на телефоне по ним попадают
+                  пальцем без промахов. */}
+              <ul className="[overflow-wrap:anywhere]">
                 {section.links.map((link) =>
                   CTA_HREFS.has(link.href) ? (
                     <li key={link.label}>
                       <button
                         onClick={() => openForm()}
-                        className="cursor-pointer text-left text-sm text-body transition-colors hover:text-accent"
+                        className="flex min-h-10 cursor-pointer items-center py-2 text-left text-sm text-body transition-colors hover:text-accent"
                       >
                         {link.label}
                       </button>
@@ -44,7 +46,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm text-body transition-colors hover:text-accent"
+                        className="flex min-h-10 items-center py-2 text-sm text-body transition-colors hover:text-accent"
                       >
                         {link.label}
                       </Link>
@@ -59,11 +61,11 @@ export default function Footer() {
             <h4 className="mb-4 font-display text-sm font-semibold text-heading">
               Контакты
             </h4>
-            <ul className="space-y-3">
+            <ul className="[overflow-wrap:anywhere]">
               <li>
                 <a
                   href={`tel:${companyInfo.phoneRaw}`}
-                  className="inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-accent"
+                  className="flex min-h-10 items-center gap-2 py-2 text-sm text-body transition-colors hover:text-accent"
                 >
                   <Phone className="h-3.5 w-3.5 shrink-0" />
                   {companyInfo.phone}
@@ -72,12 +74,13 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${companyInfo.email}`}
-                  className="inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-accent"
+                  className="flex min-h-10 items-center gap-2 py-2 text-sm text-body transition-colors hover:text-accent"
                 >
                   <Mail className="h-3.5 w-3.5 shrink-0" />
-                  {companyInfo.email}
+                  <span className="min-w-0 break-all">{companyInfo.email}</span>
                 </a>
               </li>
+              <li className="h-2.5" aria-hidden />
               <li className="inline-flex items-start gap-2 text-xs leading-relaxed text-muted" style={{ overflowWrap: "break-word" }}>
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 <span className="break-words">{companyInfo.address}</span>
@@ -96,7 +99,7 @@ export default function Footer() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
-              className="flex items-center"
+              className="flex min-h-10 items-center"
             >
               <Image
                 src="/logo.svg"
@@ -113,7 +116,7 @@ export default function Footer() {
 
             <button
               onClick={() => openForm()}
-              className="cursor-pointer rounded-lg bg-surface-alt px-4 py-2 text-xs font-semibold text-muted transition-colors hover:bg-blue-ice hover:text-accent"
+              className="flex h-10 cursor-pointer items-center rounded-lg bg-surface-alt px-5 text-sm font-semibold text-muted transition-colors hover:bg-blue-ice hover:text-accent"
             >
               Связаться с нами
             </button>

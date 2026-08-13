@@ -63,6 +63,7 @@ export default function PromoBanner() {
 
   return (
     <div
+      data-slim-bar="promo"
       className="fixed inset-x-0 top-0 z-[55] flex h-9 items-center justify-center gap-2 px-9 text-[13px] text-white sm:gap-3"
       style={{
         transform: `translateY(-${offset}px)`,
@@ -82,14 +83,14 @@ export default function PromoBanner() {
       </button>
       <button
         onClick={handleCta}
-        className="hidden shrink-0 cursor-pointer rounded-full bg-white px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-blue-ice sm:inline-block"
+        className="hidden h-7 shrink-0 cursor-pointer items-center rounded-full bg-white px-3.5 text-xs font-semibold text-primary transition-colors hover:bg-blue-ice sm:inline-flex"
       >
         {promo.ctaText}
       </button>
       <button
         onClick={dismiss}
         aria-label="Закрыть"
-        className="absolute right-2.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+        className="absolute right-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/15 hover:text-white"
       >
         <X className="h-4 w-4" />
       </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   MessageSquare,
@@ -13,14 +14,22 @@ import {
   Phone,
   Mail,
   ArrowRight,
+  Target,
+  Gem,
+  ClipboardList,
+  Info,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import DemoWidgetLoader from "@/components/demo/DemoWidgetLoader";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import {
   companyInfo,
   lkUrls,
   demoFaqItems,
   demoExampleQueries,
+  demoAssistants,
+  demoFallbackVersion,
+  type AssistantVersionId,
 } from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
@@ -34,17 +43,40 @@ const steps = [
   {
     icon: Send,
     title: "Напишите запрос",
-    text: "Например: «Турция из Москвы, 7 ночей в июле, всё включено, до 200 000 ₽ на двоих».",
+    text: "Например: «Турция из Москвы, 7 ночей в июле, всё включено, до 200 000 ₽ на двоих».",
   },
   {
     icon: LayoutGrid,
     title: "Получите подбор",
-    text: "Ассистент найдёт туры и покажет карточки с отелями, ценами и кнопкой «Забронировать».",
+    text: "Ассистент найдёт туры, покажет карточки с ценами и соберёт их в подборку — страницу по ссылке, которую клиент открывает и пересылает своим.",
   },
   {
     icon: Rocket,
     title: "Подключите себе",
     text: "Такой же ассистент работает на вашем сайте и в мессенджерах. Запуск за пару минут.",
+  },
+];
+
+const demoVersions: {
+  id: AssistantVersionId;
+  name: string;
+  caption: string;
+  hint: string;
+  Icon: typeof Target;
+}[] = [
+  {
+    id: "lid",
+    name: "Лид",
+    caption: "лидогенерация",
+    hint: "«Лид» собирает запрос по шагам, показывает подборку и передаёт заявку с контактом менеджеру — попробуйте пройти путь клиента до заявки.",
+    Icon: Target,
+  },
+  {
+    id: "pro",
+    name: "Про",
+    caption: "полный инструмент",
+    hint: "«Про» консультирует без ограничений: спросите про отель, пляж или питание, попросите сравнить варианты и проверить цену.",
+    Icon: Gem,
   },
 ];
 
@@ -68,9 +100,35 @@ const customization = [
 
 export default function DemoExperience() {
   const { openForm } = useLeadForm();
+  const [version, setVersion] = useState<AssistantVersionId>("pro");
+
+  // Deep-link: /demo?v=lid|pro открывает нужную версию (карточки версий
+  // на главной и /versii ведут сюда с предустановкой)
+  useEffect(() => {
+    const v = new URLSearchParams(window.location.search).get("v");
+    if (v === "lid" || v === "pro") setVersion(v);
+  }, []);
+
+  const switchVersion = (next: AssistantVersionId) => {
+    if (next === version) return;
+    setVersion(next);
+    reachMetrikaGoal(metrikaGoals.demoVersionSwitch, { version_id: next });
+    // Обновляем ?v= без перезагрузки — ссылкой можно поделиться
+    const url = new URL(window.location.href);
+    url.searchParams.set("v", next);
+    window.history.replaceState(null, "", url.toString());
+  };
+
+  const activeVersion = demoVersions.find((v) => v.id === version)!;
+  const fallbackVersion = demoVersions.find(
+    (v) => v.id === demoFallbackVersion
+  )!;
+  /** Ассистент для виджета: выбранная версия или доступная взамен */
+  const liveAssistantId =
+    demoAssistants[version] ?? demoAssistants[demoFallbackVersion]!;
 
   const openChat = () => {
-    reachMetrikaGoal(metrikaGoals.demoChatOpen);
+    reachMetrikaGoal(metrikaGoals.demoChatOpen, { version_id: version });
     if (typeof window !== "undefined" && window.AimpactWidget) {
       window.AimpactWidget.open();
     }
@@ -79,6 +137,10 @@ export default function DemoExperience() {
   const handleTrialClick = () => {
     reachMetrikaGoal(metrikaGoals.trialClick, { destination: "lk_register" });
   };
+
+  /** Заявка на подключение с демо — с версией, которую человек тестировал. */
+  const handleRequestClick = (source: string) => () =>
+    openForm({ source, versionId: version });
 
   return (
     <>
@@ -102,8 +164,67 @@ export default function DemoExperience() {
             как на сайте агентства.
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="flex flex-wrap items-center justify-center gap-3">
+          {/* Переключатель версий «Лид» / «Про» */}
+          <div className="mx-auto mt-7 max-w-md">
+            <p className="mb-2.5 text-xs font-semibold uppercase tracking-wide text-muted">
+              Какую версию попробовать
+            </p>
+            <div
+              role="tablist"
+              aria-label="Версия демо-ассистента"
+              className="grid grid-cols-2 gap-1 rounded-2xl border border-blue-subtle/50 bg-surface-alt p-1.5"
+            >
+              {demoVersions.map((v) => {
+                const active = version === v.id;
+                return (
+                  <button
+                    key={v.id}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => switchVersion(v.id)}
+                    className={`flex cursor-pointer flex-col items-center rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                      active
+                        ? "bg-white shadow-[0_2px_8px_rgba(0,82,204,0.10)] ring-1 ring-blue-subtle/60"
+                        : "hover:bg-white/60"
+                    }`}
+                  >
+                    <span
+                      className={`flex items-center gap-1.5 font-display text-sm font-bold sm:text-base ${
+                        active ? "text-accent" : "text-heading"
+                      }`}
+                    >
+                      <v.Icon className="h-4 w-4" />
+                      Версия «{v.name}»
+                    </span>
+                    <span className="mt-0.5 text-[11px] font-medium text-muted sm:text-xs">
+                      {v.caption}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-body">
+              {activeVersion.hint}
+            </p>
+            {/* Страховка на случай, если демо версии нет в кабинете: чат
+                открывает доступную версию, но говорим об этом прямо. */}
+            {!demoAssistants[version] && (
+              <p className="mt-3 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50/70 px-3.5 py-2.5 text-left text-[13px] leading-relaxed text-amber-900">
+                <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+                <span>
+                  Живое демо версии «{activeVersion.name}» готовим — чат ниже
+                  пока отвечает на версии «{fallbackVersion.name}». Нужна версия
+                  «{activeVersion.name}» на вашем сайте — оставьте заявку, мы её
+                  включим.
+                </span>
+              </p>
+            )}
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-3.5">
+            {/* Два равных пути — попробовать и подключить самому — стоят в
+                ряд; заявка менеджеру идёт строкой ниже как третий выбор. */}
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button variant="primary" size="lg" onClick={openChat}>
                 <span className="flex items-center gap-2">
                   <MessageSquare className="h-5 w-5" />
@@ -116,10 +237,22 @@ export default function DemoExperience() {
                 className="group inline-flex items-center justify-center gap-2 rounded-lg border-2 border-accent/30 px-6 py-3.5 text-base font-semibold text-accent transition-colors duration-200 hover:border-accent hover:bg-blue-ice sm:px-8 sm:py-4 sm:text-lg"
               >
                 <Rocket className="h-5 w-5" />
-                Зарегистрироваться за 2 минуты
+                <span className="sm:hidden">Зарегистрироваться</span>
+                <span className="hidden sm:inline">
+                  Зарегистрироваться за 2 минуты
+                </span>
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>
+            {/* Версия из тумблера уходит вместе с заявкой. */}
+            <button
+              type="button"
+              onClick={handleRequestClick("demo_hero_request")}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-subtle/70 bg-white px-5 py-2.5 text-sm font-semibold text-heading shadow-sm transition-colors duration-200 hover:border-accent/40 hover:bg-blue-ice/40 hover:text-accent"
+            >
+              <ClipboardList className="h-4 w-4 text-accent" />
+              Оставить заявку на подключение
+            </button>
             <p className="inline-flex items-center gap-2 rounded-full bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent">
               <Sparkles className="h-4 w-4" />
               Свой ассистент за 2 минуты — доступ на 30 дней бесплатно
@@ -144,6 +277,10 @@ export default function DemoExperience() {
                 </span>
               ))}
             </div>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Когда придут карточки, нажмите под ними «Смотреть подборку» —
+              откроется страница с турами, которую клиент получает ссылкой.
+            </p>
           </div>
 
           <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-blue-subtle/50 bg-surface-alt px-5 py-4 text-sm leading-relaxed text-body">
@@ -217,7 +354,7 @@ export default function DemoExperience() {
               key={item.question}
               className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 shadow-card sm:p-6"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform group-open:rotate-45">
                   +
@@ -259,27 +396,25 @@ export default function DemoExperience() {
             <a
               href={lkUrls.register}
               onClick={handleTrialClick}
-              className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-white px-7 py-3.5 font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
+              className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-white px-8 py-4 text-lg font-semibold text-primary shadow-lg shadow-black/10 transition-all hover:bg-blue-ice hover:shadow-xl"
             >
-              Зарегистрироваться и начать пробный период
+              Зарегистрироваться за 2 минуты
             </a>
+            <button
+              type="button"
+              onClick={handleRequestClick("demo_bottom_request")}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/35 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10"
+            >
+              <ClipboardList className="h-4 w-4" />
+              Оставить заявку на подключение
+            </button>
             <span className="text-xs text-white/45">
-              Регистрация в личном кабинете · 30 дней бесплатно
+              Сами за 2 минуты или через менеджера — первый месяц бесплатно
+              в обоих случаях
             </span>
           </div>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 border-t border-white/10 pt-8">
-            <Button
-              variant="outline"
-              size="md"
-              className="!border-white/25 !text-white hover:!bg-white/10"
-              onClick={() => openForm()}
-            >
-              <span className="flex items-center gap-2">
-                Оставить заявку
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </Button>
             <a
               href="https://t.me/navylet_ai"
               target="_blank"
@@ -306,6 +441,9 @@ export default function DemoExperience() {
           </div>
         </div>
       </section>
+
+      {/* Виджет пересоздаётся при смене версии — меняется data-assistant-id */}
+      <DemoWidgetLoader assistantId={liveAssistantId} />
     </>
   );
 }

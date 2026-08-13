@@ -11,6 +11,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import RegisterCta from "@/components/seo/RegisterCta";
 import { demandPages } from "@/lib/seo/demand-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -94,7 +95,7 @@ export default function SprosHubPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>

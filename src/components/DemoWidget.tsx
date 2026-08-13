@@ -3,9 +3,36 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { chatMessageVariant } from "@/lib/animations";
-import type { DemoScenario, DemoTourCard } from "@/lib/scenarios";
-import { RotateCcw } from "lucide-react";
+import type {
+  DemoQuickReply,
+  DemoScenario,
+  DemoTourCard,
+} from "@/lib/scenarios";
+import {
+  RotateCcw,
+  Lightbulb,
+  LightbulbOff,
+  Search,
+  Link2,
+  Check,
+  ArrowLeft,
+  Star,
+  ShieldCheck,
+} from "lucide-react";
 import Image from "next/image";
+
+/** Ответ ассистента после «Передать менеджеру» — как в версии «Лид». */
+const HANDOFF_REPLY =
+  "Передал запрос менеджеру вместе с подборкой и вашими параметрами. Он свяжется с вами и оформит выбранный вариант — обычно в течение 15 минут.";
+
+const priceOf = (card: DemoTourCard) => ({
+  value: (card.price_per_person ?? card.price).toLocaleString("ru-RU") + " ₽",
+  label: card.price_per_person
+    ? "за человека"
+    : card.flight_included
+      ? "за тур"
+      : "за проживание",
+});
 
 function TypingIndicator() {
   return (
@@ -158,43 +185,261 @@ function TourCard({ card }: { card: DemoTourCard }) {
   );
 }
 
+/**
+ * Мини-версия публичной страницы подборки (`lk.navilet.ru/share/…`), которую
+ * клиент открывает из чата или получает ссылкой в мессенджере. Здесь она
+ * показана внутри виджета, чтобы объяснить механику без перехода на страницу.
+ */
+function CollectionPreview({
+  title,
+  cards,
+  onBack,
+}: {
+  title: string;
+  cards: DemoTourCard[];
+  onBack: () => void;
+}) {
+  const [openCard, setOpenCard] = useState<number | null>(null);
+  const [booked, setBooked] = useState<number | null>(null);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 12 }}
+      transition={{ duration: 0.25 }}
+      data-collection-page
+      className="absolute inset-0 z-20 flex flex-col bg-white"
+    >
+      <div className="flex items-center justify-between gap-2 border-b border-[#E0E0E0]/60 bg-[#F8F9FA] px-3 py-2">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1.5 text-[12px] font-semibold text-[#0062EF] transition-colors hover:bg-[#0062EF]/8"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Вернуться в диалог
+        </button>
+        <span className="rounded-full bg-[#0062EF]/8 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#0062EF]">
+          Страница для клиента
+        </span>
+      </div>
+
+      <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex items-center gap-2.5 px-4 pb-3 pt-3.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0062EF]/10">
+            <Image
+              src="/logo-icon.svg"
+              alt="Логотип агентства"
+              width={20}
+              height={18}
+              className="h-4 w-auto"
+            />
+          </div>
+          <div className="min-w-0">
+            <div className="truncate text-[12px] font-bold text-[#2C3E50]">
+              Ваше агентство
+            </div>
+            <div className="truncate text-[10px] text-[#95A5A6]">
+              логотип, цвет и контакты — ваши
+            </div>
+          </div>
+        </div>
+
+        <div className="px-4">
+          <h4 className="text-[15px] font-bold leading-snug text-[#2C3E50]">
+            {title}
+          </h4>
+          <p className="mt-1 text-[11px] text-[#7F8C8D]">
+            {cards.length} варианта · цены актуальны · ссылка живёт 7 дней
+          </p>
+        </div>
+
+        <div className="mt-3 space-y-2 px-4 pb-4">
+          {cards.map((card, i) => {
+            const price = priceOf(card);
+            return (
+              <div
+                key={i}
+                className="flex gap-2.5 rounded-xl border border-[#E0E0E0]/70 bg-white p-2.5"
+              >
+                <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-[#f0f0f0]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={card.image_url}
+                    alt={card.hotel_name}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1">
+                    <span className="truncate text-[12px] font-bold text-[#2C3E50]">
+                      {card.hotel_name}
+                    </span>
+                    <span className="flex flex-shrink-0 items-center gap-0.5 text-[10px] font-semibold text-[#F39C12]">
+                      <Star className="h-2.5 w-2.5 fill-current" />
+                      {card.hotel_stars}
+                    </span>
+                  </div>
+                  <div className="truncate text-[10px] text-[#7F8C8D]">
+                    {card.resort}, {card.country} · {card.date_from}–
+                    {card.date_to} · {card.nights} ноч.
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-end justify-between gap-x-2 gap-y-1">
+                    <div className="whitespace-nowrap">
+                      <span className="text-[13px] font-extrabold text-[#0062EF]">
+                        {price.value}
+                      </span>
+                      <span className="ml-1 text-[9px] text-[#95A5A6]">
+                        {price.label}
+                      </span>
+                    </div>
+                    {booked === i ? (
+                      <span className="inline-flex items-center gap-1 rounded-md bg-[#27AE60]/10 px-1.5 py-1 text-[10px] font-semibold text-[#27AE60]">
+                        <Check className="h-3 w-3" />
+                        Заявка у менеджера
+                      </span>
+                    ) : (
+                      <div className="flex gap-1">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenCard((c) => (c === i ? null : i))
+                          }
+                          aria-expanded={openCard === i}
+                          className="cursor-pointer rounded-md border border-[#E0E0E0] px-1.5 py-1 text-[10px] font-semibold text-[#7F8C8D] transition-colors hover:border-[#0062EF]/40 hover:text-[#0062EF]"
+                        >
+                          Подробнее
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setBooked(i)}
+                          className="cursor-pointer rounded-md bg-[#0062EF] px-1.5 py-1 text-[10px] font-semibold text-white transition-all hover:brightness-110"
+                        >
+                          Забронировать
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {openCard === i && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="mt-2 space-y-0.5 overflow-hidden border-t border-[#E0E0E0]/70 pt-2 text-[10px] text-[#7F8C8D]"
+                    >
+                      <div>Питание: {card.meal_description}</div>
+                      <div>Номер: {card.room_type}</div>
+                      <div>Туроператор: {card.operator}</div>
+                      <div>
+                        {card.flight_included
+                          ? `Перелёт включён (вылет: ${card.departure_city})`
+                          : "Без перелёта — только проживание"}
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex items-start gap-2 border-t border-[#E0E0E0]/60 bg-[#F8F9FA] px-4 py-2.5">
+        <ShieldCheck className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#27AE60]" />
+        <p className="text-[10px] leading-relaxed text-[#7F8C8D]">
+          Клиент бронирует прямо здесь — заявка с выбранным вариантом уходит
+          менеджеру. Никаких ссылок на сторонние сайты.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 interface DemoWidgetProps {
   scenario: DemoScenario | null;
   className?: string;
+  /**
+   * Диалог останавливается на кнопках-подсказках и ждёт клика — для секции,
+   * где посетитель сам ведёт демонстрацию. В hero-иллюстрации выключено:
+   * там сценарий проигрывается сам.
+   */
+  interactive?: boolean;
 }
 
 export default function DemoWidget({
   scenario,
   className = "",
+  interactive = false,
 }: DemoWidgetProps) {
   const [visibleCount, setVisibleCount] = useState(0);
   const [showTyping, setShowTyping] = useState(false);
   const [playKey, setPlayKey] = useState(0);
+  const [hintsOn, setHintsOn] = useState(true);
+  const [handoff, setHandoff] = useState(false);
+  const [collectionCards, setCollectionCards] = useState<DemoTourCard[] | null>(
+    null
+  );
+  const [linkReady, setLinkReady] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const messages = scenario?.messages ?? [];
-  const isFinished = scenario && visibleCount >= messages.length;
+  const isFinished = scenario && (visibleCount >= messages.length || handoff);
 
-  useEffect(() => {
+  const resetPlayback = () => {
     setVisibleCount(0);
     setShowTyping(false);
-    setPlayKey((k) => k + 1);
-  }, [scenario?.id]);
-
-  const handleReplay = () => {
-    setVisibleCount(0);
-    setShowTyping(false);
+    setHandoff(false);
+    setCollectionCards(null);
+    setLinkReady(false);
     setPlayKey((k) => k + 1);
   };
 
   useEffect(() => {
-    if (!scenario || visibleCount >= messages.length) return;
+    setVisibleCount(0);
+    setShowTyping(false);
+    setHandoff(false);
+    setCollectionCards(null);
+    setLinkReady(false);
+    setPlayKey((k) => k + 1);
+  }, [scenario?.id]);
+
+  /** Клик по кнопке-подсказке: продолжить диалог или передать менеджеру. */
+  const handleQuickReply = (qr: DemoQuickReply) => {
+    if (qr.action === "handoff") {
+      setShowTyping(false);
+      setHandoff(true);
+      return;
+    }
+    setShowTyping(false);
+    setVisibleCount((c) => Math.min(c + 1, messages.length));
+  };
+
+  const handleShare = () => {
+    setLinkReady(true);
+    window.setTimeout(() => setLinkReady(false), 2600);
+  };
+
+  useEffect(() => {
+    if (!scenario || handoff || visibleCount >= messages.length) return;
+
+    // На кнопках-подсказках ждём выбор посетителя; без них сценарий идёт сам,
+    // только даём время прочитать подсказки.
+    const lastShown = visibleCount > 0 ? messages[visibleCount - 1] : null;
+    const chipsPending = Boolean(
+      hintsOn && lastShown?.quickReplies?.length && lastShown.role === "assistant"
+    );
+    if (chipsPending && interactive) return;
 
     const nextMsg = messages[visibleCount];
     const prevDelay = visibleCount > 0 ? messages[visibleCount - 1].delay : 0;
     const baseWait = (nextMsg.delay - prevDelay) * 1000;
-    const wait = visibleCount === 0 ? 300 : Math.max(baseWait, 600);
+    const wait =
+      visibleCount === 0
+        ? 300
+        : Math.max(baseWait, chipsPending ? 3800 : 600);
 
     if (nextMsg.role === "assistant") {
       setShowTyping(true);
@@ -210,7 +455,7 @@ export default function DemoWidget({
       }, Math.max(wait, 400));
       return () => clearTimeout(timer);
     }
-  }, [visibleCount, scenario, messages, playKey]);
+  }, [visibleCount, scenario, messages, playKey, handoff, hintsOn, interactive]);
 
   // Scroll ONLY within the widget container, not the page
   useEffect(() => {
@@ -224,16 +469,17 @@ export default function DemoWidget({
 
   return (
     <div
-      className={`relative flex h-[480px] flex-col overflow-hidden rounded-2xl border border-[#E0E0E0]/50 bg-white shadow-xl sm:h-[600px] ${className}`}
+      data-product-mock="widget"
+      className={`demo-widget @container relative flex h-[480px] flex-col overflow-hidden rounded-2xl border border-[#E0E0E0]/50 bg-white shadow-xl sm:h-[600px] ${className}`}
     >
       {/* Header */}
       <div
-        className="flex items-center gap-3 px-4 py-3"
+        className="flex items-center gap-2.5 px-4 py-3"
         style={{
           background: "linear-gradient(135deg, #0062EF, #0097F5, #00CCF5)",
         }}
       >
-        <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white/20 p-1">
+        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/20 p-1">
           <Image
             src="/logo-icon.svg"
             alt="Навылет! AI — ИИ-ассистент"
@@ -242,20 +488,33 @@ export default function DemoWidget({
             className="h-6 w-auto brightness-0 invert"
           />
         </div>
-        <div className="flex-1">
-          <div className="text-sm font-semibold text-white">
-ИИ-ассистент
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-semibold text-white">
+            ИИ-ассистент
           </div>
           <div className="flex items-center gap-1.5 text-xs text-white/70">
             <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
             Онлайн
           </div>
         </div>
-        {scenario && (
-          <span className="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-medium text-white/80">
-            {scenario.title}
+        {/* Подсказки можно выключить и включить — чтобы попробовать диалог
+            и с кнопками, и без них. */}
+        <button
+          type="button"
+          onClick={() => setHintsOn((v) => !v)}
+          aria-pressed={hintsOn}
+          title={hintsOn ? "Убрать подсказки" : "Показать подсказки"}
+          className="inline-flex h-9 flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-white/15 px-3 text-[11px] font-semibold text-white transition-colors hover:bg-white/25"
+        >
+          {hintsOn ? (
+            <Lightbulb className="h-3.5 w-3.5" />
+          ) : (
+            <LightbulbOff className="h-3.5 w-3.5" />
+          )}
+          <span className="hidden @[360px]:inline">
+            {hintsOn ? "Убрать подсказки" : "Подсказки"}
           </span>
-        )}
+        </button>
       </div>
 
       {/* Messages area */}
@@ -333,12 +592,89 @@ export default function DemoWidget({
                       <span>Найдено {msg.cards.length} тура</span>
                       <span>← листайте →</span>
                     </div>
+
+                    {/* Как в реальном виджете: подборку можно открыть
+                        страницей или отправить клиенту ссылкой. */}
+                    <div className="mt-1.5 flex gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setCollectionCards(msg.cards ?? null)}
+                        className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#0062EF] px-2 py-2 text-[11.5px] font-semibold text-white transition-all hover:brightness-110"
+                      >
+                        <Search className="h-3.5 w-3.5" />
+                        Смотреть подборку
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleShare}
+                        className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border-2 border-[#0062EF] bg-white px-2 py-[6px] text-[11.5px] font-semibold text-[#0062EF] transition-colors hover:bg-[#0062EF] hover:text-white"
+                      >
+                        {linkReady ? (
+                          <Check className="h-3.5 w-3.5" />
+                        ) : (
+                          <Link2 className="h-3.5 w-3.5" />
+                        )}
+                        {linkReady ? "Ссылка готова" : "Поделиться"}
+                      </button>
+                    </div>
                   </motion.div>
                 )}
+
+                {/* Кнопки-подсказки живут только под последним ответом —
+                    так же, как контракт quick_replies в виджете. */}
+                {hintsOn &&
+                  msg.quickReplies &&
+                  msg.role === "assistant" &&
+                  i === visibleCount - 1 &&
+                  !showTyping &&
+                  !handoff && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.45, duration: 0.35 }}
+                      className="mt-2 flex flex-wrap gap-1.5"
+                    >
+                      {msg.quickReplies.map((qr) => (
+                        <button
+                          key={qr.text}
+                          type="button"
+                          onClick={() => handleQuickReply(qr)}
+                          className="cursor-pointer rounded-full border-2 border-[#0062EF] bg-white px-3 py-1.5 text-[11.5px] font-medium text-[#0062EF] transition-colors hover:bg-[#0062EF] hover:text-white"
+                        >
+                          {qr.text}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
+
+        {handoff && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-3"
+          >
+            <div className="flex flex-row gap-2">
+              <BotAvatar />
+              <div className="flex max-w-[80%] flex-col items-start">
+                <div className="rounded-2xl rounded-bl-md bg-[#F8F9FA] px-3.5 py-2.5 text-[13px] leading-relaxed text-[#2C3E50] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+                  {HANDOFF_REPLY}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-1 rounded-xl bg-[#F8F9FA] px-4 py-3 text-center">
+              <span className="text-[12px] font-semibold text-[#2C3E50]">
+                Диалог завершён
+              </span>
+              <span className="text-[11px] text-[#7F8C8D]">
+                Заявка с подборкой ушла менеджеру и в CRM
+              </span>
+            </div>
+          </motion.div>
+        )}
 
         {showTyping && (
           <motion.div
@@ -352,17 +688,29 @@ export default function DemoWidget({
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Страница подборки перекрывает чат: у клиента она открывается
+          отдельной вкладкой по ссылке. */}
+      <AnimatePresence>
+        {collectionCards && (
+          <CollectionPreview
+            title={scenario?.collectionTitle ?? "Подборка туров"}
+            cards={collectionCards}
+            onBack={() => setCollectionCards(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Footer */}
       <div className="border-t border-[#E0E0E0]/40 bg-white px-4 py-3">
         {isFinished ? (
           <motion.button
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            onClick={handleReplay}
+            onClick={resetPlayback}
             className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#F8F9FA] py-2.5 text-sm font-medium text-accent transition-colors hover:bg-accent/5"
           >
             <RotateCcw className="h-4 w-4" />
-            Воспроизвести снова
+            {handoff ? "Начать новый подбор" : "Воспроизвести снова"}
           </motion.button>
         ) : (
           <div className="flex items-center gap-2">

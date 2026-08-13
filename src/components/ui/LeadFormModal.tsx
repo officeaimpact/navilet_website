@@ -4,7 +4,15 @@ import { useEffect, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { submitLeadForm } from "@/lib/submitForm";
-import { pricingPlans, lkUrls, promo, trial, type PricingPlan } from "@/lib/content";
+import {
+  pricingPlans,
+  assistantVersions,
+  lkUrls,
+  promo,
+  trial,
+  type PricingPlan,
+  type AssistantVersionId,
+} from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 import Link from "next/link";
@@ -52,6 +60,8 @@ export default function LeadFormModal() {
   const [promoOn, setPromoOn] = useState(false);
 
   const [presetPlanId, setPresetPlanId] = useState<PricingPlan["id"] | null>(null);
+  const [presetVersionId, setPresetVersionId] =
+    useState<AssistantVersionId | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<TrialChannelId>("web");
   /** Крупный поток: больше лимита бесплатного месяца, условия индивидуально. */
   const [bigVolume, setBigVolume] = useState(false);
@@ -85,6 +95,7 @@ export default function LeadFormModal() {
         )?.id ?? null;
     }
     setPresetPlanId(planId);
+    setPresetVersionId(preset?.versionId ?? null);
 
     // На тест — один канал: «cross» сводим к web, второй добавляется позже
     setSelectedChannel(preset?.channelId === "max" ? "max" : "web");
@@ -105,15 +116,21 @@ export default function LeadFormModal() {
   const presetPlan = presetPlanId
     ? pricingPlans.find((p) => p.id === presetPlanId) ?? null
     : null;
+  const presetVersion = presetVersionId
+    ? assistantVersions.find((v) => v.id === presetVersionId) ?? null
+    : null;
 
   const handleSelfRegister = () => {
     reachMetrikaGoal(metrikaGoals.trialClick, {
       source: "lead_form_modal",
       plan_id: presetPlanId ?? undefined,
+      version_id: presetVersionId ?? undefined,
     });
-    window.location.href = presetPlanId
-      ? `${lkUrls.register}?plan=${presetPlanId}`
-      : lkUrls.register;
+    const params = new URLSearchParams();
+    if (presetPlanId) params.set("plan", presetPlanId);
+    if (presetVersionId) params.set("version", presetVersionId);
+    const query = params.toString();
+    window.location.href = query ? `${lkUrls.register}?${query}` : lkUrls.register;
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -123,6 +140,7 @@ export default function LeadFormModal() {
     try {
       await submitLeadForm(e.currentTarget, {
         planName: presetPlan?.name ?? null,
+        versionLabel: presetVersion?.name ?? null,
         dialogsRange: bigVolume
           ? "больше 200 диалогов/мес — обсудить индивидуально"
           : null,
@@ -132,6 +150,7 @@ export default function LeadFormModal() {
       reachMetrikaGoal(metrikaGoals.leadFormSubmitSuccess, {
         form: "modal",
         plan_id: presetPlanId ?? undefined,
+        version_id: presetVersionId ?? undefined,
         channel_id: selectedChannel,
         big_volume: bigVolume,
       });
@@ -148,8 +167,9 @@ export default function LeadFormModal() {
       ? `${trial.label} — акция ${promo.deadlineLabel}`
       : trial.label;
 
+  /* 16px на телефоне — иначе Safari на iOS зумит страницу при фокусе в поле. */
   const inputClass =
-    "w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-sm text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10";
+    "w-full rounded-xl border border-gray-200 bg-gray-50/70 py-3 pl-10 pr-4 text-base text-heading outline-none transition-all placeholder:text-gray-400 focus:border-accent/40 focus:bg-white focus:ring-2 focus:ring-accent/10 sm:text-sm";
 
   return (
     <AnimatePresence>
@@ -167,6 +187,9 @@ export default function LeadFormModal() {
 
           {/* Modal */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Подключение ИИ-ассистента"
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
@@ -304,7 +327,7 @@ export default function LeadFormModal() {
                     </div>
 
                     <p className="mt-5 text-center text-xs text-muted">
-                      {trial.label} • {trial.capLabel} • Подключение 0 ₽
+                      {trial.label} • {trial.capLabel} • Подключение 0 ₽
                     </p>
                   </motion.div>
                 ) : (
@@ -355,12 +378,19 @@ export default function LeadFormModal() {
                           <Gift className="h-4 w-4 text-accent" />
                         </span>
                         <div>
-                          <p className="text-sm font-bold text-heading">
+                          {/* На узком экране плашка версии уходит на свою
+                              строку — иначе слово «версия» рвётся пополам. */}
+                          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold text-heading">
                             Первый месяц бесплатно
+                            {presetVersion && (
+                              <span className="whitespace-nowrap rounded-full bg-accent/10 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-accent">
+                                версия «{presetVersion.name}»
+                              </span>
+                            )}
                           </p>
                           <p className="text-xs text-body">
                             {trial.days} дней · {trial.capLabel} · подключение
-                            0 ₽
+                            0 ₽
                           </p>
                         </div>
                       </div>
@@ -550,7 +580,7 @@ export default function LeadFormModal() {
                       )}
 
                       <p className="text-center text-xs text-muted">
-                        {trial.label} • {trial.capLabel} • Подключение 0 ₽
+                        {trial.label} • {trial.capLabel} • Подключение 0 ₽
                       </p>
                     </form>
                   </motion.div>

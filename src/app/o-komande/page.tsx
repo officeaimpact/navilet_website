@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { companyInfo, events } from "@/lib/content";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: { absolute: "О компании «Навылет! AI» — разработчик ИИ для туризма" },
@@ -90,7 +91,7 @@ export default function AboutTeamPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(teamJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(teamJsonLd) }}
       />
       <Navigation />
       <main>

@@ -6,8 +6,11 @@ const LOADER_SRC = "https://lk.navilet.ru/widget-loader.js";
 
 /**
  * Встраивает реальный демо-виджет «Навылет! AI» (lk.navilet.ru).
- * Чат работает внутри iframe от lk.navilet.ru, поэтому домен-проверка
- * ассистента проходит на любом сайте.
+ *
+ * У ассистента в ЛК есть список разрешённых доменов: /api/widget/config
+ * отдаёт 403 «Domain not allowed» для origin, которого в списке нет.
+ * Поэтому локально (localhost:3000) чат не поднимется, пока домен не добавлен
+ * в настройках демо-ассистента — на navilet.ru он работает.
  */
 export default function DemoWidgetLoader({
   assistantId,

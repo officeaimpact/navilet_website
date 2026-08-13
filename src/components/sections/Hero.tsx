@@ -123,7 +123,7 @@ export default function Hero() {
             variants={fadeInUp}
             className="mb-10 text-sm text-muted"
           >
-            Месяц бесплатно · подключение 0 ₽ · дальше от 1 990 ₽/мес
+            Месяц бесплатно · подключение 0 ₽ · дальше от 990 ₽/мес
           </motion.p>
 
           <PartnerLogos />

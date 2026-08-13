@@ -324,7 +324,7 @@ export default function ForecastLanding() {
                 key={item.question}
                 className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 shadow-card sm:p-6"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
                   {item.question}
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform group-open:rotate-45">
                     +
@@ -367,7 +367,7 @@ export default function ForecastLanding() {
             </button>
             <Link
               href="/demo"
-              className="inline-flex items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white"
+              className="inline-flex min-h-10 items-center gap-1.5 px-2 text-sm text-white/60 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white"
             >
               <MessageSquare className="h-4 w-4" />
               Сначала посмотреть демо-чат

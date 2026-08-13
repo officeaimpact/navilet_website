@@ -42,7 +42,7 @@ export default function Navigation() {
   };
 
   const renderNavLink = (
-    link: { label: string; href: string },
+    link: { label: string; href: string; scope?: "xl" | "mobile" },
     cls: string,
     onClickExtra?: () => void
   ) => {
@@ -102,32 +102,38 @@ export default function Navigation() {
               height={48}
               priority
               className={`w-auto transition-all duration-300 ${
-                scrolled ? "h-10" : "h-12"
+                scrolled ? "h-9 xl:h-10" : "h-10 xl:h-12"
               }`}
             />
           </Link>
 
-          <div className="hidden items-center gap-5 lg:flex xl:gap-8">
-            {navLinks.map((link) =>
-              renderNavLink(
-                link,
-                "whitespace-nowrap text-sm font-medium text-body transition-colors duration-200 hover:text-accent"
-              )
-            )}
+          {/* Верхняя панель: продуктовый путь. «Личный кабинет» и «Контакты»
+              доступны в мобильном меню и футере, чтобы панель не перегружалась. */}
+          <div className="hidden items-center gap-4 lg:flex xl:gap-6">
+            {navLinks
+              .filter((link) => link.scope !== "mobile")
+              .map((link) =>
+                renderNavLink(
+                  link,
+                  `whitespace-nowrap text-[13px] font-medium text-body transition-colors duration-200 hover:text-accent xl:text-sm ${
+                    link.scope === "xl" ? "hidden xl:block" : ""
+                  }`
+                )
+              )}
           </div>
 
           <div className="flex items-center gap-2">
             <a
               href={`tel:${companyInfo.phoneRaw}`}
               title={companyInfo.phone}
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-subtle/60 text-accent transition-colors hover:border-accent hover:bg-blue-ice"
+              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-blue-subtle/60 text-accent transition-colors hover:border-accent hover:bg-blue-ice lg:h-9 lg:w-9"
               aria-label={`Позвонить: ${companyInfo.phone}`}
             >
               <Phone className="h-4 w-4" />
             </a>
             <button
               onClick={() => openForm({ source: "nav" })}
-              className="hidden cursor-pointer items-center justify-center whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-accent-hover sm:inline-flex"
+              className="hidden min-h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-accent-hover sm:inline-flex lg:min-h-9"
             >
               <span className="hidden xl:inline">Подключить бесплатно</span>
               <span className="xl:hidden">Подключить</span>
@@ -169,11 +175,13 @@ export default function Navigation() {
               style={{ paddingTop: "calc(var(--promo-h, 0px) + 88px)" }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex flex-col gap-6">
+              {/* Пункты высотой 44px с небольшим зазором: тот же ритм, но
+                  палец не промахивается между строками. */}
+              <div className="flex flex-col gap-1.5">
                 {navLinks.map((link) =>
                   renderNavLink(
                     link,
-                    "text-lg font-medium text-heading hover:text-accent",
+                    "flex min-h-11 items-center text-lg font-medium text-heading hover:text-accent",
                     closeMobileMenu
                   )
                 )}
@@ -188,7 +196,7 @@ export default function Navigation() {
                     Подключить бесплатно
                   </button>
                   <p className="text-center text-xs text-muted">
-                    Месяц бесплатно · подключение 0 ₽
+                    Месяц бесплатно · подключение 0 ₽
                   </p>
                   <a
                     href={`tel:${companyInfo.phoneRaw}`}

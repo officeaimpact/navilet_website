@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { faqItems } from "@/lib/content";
 import { HelpCircle, ChevronDown } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 function FaqAccordionItem({
   question,
@@ -109,7 +110,7 @@ export default function FAQ() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: jsonLdScript({
               "@context": "https://schema.org",
               "@type": "FAQPage",
               "@id": "https://navilet.ru/#faq",

@@ -6,6 +6,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import RegisterCta from "@/components/seo/RegisterCta";
 import { platformPages, getPlatformPage } from "@/lib/seo/platform-pages";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -111,7 +112,7 @@ export default async function PlatformPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>
@@ -204,7 +205,7 @@ export default async function PlatformPage({
                   key={item.question}
                   className="group rounded-2xl border border-blue-subtle/40 bg-white p-5 shadow-card"
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-display text-base font-bold text-heading [&::-webkit-details-marker]:hidden">
                     {item.question}
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform group-open:rotate-45">
                       +
@@ -241,7 +242,7 @@ export default async function PlatformPage({
                 Живое демо ассистента <ArrowRight className="h-3.5 w-3.5" />
               </Link>
               <Link href="/tarify" className="inline-flex items-center gap-1 font-semibold text-accent hover:underline">
-                Тарифы от 1 990 ₽/мес <ArrowRight className="h-3.5 w-3.5" />
+                Тарифы от 990 ₽/мес <ArrowRight className="h-3.5 w-3.5" />
               </Link>
               <Link href="/integraciya-tourvisor" className="inline-flex items-center gap-1 font-semibold text-accent hover:underline">
                 Интеграция с Tourvisor <ArrowRight className="h-3.5 w-3.5" />

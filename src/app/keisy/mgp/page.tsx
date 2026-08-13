@@ -15,6 +15,7 @@ import {
   Award,
   Globe,
 } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: { absolute: "Кейс МГП: ИИ в сети из 396 офисов | Навылет! AI" },
@@ -144,7 +145,7 @@ export default function MgpCasePage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(caseJsonLd) }}
       />
       <Navigation />
       <main>
@@ -379,7 +380,7 @@ export default function MgpCasePage() {
               </h2>
               <p className="mt-4 text-base text-body sm:text-lg">
                 Используется в крупнейшей сети России — теперь доступно и
-                одиночному офису. 30 дней бесплатно, подключение 0 ₽.
+                одиночному офису. 30 дней бесплатно, подключение 0 ₽.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link

@@ -47,7 +47,7 @@ export default function CookieConsent() {
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={accept}
-                className="cursor-pointer rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors sm:text-sm"
+                className="flex h-10 cursor-pointer items-center rounded-lg px-5 text-sm font-semibold text-white transition-colors"
                 style={{
                   background:
                     "linear-gradient(135deg, #0062EF 0%, #0097F5 100%)",
@@ -57,7 +57,7 @@ export default function CookieConsent() {
               </button>
               <button
                 onClick={accept}
-                className="cursor-pointer rounded-lg p-2 text-gray-400 transition-colors hover:text-gray-600"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-gray-600"
                 aria-label="Закрыть"
               >
                 <X className="h-4 w-4" />

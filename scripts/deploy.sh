@@ -72,4 +72,9 @@ curl -s -o /dev/null -w "  POST /api/lead -> %{http_code}\n" \
   -H "Origin: https://navilet.ru" \
   -d '{}'
 
+# Сообщаем Bing и Яндексу об обновлении сразу, не дожидаясь переобхода.
+# Сбой рассылки не должен ронять деплой — сайт уже поднят и работает.
+echo "==> IndexNow"
+bash "$REPO_DIR/scripts/indexnow.sh" || echo "WARN: IndexNow не отправился"
+
 echo "==> ALL DONE"

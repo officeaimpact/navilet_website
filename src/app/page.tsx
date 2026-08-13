@@ -1,6 +1,7 @@
 import Navigation from "@/components/sections/Navigation";
 import Hero from "@/components/sections/Hero";
 import HowItWorks from "@/components/sections/HowItWorks";
+import Versions from "@/components/sections/Versions";
 import Features from "@/components/sections/Features";
 import NetworkResults from "@/components/sections/NetworkResults";
 import Metrics from "@/components/sections/Metrics";
@@ -15,6 +16,7 @@ import Footer from "@/components/sections/Footer";
 import FloatingCTA from "@/components/ui/FloatingCTA";
 import InlineCTA from "@/components/ui/InlineCTA";
 import { siteUrl, siteName, siteDescription } from "./layout";
+import { jsonLdScript } from "@/lib/schema";
 
 const homepageJsonLd = {
   "@context": "https://schema.org",
@@ -65,12 +67,16 @@ const homepageJsonLd = {
       inLanguage: "ru-RU",
       isAccessibleForFree: false,
       featureList: [
+        "Две версии: «Лид» (лидогенерация) и «Про» (полный инструмент менеджера)",
         "Подбор туров по 50+ странам в реальном времени через Tourvisor",
         "Живой диалог на естественном русском языке",
         "Актуальные цены и наличие от туроператоров",
-        "Консультация по отелям: пляж, питание, инфраструктура",
+        "Консультация по отелям: пляж, питание, инфраструктура (версия «Про»)",
+        "Возврат клиентов в MAX: догоняющие сообщения и умные подписки (версия «Про»)",
         "Информация о перелётах, авиакомпаниях, пересадках",
         "Горящие туры и специальные предложения",
+        "Подборки по ссылке с брендингом агентства",
+        "Заявки в CRM, Telegram менеджеров и на почту",
         "Личный кабинет с аналитикой диалогов",
         "White-label кастомизация виджета под бренд",
         "Работает в Web-виджете и MAX-мессенджере",
@@ -79,54 +85,108 @@ const homepageJsonLd = {
       offers: {
         "@type": "AggregateOffer",
         priceCurrency: "RUB",
-        lowPrice: "1990",
+        lowPrice: "990",
         highPrice: "14990",
-        offerCount: 5,
+        offerCount: 10,
         availability: "https://schema.org/InStock",
         offers: [
           {
             "@type": "Offer",
-            name: "Lite",
-            price: "1990",
+            name: "Lite — версия «Лид»",
+            price: "990",
             priceCurrency: "RUB",
             description:
-              "30 диалогов в месяц • Web или MAX • подключение 0 ₽ • регистрация за 2 минуты",
+              "Лидогенерация: 40 диалогов в месяц • Web или MAX • подключение 0 ₽ • регистрация за 2 минуты",
             url: `${siteUrl}/tarify#lite`,
             availability: "https://schema.org/InStock",
           },
           {
             "@type": "Offer",
-            name: "Старт",
-            price: "3290",
+            name: "Lite — версия «Про»",
+            price: "1990",
             priceCurrency: "RUB",
-            description: "50 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            description:
+              "Полный инструмент: 30 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            url: `${siteUrl}/tarify#lite`,
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Старт — версия «Лид»",
+            price: "1690",
+            priceCurrency: "RUB",
+            description:
+              "Лидогенерация: 80 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#start`,
             availability: "https://schema.org/InStock",
           },
           {
             "@type": "Offer",
-            name: "Стандарт",
-            price: "5290",
+            name: "Старт — версия «Про»",
+            price: "3290",
             priceCurrency: "RUB",
-            description: "120 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            description:
+              "Полный инструмент: 50 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            url: `${siteUrl}/tarify#start`,
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Стандарт — версия «Лид»",
+            price: "2690",
+            priceCurrency: "RUB",
+            description:
+              "Лидогенерация: 150 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#standart`,
             availability: "https://schema.org/InStock",
           },
           {
             "@type": "Offer",
-            name: "Бизнес",
-            price: "7990",
+            name: "Стандарт — версия «Про»",
+            price: "5290",
             priceCurrency: "RUB",
-            description: "200 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            description:
+              "Полный инструмент: 120 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            url: `${siteUrl}/tarify#standart`,
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Бизнес — версия «Лид»",
+            price: "3990",
+            priceCurrency: "RUB",
+            description:
+              "Лидогенерация: 250 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#biznes`,
             availability: "https://schema.org/InStock",
           },
           {
             "@type": "Offer",
-            name: "Сеть",
+            name: "Бизнес — версия «Про»",
+            price: "7990",
+            priceCurrency: "RUB",
+            description:
+              "Полный инструмент: 200 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            url: `${siteUrl}/tarify#biznes`,
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Сеть — версия «Лид»",
+            price: "6990",
+            priceCurrency: "RUB",
+            description:
+              "Лидогенерация: 500 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            url: `${siteUrl}/tarify#set`,
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Сеть — версия «Про»",
             price: "14990",
             priceCurrency: "RUB",
-            description: "400 диалогов в месяц • Web или MAX • подключение 0 ₽",
+            description:
+              "Полный инструмент: 400 диалогов в месяц • Web или MAX • подключение 0 ₽",
             url: `${siteUrl}/tarify#set`,
             availability: "https://schema.org/InStock",
           },
@@ -147,7 +207,7 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(homepageJsonLd) }}
       />
       <Navigation />
       <main>
@@ -158,6 +218,7 @@ export default function Home() {
           buttonText="Подключить бесплатно"
         />
         <HowItWorks />
+        <Versions />
         <Features />
         <DashboardPromo />
         <Metrics />

@@ -10,6 +10,7 @@ import DashboardConversationsShowcase from "@/components/dashboard/DashboardConv
 import DashboardWidgetShowcase from "@/components/dashboard/DashboardWidgetShowcase";
 import DashboardBenefits from "@/components/dashboard/DashboardBenefits";
 import DashboardCTA from "@/components/dashboard/DashboardCTA";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata = {
   title: { absolute: "Личный кабинет ИИ-ассистента | Навылет! AI" },
@@ -71,7 +72,7 @@ export default function DashboardPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbLd) }}
       />
       <Navigation />
       <main>
@@ -100,7 +101,7 @@ export default function DashboardPage() {
               {
                 href: "/tarify",
                 title: "Тарифы",
-                text: "Прозрачные планы от 1 990 ₽/мес",
+                text: "Прозрачные планы от 990 ₽/мес",
               },
               {
                 href: "/integraciya-tourvisor",

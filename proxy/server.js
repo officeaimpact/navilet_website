@@ -144,6 +144,7 @@ function buildMessage(d) {
   if (d.company) lines.push(`🏢 <b>Компания:</b> ${esc(clip(d.company, 160))}`);
   if (d.email) lines.push(`✉️ <b>Email:</b> ${esc(clip(d.email, 160))}`);
 
+  if (d.version) lines.push(`⚙️ <b>Версия:</b> ${esc(clip(d.version, 40))}`);
   const plan = [];
   if (d.plan) plan.push(esc(clip(d.plan, 60)));
   if (d.channel) plan.push(esc(clip(d.channel, 40)));

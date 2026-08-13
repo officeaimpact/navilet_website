@@ -3,6 +3,7 @@ import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import ForecastLanding from "@/components/forecast/ForecastLanding";
 import { forecastFaqItems } from "@/lib/content";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -91,7 +92,7 @@ export default function PrognozyPage() {
       <link rel="preconnect" href="https://lk.navilet.ru" />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>

@@ -79,7 +79,7 @@ export default function DashboardCTA() {
           variants={fadeInUp}
           className="mt-6 text-sm text-white/40"
         >
-          30 дней бесплатно · Подключение 0 ₽ · Полный доступ ко всем функциям
+          30 дней бесплатно · Подключение 0 ₽ · Полный доступ ко всем функциям
         </motion.p>
       </motion.div>
     </section>

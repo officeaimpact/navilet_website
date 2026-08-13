@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import {
@@ -9,6 +10,9 @@ import {
   promo,
   type PricingPlan,
   type CrossChannelAddon,
+  type AssistantVersionId,
+  type VersionPlanValues,
+  type CrossChannelValues,
 } from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
@@ -24,22 +28,76 @@ import {
   Layers,
   Inbox,
   Info,
+  Target,
+  Gem,
 } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
 /** Форматирование чисел с тонкими неразрывными пробелами */
 const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u202F");
 
+/** Значения тарифа в выбранной версии */
+const planValues = (
+  plan: PricingPlan,
+  version: AssistantVersionId
+): VersionPlanValues =>
+  version === "lid"
+    ? plan.lid
+    : {
+        price: plan.price,
+        dialogs: plan.dialogs,
+        extraDialog: plan.extraDialog,
+        effectivePerDialog: plan.effectivePerDialog,
+      };
+
+/** Значения надстройки «Второй канал» в выбранной версии */
+const addonValues = (
+  addon: CrossChannelAddon,
+  version: AssistantVersionId
+): CrossChannelValues =>
+  version === "lid"
+    ? addon.lid
+    : {
+        addonPrice: addon.addonPrice,
+        extraDialogs: addon.extraDialogs,
+        totalPrice: addon.totalPrice,
+        totalDialogs: addon.totalDialogs,
+        extraDialogPrice: addon.extraDialogPrice,
+      };
+
+const versionMeta: Record<
+  AssistantVersionId,
+  { name: string; caption: string; Icon: typeof Target; blurb: string }
+> = {
+  lid: {
+    name: "Лид",
+    caption: "лидогенерация · от 990\u00A0₽",
+    Icon: Target,
+    blurb:
+      "«Лид» ведёт живой диалог, подбирает туры и передаёт готовую заявку с контактом вашему менеджеру.",
+  },
+  pro: {
+    name: "Про",
+    caption: "полный инструмент · от 1\u00A0990\u00A0₽",
+    Icon: Gem,
+    blurb:
+      "«Про» консультирует без ограничений, проверяет цены в чате и возвращает клиентов в MAX.",
+  },
+};
+
 function PlanCard({
   plan,
+  values,
   onSelect,
   onRegister,
 }: {
   plan: PricingPlan;
+  values: VersionPlanValues;
   onSelect: (plan: PricingPlan) => void;
   onRegister: (plan: PricingPlan) => void;
 }) {
-  const { name, price, dialogs, extraDialog, effectivePerDialog, popular } = plan;
+  const { name, popular } = plan;
+  const { price, dialogs, extraDialog, effectivePerDialog } = values;
 
   const card = (
     <motion.div
@@ -118,7 +176,7 @@ function PlanCard({
       </Button>
       <button
         onClick={() => onSelect(plan)}
-        className="mt-1.5 cursor-pointer py-1.5 text-center text-xs font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
+        className="mt-1 min-h-10 cursor-pointer px-2 text-center text-xs font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
       >
         Или подключим с менеджером — оставьте заявку
       </button>
@@ -144,11 +202,11 @@ function PlanCard({
 
 function CrossChannelCard({
   plan,
-  addon,
+  values,
   onSelect,
 }: {
   plan: PricingPlan;
-  addon: CrossChannelAddon;
+  values: CrossChannelValues;
   onSelect: (plan: PricingPlan) => void;
 }) {
   return (
@@ -164,7 +222,7 @@ function CrossChannelCard({
           {plan.name}
           <span className="ml-1.5 text-accent">+ Второй канал</span>
         </h3>
-        <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent sm:text-[11px]">
+        <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent">
           <Layers className="h-3 w-3" />
           Web + MAX
         </span>
@@ -173,12 +231,12 @@ function CrossChannelCard({
       {/* Addon price */}
       <div className="mb-1 flex flex-wrap items-baseline gap-x-1">
         <span className="whitespace-nowrap font-display text-2xl font-bold text-heading lg:text-3xl">
-          +{fmt(addon.addonPrice)}&nbsp;₽
+          +{fmt(values.addonPrice)}&nbsp;₽
         </span>
         <span className="text-sm font-medium text-muted">/ мес</span>
       </div>
       <p className="text-sm font-medium text-accent">
-        +{addon.extraDialogs} диалогов во втором канале
+        +{values.extraDialogs} диалогов во втором канале
       </p>
 
       <div className="my-4 h-px w-full bg-blue-subtle/60" />
@@ -189,18 +247,18 @@ function CrossChannelCard({
           Итого с тарифом
         </p>
         <p className="mt-0.5 font-display text-lg font-bold text-heading">
-          <span className="whitespace-nowrap">{fmt(addon.totalPrice)}&nbsp;₽</span>
+          <span className="whitespace-nowrap">{fmt(values.totalPrice)}&nbsp;₽</span>
           <span className="ml-1 text-sm font-medium text-muted">/ мес</span>
         </p>
         <p className="text-xs font-medium text-body">
-          {addon.totalDialogs} диалогов в двух каналах
+          {values.totalDialogs} диалогов в двух каналах
         </p>
       </div>
 
       <p className="mb-5 text-xs text-muted">
         Доп. диалог во втором канале —{" "}
         <span className="font-semibold text-body">
-          {addon.extraDialogPrice} ₽
+          {values.extraDialogPrice} ₽
         </span>
       </p>
 
@@ -213,17 +271,35 @@ function CrossChannelCard({
   );
 }
 
-export default function Pricing() {
+/**
+ * `showHeader={false}` — на /tarify заголовок и бейдж уже есть в hero страницы,
+ * второй раз их показывать не нужно.
+ */
+export default function Pricing({ showHeader = true }: { showHeader?: boolean }) {
   const { openForm } = useLeadForm();
   const [promoActive, setPromoActive] = useState(false);
+  const [version, setVersion] = useState<AssistantVersionId>("lid");
 
   useEffect(() => {
     setPromoActive(isPromoActive());
+    // Deep-link: /tarify?v=pro открывает линейку «Про»
+    const v = new URLSearchParams(window.location.search).get("v");
+    if (v === "pro" || v === "lid") setVersion(v);
   }, []);
+
+  const switchVersion = (next: AssistantVersionId) => {
+    if (next === version) return;
+    setVersion(next);
+    reachMetrikaGoal(metrikaGoals.versionSwitchPricing, { version_id: next });
+    // Обновляем ?v= без перезагрузки — ссылкой на линейку можно поделиться
+    const url = new URL(window.location.href);
+    url.searchParams.set("v", next);
+    window.history.replaceState(null, "", url.toString());
+  };
 
   const handlePromoCta = () => {
     reachMetrikaGoal(metrikaGoals.promoClick);
-    openForm();
+    openForm({ versionId: version, source: "pricing_promo" });
   };
 
   /** «Оставьте заявку» — сразу конструктор заявки, минуя выбор пути */
@@ -232,21 +308,37 @@ export default function Pricing() {
       planId: plan.id,
       planName: plan.name,
       channelId: channel,
+      versionId: version,
       path: "request",
     });
 
   /** «Начать бесплатно» — форма с выбором пути (сам / через менеджера) */
   const handleRegister = (plan?: PricingPlan) =>
-    openForm(plan ? { planId: plan.id, planName: plan.name } : undefined);
+    openForm(
+      plan
+        ? { planId: plan.id, planName: plan.name, versionId: version }
+        : { versionId: version }
+    );
+
+  const activeMeta = versionMeta[version];
 
   return (
-    <SectionWrapper id="pricing">
+    <SectionWrapper
+      id="pricing"
+      paddingClassName={
+        showHeader ? undefined : "pb-24 pt-8 sm:pt-10 lg:pb-28 xl:pb-32"
+      }
+    >
       {/* Section header */}
-      <motion.div variants={fadeInUp} className="mb-10 text-center sm:mb-12">
+      {showHeader && (
+      <motion.div variants={fadeInUp} className="mb-8 text-center sm:mb-10">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
           <Sparkles className="h-4 w-4 text-accent" />
           <span className="text-xs font-semibold text-accent sm:text-sm">
-            30 дней бесплатно • Подключение 0 ₽ • Отмена в любой момент
+            {/* Условия акции повторяет плашка ниже — в бейдже оставляем суть */}
+            {promoActive
+              ? "Первый месяц бесплатно"
+              : "Первый месяц бесплатно • Подключение 0 ₽ • Отмена в любой момент"}
           </span>
         </div>
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
@@ -264,6 +356,70 @@ export default function Pricing() {
           .
         </p>
       </motion.div>
+      )}
+
+      {/* Без заголовка секции тумблер идёт первым — подписываем, что он делает */}
+      {!showHeader && (
+        <motion.p
+          variants={fadeInUp}
+          className="mb-2.5 text-center text-xs font-semibold uppercase tracking-wide text-muted"
+        >
+          Выберите версию ассистента
+        </motion.p>
+      )}
+
+      {/* Переключатель версий «Лид» / «Про» */}
+      <motion.div variants={fadeInUp} className="mb-3 flex justify-center">
+        <div
+          role="tablist"
+          aria-label="Версия ассистента"
+          className="grid w-full max-w-md grid-cols-2 gap-1 rounded-2xl border border-blue-subtle/50 bg-surface-alt p-1.5"
+        >
+          {(Object.keys(versionMeta) as AssistantVersionId[]).map((id) => {
+            const meta = versionMeta[id];
+            const active = version === id;
+            return (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={active}
+                onClick={() => switchVersion(id)}
+                className={`flex cursor-pointer flex-col items-center rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                  active
+                    ? "bg-white shadow-[0_2px_8px_rgba(0,82,204,0.10)] ring-1 ring-blue-subtle/60"
+                    : "hover:bg-white/60"
+                }`}
+              >
+                <span
+                  className={`flex items-center gap-1.5 font-display text-sm font-bold sm:text-base ${
+                    active ? "text-accent" : "text-heading"
+                  }`}
+                >
+                  <meta.Icon className="h-4 w-4" />
+                  Версия «{meta.name}»
+                </span>
+                <span className="mt-0.5 text-[11px] font-medium text-muted sm:text-xs">
+                  {meta.caption}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </motion.div>
+
+      {/* Пояснение выбранной версии */}
+      <motion.p
+        variants={fadeInUp}
+        className="mx-auto mb-10 max-w-2xl text-center text-sm text-body"
+      >
+        {activeMeta.blurb}{" "}
+        <Link
+          href="/versii"
+          className="whitespace-nowrap font-medium text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
+        >
+          Сравнить версии
+        </Link>
+      </motion.p>
 
       {/* Promo plashka */}
       {promoActive && (
@@ -285,7 +441,7 @@ export default function Pricing() {
                   {promo.headline}
                 </p>
                 <p className="text-sm text-body">
-                  Подключение 0 ₽ · отмена в любой момент
+                  Подключение 0 ₽ · отмена в любой момент
                 </p>
               </div>
             </div>
@@ -331,6 +487,7 @@ export default function Pricing() {
           <PlanCard
             key={plan.id}
             plan={plan}
+            values={planValues(plan, version)}
             onSelect={(p) => handleSelectPlan(p)}
             onRegister={(p) => handleRegister(p)}
           />
@@ -357,7 +514,7 @@ export default function Pricing() {
             Базовый тариф работает в одном канале. Если хотите использовать
             ИИ-ассистента сразу <strong className="font-semibold text-heading">и в Web-виджете на сайте, и в MAX-мессенджере</strong> — добавьте «Второй канал»
             к выбранному тарифу. Получите дополнительный лимит диалогов во
-            втором канале по льготной цене.
+            втором канале по льготной цене. Цены — для версии «{activeMeta.name}».
           </p>
         </div>
 
@@ -371,7 +528,7 @@ export default function Pricing() {
               <CrossChannelCard
                 key={addon.planId}
                 plan={plan}
-                addon={addon}
+                values={addonValues(addon, version)}
                 onSelect={(p) => handleSelectPlan(p, "cross")}
               />
             );
@@ -385,7 +542,7 @@ export default function Pricing() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-subtle/60 bg-white px-4 py-1.5">
             <Settings className="h-4 w-4 text-accent" />
             <span className="text-xs font-semibold uppercase tracking-wide text-primary sm:text-sm">
-              Подключение · 0 ₽
+              Подключение · 0 ₽
             </span>
           </div>
           <h3 className="font-display text-2xl font-bold text-heading sm:text-3xl">
@@ -415,7 +572,7 @@ export default function Pricing() {
             },
             {
               icon: MessageSquare,
-              title: "MAX-канал — тоже 0 ₽",
+              title: "MAX-канал — тоже 0 ₽",
               text: "Зарегистрируйтесь в MAX Бизнес — у вас появится свой чат-бот, и мы подключим его к ассистенту.",
             },
             {
@@ -465,8 +622,8 @@ export default function Pricing() {
           </span>
         </Button>
         <button
-          onClick={() => openForm({ path: "request" })}
-          className="cursor-pointer text-sm font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
+          onClick={() => openForm({ versionId: version, path: "request" })}
+          className="min-h-10 cursor-pointer px-3 text-sm font-medium text-muted underline decoration-blue-subtle underline-offset-2 transition-colors hover:text-accent hover:decoration-accent/40"
         >
           Нужна помощь с подключением? Оставьте заявку
         </button>

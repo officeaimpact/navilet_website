@@ -71,6 +71,7 @@ export default function RealDashboardFrame({
 
   const content = (
     <div
+      data-product-mock="dashboard"
       className={`overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-lg ${className}`}
     >
       {/* Browser chrome */}

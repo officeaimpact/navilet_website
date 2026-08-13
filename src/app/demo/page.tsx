@@ -2,16 +2,18 @@ import type { Metadata, Viewport } from "next";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import DemoExperience from "@/components/demo/DemoExperience";
-import DemoWidgetLoader from "@/components/demo/DemoWidgetLoader";
 import { demoFaqItems } from "@/lib/content";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
-const DEMO_ASSISTANT_ID = "e919868a-abae-4d5e-87bb-67935c5cca30";
 
 export const metadata: Metadata = {
-  title: { absolute: "Демо ИИ-ассистента — попробовать вживую | Навылет! AI" },
+  title: {
+    absolute:
+      "Демо ИИ-ассистента — попробовать вживую без регистрации | Навылет! AI",
+  },
   description:
-    "Живая демонстрация ИИ-ассистента «Навылет! AI»: спросите про любой тур и получите подбор с ценами прямо в чате. Бесплатно, без регистрации. Бренд и данные настраиваются под вас при подключении.",
+    "Живая демонстрация ИИ-ассистента «Навылет! AI»: спросите про любой тур и получите подбор с ценами прямо в чате. Обе версии — «Лид» и «Про» — переключаются в один клик. Демо бесплатное и без регистрации, подписка потом от 990 ₽/мес.",
   keywords: [
     "демо ИИ-ассистент",
     "попробовать ИИ для турагентства",
@@ -98,14 +100,13 @@ export default function DemoPage() {
       <link rel="dns-prefetch" href="https://lk.navilet.ru" />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>
         <DemoExperience />
       </main>
       <Footer />
-      <DemoWidgetLoader assistantId={DEMO_ASSISTANT_ID} />
     </>
   );
 }

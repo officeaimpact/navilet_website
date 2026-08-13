@@ -16,11 +16,15 @@ import {
   Building2,
   Users,
 } from "lucide-react";
+import { jsonLdScript } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: { absolute: "ИИ для турагентства: подбор туров 24/7 | Навылет! AI" },
+  title: {
+    absolute:
+      "ИИ для турагентства от 990 ₽/мес: подбор туров 24/7 | Навылет! AI",
+  },
   description:
-    "ИИ-ассистент для турагентств: не пропускает ночные заявки, подбирает туры за секунды, отвечает на 80% вопросов клиентов сам. Менеджер подключается только когда клиент готов бронировать. Подключение за пару минут, 30 дней бесплатно.",
+    "ИИ-ассистент для турагентств: не пропускает ночные заявки, подбирает туры за секунды, отвечает на 80% вопросов клиентов сам. Менеджер подключается только когда клиент готов бронировать. Подключение за пару минут, первый месяц бесплатно, дальше от 990 ₽/мес.",
   keywords: [
     "ИИ для турагентства",
     "ИИ-ассистент турагентство",
@@ -96,8 +100,9 @@ const recommendedTariffs = [
     icon: Store,
     title: "Первый шаг — минимальный бюджет",
     rec: "Тариф «Lite»",
-    price: "1 990 ₽/мес",
-    detail: "30 диалогов в месяц. Подключение бесплатно.",
+    price: "от 990 ₽/мес",
+    detail:
+      "Версия «Лид»: 990 ₽ за 40 диалогов, версия «Про»: 1 990 ₽ за 30. Подключение бесплатно.",
     when: "Одиночный агент или небольшой сайт, до 1 диалога в день",
     href: "/tarify#lite",
   },
@@ -105,8 +110,9 @@ const recommendedTariffs = [
     icon: Store,
     title: "Одиночный офис или филиал",
     rec: "Тариф «Старт»",
-    price: "3 290 ₽/мес",
-    detail: "50 диалогов в месяц. Подключение бесплатно.",
+    price: "от 1 690 ₽/мес",
+    detail:
+      "Версия «Лид»: 1 690 ₽ за 80 диалогов, версия «Про»: 3 290 ₽ за 50. Подключение бесплатно.",
     when: "1–2 диалога в день, базовый поток, тестируете подход",
     href: "/tarify#start",
   },
@@ -114,8 +120,9 @@ const recommendedTariffs = [
     icon: Building2,
     title: "Главный офис небольшой сети",
     rec: "Тариф «Стандарт»",
-    price: "5 290 ₽/мес",
-    detail: "120 диалогов в месяц. Подключение бесплатно.",
+    price: "от 2 690 ₽/мес",
+    detail:
+      "Версия «Лид»: 2 690 ₽ за 150 диалогов, версия «Про»: 5 290 ₽ за 120. Подключение бесплатно.",
     when: "2–4 диалога в день, активный сайт, есть менеджеры на бронировании",
     isPopular: true,
     href: "/tarify#standart",
@@ -124,8 +131,9 @@ const recommendedTariffs = [
     icon: Users,
     title: "Зрелое агентство или 2–3 офиса",
     rec: "Тариф «Бизнес»",
-    price: "7 990 ₽/мес",
-    detail: "200 диалогов в месяц. Подключение бесплатно.",
+    price: "от 3 990 ₽/мес",
+    detail:
+      "Версия «Лид»: 3 990 ₽ за 250 диалогов, версия «Про»: 7 990 ₽ за 200. Подключение бесплатно.",
     when: "5–7 диалогов в день, поток ночных и выходных заявок",
     href: "/tarify#biznes",
   },
@@ -184,7 +192,7 @@ export default function ForAgenciesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(audienceJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(audienceJsonLd) }}
       />
       <Navigation />
       <main>
@@ -327,7 +335,7 @@ export default function ForAgenciesPage() {
                   }`}
                 >
                   {t.isPopular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
                       Рекомендуем
                     </div>
                   )}

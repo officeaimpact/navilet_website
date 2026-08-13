@@ -6,6 +6,8 @@
 
 # testing
 /coverage
+# скриншоты из QA-прогонов: артефакты проверок, а не код
+/qa-shots/
 
 # next.js
 /.next/

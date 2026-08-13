@@ -18,6 +18,7 @@ import {
   getRelatedPosts,
 } from "@/lib/blog";
 import { coverGradient, formatPostDate } from "@/lib/blog-utils";
+import { jsonLdScript } from "@/lib/schema";
 
 const siteUrl = "https://navilet.ru";
 
@@ -154,7 +155,7 @@ export default async function BlogPostPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <Navigation />
       <main>

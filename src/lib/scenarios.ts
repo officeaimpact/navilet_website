@@ -19,11 +19,22 @@ export interface DemoTourCard {
   hotel_code: number;
 }
 
+/**
+ * Кнопка-подсказка под ответом ассистента (контракт `quick_replies`
+ * реального виджета). `continue` продолжает диалог, `handoff` передаёт
+ * запрос менеджеру и закрывает диалог — как в версии «Лид».
+ */
+export interface DemoQuickReply {
+  text: string;
+  action?: "continue" | "handoff";
+}
+
 export interface DemoMessage {
   role: "user" | "assistant";
   text: string;
   cards?: DemoTourCard[];
   delay: number;
+  quickReplies?: DemoQuickReply[];
 }
 
 export interface DemoScenario {
@@ -32,10 +43,70 @@ export interface DemoScenario {
   subtitle: string;
   icon: string;
   messages: DemoMessage[];
+  /** Заголовок страницы-подборки — ассистент собирает его из карточек */
+  collectionTitle?: string;
 }
 
 const tv = (code: number) =>
   `https://static.tourvisor.ru/hotel_pics/main400/${code}.jpg`;
+
+/** Общая выдача по Турции — её показывают оба сценария на главной */
+const turkeyJuneCards: DemoTourCard[] = [
+  {
+    hotel_name: "Barut Hemera",
+    hotel_stars: 5,
+    hotel_rating: 4.7,
+    resort: "Сиде",
+    country: "Турция",
+    date_from: "03.06",
+    date_to: "10.06",
+    nights: 7,
+    price: 142500,
+    meal_description: "Всё включено",
+    room_type: "Standard",
+    operator: "Anex Tour",
+    departure_city: "Москва",
+    flight_included: true,
+    image_url: tv(1033),
+    hotel_code: 1033,
+  },
+  {
+    hotel_name: "Calista Luxury Resort",
+    hotel_stars: 5,
+    hotel_rating: 4.8,
+    resort: "Белек",
+    country: "Турция",
+    date_from: "02.06",
+    date_to: "09.06",
+    nights: 7,
+    price: 186200,
+    meal_description: "Ультра всё включено",
+    room_type: "Deluxe",
+    operator: "Coral Travel",
+    departure_city: "Москва",
+    flight_included: true,
+    image_url: tv(1065),
+    hotel_code: 1065,
+  },
+  {
+    hotel_name: "Voyage Belek",
+    hotel_stars: 5,
+    hotel_rating: 4.6,
+    resort: "Белек",
+    country: "Турция",
+    date_from: "04.06",
+    date_to: "11.06",
+    nights: 7,
+    price: 158900,
+    meal_description: "Ультра всё включено",
+    room_type: "Standard",
+    operator: "Pegas",
+    departure_city: "Москва",
+    flight_included: true,
+    image_url: tv(1582),
+    hotel_code: 1582,
+  },
+];
 
 export const demoScenarios: DemoScenario[] = [
   // ─── 1. ПОДБОР ТУРА (каскадный диалог) ────────────────────────
@@ -44,6 +115,7 @@ export const demoScenarios: DemoScenario[] = [
     title: "Подбор тура",
     subtitle: "Полный каскадный диалог с подбором",
     icon: "Globe",
+    collectionTitle: "Подборка туров — Турция",
     messages: [
       {
         role: "user",
@@ -94,61 +166,10 @@ export const demoScenarios: DemoScenario[] = [
         role: "assistant",
         text: "Нашёл отличные варианты для вас! Какой заинтересовал?",
         delay: 10,
-        cards: [
-          {
-            hotel_name: "Barut Hemera",
-            hotel_stars: 5,
-            hotel_rating: 4.7,
-            resort: "Сиде",
-            country: "Турция",
-            date_from: "03.06",
-            date_to: "10.06",
-            nights: 7,
-            price: 142500,
-            meal_description: "Всё включено",
-            room_type: "Standard",
-            operator: "Anex Tour",
-            departure_city: "Москва",
-            flight_included: true,
-            image_url: tv(1033),
-            hotel_code: 1033,
-          },
-          {
-            hotel_name: "Calista Luxury Resort",
-            hotel_stars: 5,
-            hotel_rating: 4.8,
-            resort: "Белек",
-            country: "Турция",
-            date_from: "02.06",
-            date_to: "09.06",
-            nights: 7,
-            price: 186200,
-            meal_description: "Ультра всё включено",
-            room_type: "Deluxe",
-            operator: "Coral Travel",
-            departure_city: "Москва",
-            flight_included: true,
-            image_url: tv(1065),
-            hotel_code: 1065,
-          },
-          {
-            hotel_name: "Voyage Belek",
-            hotel_stars: 5,
-            hotel_rating: 4.6,
-            resort: "Белек",
-            country: "Турция",
-            date_from: "04.06",
-            date_to: "11.06",
-            nights: 7,
-            price: 158900,
-            meal_description: "Ультра всё включено",
-            room_type: "Standard",
-            operator: "Pegas",
-            departure_city: "Москва",
-            flight_included: true,
-            image_url: tv(1582),
-            hotel_code: 1582,
-          },
+        cards: turkeyJuneCards,
+        quickReplies: [
+          { text: "Расскажи подробнее о первом" },
+          { text: "Передать менеджеру", action: "handoff" },
         ],
       },
       {
@@ -180,6 +201,7 @@ export const demoScenarios: DemoScenario[] = [
     title: "Горящие туры",
     subtitle: "Скидки до 40% на ближайшие даты",
     icon: "Flame",
+    collectionTitle: "Подборка туров — горящие предложения",
     messages: [
       {
         role: "user",
@@ -262,6 +284,10 @@ export const demoScenarios: DemoScenario[] = [
             hotel_code: 47025,
           },
         ],
+        quickReplies: [
+          { text: "Какой пляж у второго?" },
+          { text: "Передать менеджеру", action: "handoff" },
+        ],
       },
       {
         role: "user",
@@ -292,6 +318,7 @@ export const demoScenarios: DemoScenario[] = [
     title: "Конкретный отель",
     subtitle: "Поиск по названию или бренду",
     icon: "Building2",
+    collectionTitle: "Подборка туров — отели Rixos",
     messages: [
       {
         role: "user",
@@ -378,6 +405,10 @@ export const demoScenarios: DemoScenario[] = [
             hotel_code: 1494,
           },
         ],
+        quickReplies: [
+          { text: "Какой перелёт в первом?" },
+          { text: "Передать менеджеру", action: "handoff" },
+        ],
       },
       {
         role: "user",
@@ -396,7 +427,7 @@ export const demoScenarios: DemoScenario[] = [
       },
       {
         role: "assistant",
-        text: "Актуальная стоимость Rixos Premium Belek:\n\n💰 245 800 ₽ за двоих (7 ночей)\n📋 Визовый сбор: не требуется\n✅ Мгновенное подтверждение\n🏥 Страховка включена\n\nДля оформления нажмите «Оформить тур» на карточке. Могу помочь с чем-то ещё?",
+        text: "Актуальная стоимость Rixos Premium Belek:\n\n💰 245 800 ₽ за двоих (7 ночей)\n📋 Визовый сбор: не требуется\n✅ Мгновенное подтверждение\n🏥 Страховка включена\n\nДля оформления нажмите «Оформить тур» на карточке. Могу помочь с чем-то ещё?",
         delay: 13.5,
       },
     ],
@@ -408,6 +439,7 @@ export const demoScenarios: DemoScenario[] = [
     title: "Без перелёта",
     subtitle: "Для поездки на машине или автобусе",
     icon: "Car",
+    collectionTitle: "Подборка туров — Сочи без перелёта",
     messages: [
       {
         role: "user",
@@ -493,6 +525,10 @@ export const demoScenarios: DemoScenario[] = [
             image_url: tv(29042),
             hotel_code: 29042,
           },
+        ],
+        quickReplies: [
+          { text: "Далеко ли первый от моря?" },
+          { text: "Передать менеджеру", action: "handoff" },
         ],
       },
       {

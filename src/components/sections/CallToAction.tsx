@@ -159,7 +159,7 @@ export default function CallToAction() {
                   </div>
                 </div>
 
-                <label className="mt-4 flex cursor-pointer items-start gap-2.5">
+                <label className="mt-4 flex min-h-11 cursor-pointer items-start gap-2.5">
                   <input
                     type="checkbox"
                     checked={consent}
@@ -234,7 +234,7 @@ export default function CallToAction() {
           variants={fadeInUp}
           className="mt-6 text-center text-sm text-white/40"
         >
-          30 дней бесплатно • Подключение 0 ₽ • Запуск за пару минут
+          30 дней бесплатно • Подключение 0 ₽ • Запуск за пару минут
         </motion.p>
       </motion.div>
     </section>

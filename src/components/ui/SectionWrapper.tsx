@@ -10,6 +10,8 @@ interface SectionWrapperProps {
   className?: string;
   dark?: boolean;
   alt?: boolean;
+  /** Вертикальные отступы, если секция идёт сразу за hero страницы */
+  paddingClassName?: string;
 }
 
 export default function SectionWrapper({
@@ -18,6 +20,7 @@ export default function SectionWrapper({
   className = "",
   dark = false,
   alt = false,
+  paddingClassName = "py-24 lg:py-28 xl:py-32",
 }: SectionWrapperProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -35,7 +38,7 @@ export default function SectionWrapper({
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8 lg:py-28 xl:py-32"
+        className={`mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 ${paddingClassName}`}
       >
         {children}
       </motion.div>
