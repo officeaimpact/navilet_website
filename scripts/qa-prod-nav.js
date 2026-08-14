@@ -46,10 +46,12 @@ const check = (name, cond, detail = "") => {
       (el.innerText || "").trim()
     )
   );
-  check("шапка: четыре пункта", top.length === 4, top.join(" | "));
+  check("шапка: пять пунктов", top.length === 5, top.join(" | "));
   check(
-    "шапка: Продукт, Возможности, Тарифы, Демо",
-    ["Продукт", "Возможности", "Тарифы", "Демо"].every((t) => top.includes(t)),
+    "шапка: Продукт, Возможности, Тарифы, Демо, Нам доверяют",
+    ["Продукт", "Возможности", "Тарифы", "Демо", "Нам доверяют"].every((t) =>
+      top.includes(t)
+    ),
     top.join(" | ")
   );
 
@@ -76,7 +78,9 @@ const check = (name, cond, detail = "") => {
   check("меню «Возможности» открывается", features.visible);
 
   const all = [...new Set([...product.links, ...features.links])];
-  check("в меню 14 ссылок", all.length === 14, String(all.length));
+  // Шесть ссылок в «Продукте» и три в «Возможностях» — меню специально
+  // разгрузили, страницы «кому подходит» живут в футере и карте сайта.
+  check("в меню девять ссылок", all.length === 9, String(all.length));
 
   for (const href of all) {
     if (href.startsWith("/#")) continue;
