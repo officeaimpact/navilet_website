@@ -14,8 +14,6 @@ import {
   Phone,
   Mail,
   ArrowRight,
-  Target,
-  Gem,
   ClipboardList,
   Info,
 } from "lucide-react";
@@ -32,6 +30,7 @@ import {
   type AssistantVersionId,
 } from "@/lib/content";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
+import { versionIcons } from "@/lib/version-icons";
 
 declare global {
   interface Window {
@@ -62,21 +61,21 @@ const demoVersions: {
   name: string;
   caption: string;
   hint: string;
-  Icon: typeof Target;
+  Icon: typeof versionIcons.lid;
 }[] = [
   {
     id: "lid",
     name: "Лид",
     caption: "лидогенерация",
     hint: "«Лид» собирает запрос по шагам, показывает подборку и передаёт заявку с контактом менеджеру — попробуйте пройти путь клиента до заявки.",
-    Icon: Target,
+    Icon: versionIcons.lid,
   },
   {
     id: "pro",
     name: "Про",
     caption: "полный инструмент",
     hint: "«Про» консультирует без ограничений: спросите про отель, пляж или питание, попросите сравнить варианты и проверить цену.",
-    Icon: Gem,
+    Icon: versionIcons.pro,
   },
 ];
 
@@ -93,8 +92,8 @@ const customization = [
   },
   {
     icon: Settings2,
-    title: "Индивидуальная настройка",
-    text: "Всё обсуждается лично. Если что-то не понравится — доработаем сценарии и оформление под вас.",
+    title: "Настройки в кабинете",
+    text: "Приветствие, кнопки-подсказки, каналы заявок и версия ассистента — переключаются в личном кабинете.",
   },
 ];
 
@@ -152,11 +151,11 @@ export default function DemoExperience() {
         <div className="relative mx-auto max-w-3xl px-5 pt-28 pb-14 text-center sm:px-6 sm:pt-32 lg:px-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-accent">
             <span className="h-2 w-2 rounded-full bg-green-500" />
-            Демо-режим · тестовые данные
+            Живое демо · без регистрации
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.1] text-heading sm:text-5xl">
-            Попробуйте ИИ-ассистента вживую
+            Попробуйте <span className="whitespace-nowrap">ИИ-ассистента</span> вживую
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-body">
             Спросите ассистента про любой тур — направление, даты, бюджет, число
@@ -282,11 +281,6 @@ export default function DemoExperience() {
               откроется страница с турами, которую клиент получает ссылкой.
             </p>
           </div>
-
-          <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-blue-subtle/50 bg-surface-alt px-5 py-4 text-sm leading-relaxed text-body">
-            Это демонстрация на тестовых данных. Ваш бренд, логотип, контакты и
-            данные компании настраиваются под вас при подключении.
-          </div>
         </div>
       </section>
 
@@ -318,11 +312,11 @@ export default function DemoExperience() {
       <section className="mx-auto max-w-5xl px-5 py-12 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
           <h2 className="font-display text-2xl font-bold text-heading sm:text-3xl">
-            В демо — тестовые данные. На проде — всё под вас
+            На вашем сайте ассистент работает под вашим брендом
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base text-body">
-            Демо показывает логику работы. При подключении ассистент полностью
-            адаптируется под ваше агентство.
+            В демо — наш нейтральный пример. При подключении ассистент говорит
+            от имени вашего агентства.
           </p>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">

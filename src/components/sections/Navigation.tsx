@@ -144,17 +144,28 @@ export default function Navigation() {
 
         {/* Панель всегда в разметке: так ссылки видят поисковые роботы,
             а visibility:hidden убирает их из обхода по Tab, пока закрыто. */}
+        {/* Двухколоночная панель шириной 40rem не влезает по центру
+            кнопки на 1024px — её держим по левой кромке триггера,
+            узкую центрируем: так обе выглядят пристёгнутыми к пункту. */}
         <div
           id={id}
           data-nav-panel={entry.label}
-          className={`absolute left-1/2 top-full z-10 w-[min(40rem,calc(100vw-3rem))] -translate-x-1/2 pt-3 transition-all duration-200 ${
+          className={`absolute top-full z-10 pt-3 transition-all duration-200 ${
+            entry.columns.length > 1
+              ? "left-0 w-[min(40rem,calc(100vw-3rem))]"
+              : "left-1/2 w-[min(22rem,calc(100vw-3rem))] -translate-x-1/2"
+          } ${
             isOpen
               ? "visible translate-y-0 opacity-100"
               : "invisible -translate-y-1 opacity-0"
           }`}
         >
           <div className="overflow-hidden rounded-2xl border border-blue-subtle/50 bg-white shadow-xl shadow-primary/10">
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 p-3">
+            <div
+              className={`grid gap-x-2 gap-y-1 p-3 ${
+                entry.columns.length > 1 ? "grid-cols-2" : "grid-cols-1"
+              }`}
+            >
               {entry.columns.map((column) => (
                 <div key={column.title}>
                   <p className="px-3 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-muted">
@@ -164,21 +175,23 @@ export default function Navigation() {
                 </div>
               ))}
             </div>
-            <Link
-              href={entry.highlight.href}
-              onClick={() => setOpenMenu(null)}
-              className="group/hl flex items-center justify-between gap-4 border-t border-blue-subtle/40 bg-blue-ice/40 px-6 py-3.5 transition-colors hover:bg-blue-ice"
-            >
-              <span>
-                <span className="block text-sm font-semibold text-heading transition-colors group-hover/hl:text-accent">
-                  {entry.highlight.label}
+            {entry.highlight && (
+              <Link
+                href={entry.highlight.href}
+                onClick={() => setOpenMenu(null)}
+                className="group/hl flex items-center justify-between gap-4 border-t border-blue-subtle/40 bg-blue-ice/40 px-6 py-3.5 transition-colors hover:bg-blue-ice"
+              >
+                <span>
+                  <span className="block text-sm font-semibold text-heading transition-colors group-hover/hl:text-accent">
+                    {entry.highlight.label}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted">
+                    {entry.highlight.description}
+                  </span>
                 </span>
-                <span className="mt-0.5 block text-xs text-muted">
-                  {entry.highlight.description}
-                </span>
-              </span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-accent transition-transform group-hover/hl:translate-x-1" />
-            </Link>
+                <ArrowRight className="h-4 w-4 shrink-0 text-accent transition-transform group-hover/hl:translate-x-1" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -222,9 +235,10 @@ export default function Navigation() {
             />
           </Link>
 
-          {/* Верхняя панель: два меню плюс тарифы и демо. Контакты живут
-              в футере и в кнопке звонка — в шапке они только мешали. */}
-          <div className="hidden items-center gap-5 lg:flex xl:gap-7">
+          {/* Верхняя панель: два меню, тарифы, демо и блок доверия. Контакты
+              живут в футере и в кнопке звонка — в шапке они только мешали.
+              На 1024px пять пунктов помещаются только с узкими отступами. */}
+          <div className="hidden items-center gap-4 lg:flex xl:gap-7">
             {navigation.map(renderDesktopEntry)}
           </div>
 
@@ -352,14 +366,16 @@ export default function Navigation() {
                                   ))}
                                 </div>
                               ))}
-                              <Link
-                                href={entry.highlight.href}
-                                onClick={closeMobileMenu}
-                                className="mt-2 flex min-h-11 items-center gap-1.5 rounded-lg bg-blue-ice/60 px-3 text-[15px] font-semibold text-accent"
-                              >
-                                {entry.highlight.label}
-                                <ArrowRight className="h-4 w-4" />
-                              </Link>
+                              {entry.highlight && (
+                                <Link
+                                  href={entry.highlight.href}
+                                  onClick={closeMobileMenu}
+                                  className="mt-2 flex min-h-11 items-center gap-1.5 rounded-lg bg-blue-ice/60 px-3 text-[15px] font-semibold text-accent"
+                                >
+                                  {entry.highlight.label}
+                                  <ArrowRight className="h-4 w-4" />
+                                </Link>
+                              )}
                             </div>
                           </motion.div>
                         )}

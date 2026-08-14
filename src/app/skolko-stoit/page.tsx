@@ -18,15 +18,17 @@ import {
   ChevronRight,
   Check,
   Wallet,
-  Target,
-  Gem,
   ArrowRight,
   Sparkles,
   Calculator,
 } from "lucide-react";
 import { jsonLdScript } from "@/lib/schema";
+import { versionIcons } from "@/lib/version-icons";
 
 const siteUrl = "https://navilet.ru";
+
+const LidIcon = versionIcons.lid;
+const ProIcon = versionIcons.pro;
 
 /** Дата последней проверки цен — показываем на странице и в разметке. */
 const priceCheckedAt = "2026-08-13";
@@ -335,7 +337,8 @@ export default function SkolkoStoitPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            Сколько стоит ИИ-ассистент для турагентства
+            Сколько стоит <span className="whitespace-nowrap">ИИ-ассистент</span> для
+            турагентства
           </h1>
 
           <div className="mt-6 rounded-2xl border border-blue-subtle/50 bg-white p-6 shadow-card sm:p-7">
@@ -411,12 +414,12 @@ export default function SkolkoStoitPage() {
               <PlanTable
                 plans={lidPlans}
                 versionName="Лид"
-                accentIcon={<Target className="h-4 w-4 text-accent" />}
+                accentIcon={<LidIcon className="h-4 w-4 text-accent" />}
               />
               <PlanTable
                 plans={proPlans}
                 versionName="Про"
-                accentIcon={<Gem className="h-4 w-4 text-accent" />}
+                accentIcon={<ProIcon className="h-4 w-4 text-accent" />}
               />
             </div>
 

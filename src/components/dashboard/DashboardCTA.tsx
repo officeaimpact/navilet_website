@@ -47,7 +47,8 @@ export default function DashboardCTA() {
           className="mb-6 font-display text-3xl font-bold text-white sm:text-4xl lg:text-5xl"
           style={{ letterSpacing: "-0.02em" }}
         >
-          Начните контролировать вашего ИИ-ассистента
+          Начните контролировать вашего{" "}
+          <span className="whitespace-nowrap">ИИ-ассистента</span>
         </motion.h2>
 
         <motion.p

@@ -233,6 +233,21 @@ export default function ForOperatorsPage() {
               Попробовать демо
             </Link>
           </div>
+
+          {/* Условия для операторов честно, до разговора с менеджером */}
+          <div className="mx-auto mt-8 flex max-w-2xl items-start gap-3 rounded-2xl border border-blue-subtle/50 bg-surface-alt px-5 py-4 text-left sm:px-6">
+            <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10">
+              <Layers className="h-4 w-4 text-accent" />
+            </span>
+            <p className="text-sm leading-relaxed text-body">
+              <strong className="font-semibold text-heading">
+                Работаем на вашей базе туров
+              </strong>{" "}
+              — подключаем её напрямую, ассистент показывает только ваши
+              предложения и цены. Запуск для туроператоров идёт пилотом: объём и
+              условия обсуждаем индивидуально, на взаимовыгодных условиях.
+            </p>
+          </div>
         </section>
 
         {/* Two scenarios */}
@@ -416,8 +431,8 @@ export default function ForOperatorsPage() {
               Готовы вооружить агентов и B2C-сайт?
             </h2>
             <p className="mt-4 text-base text-body sm:text-lg">
-              Расскажите о ваших задачах — поможем спроектировать сценарий и
-              подобрать тариф. 30 дней бесплатно, подключение 0 ₽.
+              Расскажите о ваших задачах — подберём тариф и обсудим условия
+              пилота. 30 дней бесплатно, подключение 0 ₽.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link

@@ -225,7 +225,7 @@ export default function ForAgenciesPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            <span className="text-accent">ИИ-ассистент</span> для турагентства,
+            <span className="whitespace-nowrap text-accent">ИИ-ассистент</span> для турагентства,
             который не пропустит ночную заявку
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">

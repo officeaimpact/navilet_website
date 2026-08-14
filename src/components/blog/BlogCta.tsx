@@ -13,7 +13,7 @@ interface BlogCtaProps {
 export default function BlogCta({
   title = "Попробуйте ИИ-ассистент в деле",
   text = "Подключение за пару минут, первый месяц бесплатно. Покажем, как ассистент обрабатывает заявки вашего агентства.",
-  buttonText = "Подключить ИИ-ассистента",
+  buttonText = "Подключить ИИ бесплатно",
 }: BlogCtaProps) {
   const { openForm } = useLeadForm();
 

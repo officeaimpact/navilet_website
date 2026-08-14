@@ -207,7 +207,7 @@ export default function TarifyPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            Тарифы <span className="text-accent">ИИ-ассистента</span>{" "}
+            Тарифы <span className="whitespace-nowrap text-accent">ИИ-ассистента</span>{" "}
             «Навылет! AI»
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">

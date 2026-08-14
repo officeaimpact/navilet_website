@@ -22,8 +22,8 @@ export type NavEntry =
       label: string;
       /** На десктопе колонки идут рядом, на телефоне — одним списком. */
       columns: { title: string; items: NavMenuItem[] }[];
-      /** Нижняя строка меню с акцентом. */
-      highlight: NavMenuItem;
+      /** Необязательная нижняя строка меню с акцентом. */
+      highlight?: NavMenuItem;
     };
 
 export const navigation: NavEntry[] = [
@@ -55,9 +55,9 @@ export const navigation: NavEntry[] = [
         title: "Подключение",
         items: [
           {
-            label: "Виджет на сайт",
-            description: "Tilda, WordPress, Битрикс и другие платформы",
-            href: "/vidzhet",
+            label: "Сколько стоит ассистент",
+            description: "Разбор цены, сравнение и окупаемость",
+            href: "/skolko-stoit",
           },
           {
             label: "Интеграция с Tourvisor",
@@ -72,11 +72,6 @@ export const navigation: NavEntry[] = [
         ],
       },
     ],
-    highlight: {
-      label: "Сколько стоит ассистент",
-      description: "Разбор цены, сравнение с альтернативами и окупаемость",
-      href: "/skolko-stoit",
-    },
   },
   {
     kind: "menu",
@@ -102,35 +97,11 @@ export const navigation: NavEntry[] = [
           },
         ],
       },
-      {
-        title: "Кому подходит",
-        items: [
-          {
-            label: "Турагентствам",
-            description: "Первичка, ночные заявки и подбор туров",
-            href: "/dlya-turagentstv",
-          },
-          {
-            label: "Туроператорам",
-            description: "Поток обращений и работа во втором канале",
-            href: "/dlya-turoperatorov",
-          },
-          {
-            label: "Задачи агентств",
-            description: "Ночные заявки, занятые менеджеры и другое",
-            href: "/resheniya",
-          },
-        ],
-      },
     ],
-    highlight: {
-      label: "Спрос по направлениям",
-      description: "Турция, Египет, ОАЭ — что спрашивают туристы",
-      href: "/spros",
-    },
   },
   { kind: "link", label: "Тарифы", href: "/tarify" },
   { kind: "link", label: "Демо", href: "/demo" },
+  { kind: "link", label: "Нам доверяют", href: "/#partners" },
 ];
 
 export const heroContent = {
@@ -754,8 +725,6 @@ export interface AssistantVersion {
   fullName: string;
   /** Однострочное позиционирование */
   tagline: string;
-  /** Для кого эта версия */
-  audience: string;
   /** Цена «от», ₽/мес */
   priceFrom: number;
   /** Три ключевых пункта для свёрнутой карточки */
@@ -771,8 +740,6 @@ export const assistantVersions: AssistantVersion[] = [
     fullName: "Версия «Лид»",
     tagline:
       "Лидогенерация: живой диалог, подбор туров — и готовая заявка сразу вашему менеджеру",
-    audience:
-      "Агентствам, где продают живые менеджеры: ассистент собирает готовые заявки 24/7",
     priceFrom: 990,
     highlights: [
       "Контакт клиента известен с первого сообщения — ни один диалог не теряется",
@@ -816,7 +783,6 @@ export const assistantVersions: AssistantVersion[] = [
     fullName: "Версия «Про»",
     tagline:
       "Полноценный инструмент менеджера: консультации, сопровождение и возврат клиентов",
-    audience: "Агентствам, где ассистент сам ведёт клиента до брони",
     priceFrom: 1990,
     highlights: [
       "Консультации без ограничений: отели, пляжи, питание — и проверка цены в чате",
@@ -1617,7 +1583,7 @@ export const demoFaqItems = [
   {
     question: "Чем демо отличается от рабочей версии?",
     answer:
-      "Логика та же, различие в оформлении и данных: в демо — нейтральный бренд и тестовые контакты. При подключении ассистент получает ваш логотип, цвета, тон общения, телефоны и ссылки на бронирование.",
+      "Логика и поиск туров те же — отличается только оформление: в демо стоит нейтральный бренд и наши контакты. При подключении ассистент получает ваш логотип, цвета, тон общения, телефоны и ссылки на бронирование.",
   },
   {
     question: "Что будет после демо, если ассистент понравился?",
@@ -1689,9 +1655,7 @@ export const forecastFaqItems = [
 /** Готовые примеры запросов для демо-чата */
 export const demoExampleQueries = [
   "Турция из Москвы, 7 ночей в июле, всё включено, до 200 000 ₽ на двоих",
-  "Египет на двоих в сентябре, 1-я линия, до 150 000 ₽",
   "Куда поехать с ребёнком в августе до 250 000 ₽?",
-  "Сочи на майские, 5 ночей, завтраки, рядом с морем",
 ] as const;
 
 /* ── FAQ ──────────────────────────────────────────────────── */
@@ -1827,7 +1791,6 @@ export const footerLinks = {
       { label: "Менеджеры не успевают", href: "/resheniya/menedzhery-zanyaty" },
       { label: "Спрос по направлениям", href: "/spros" },
       { label: "Кейс МГП", href: "/keisy/mgp" },
-      { label: "Мероприятия", href: "/#events" },
     ],
   },
   company: {
@@ -1836,7 +1799,7 @@ export const footerLinks = {
       { label: "О компании", href: "/o-komande" },
       { label: "Блог", href: "/blog" },
       { label: "Вопросы и ответы", href: "/voprosy" },
-      { label: "Партнёры", href: "/#partners" },
+      { label: "Партнёры и мероприятия", href: "/#partners" },
       { label: "Контакты", href: "/#cta" },
       { label: "Частые вопросы (FAQ)", href: "/faq" },
       { label: "Карта сайта", href: "/karta-sayta" },

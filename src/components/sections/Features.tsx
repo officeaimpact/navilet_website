@@ -51,15 +51,13 @@ export default function Features() {
     <SectionWrapper id="features">
       <motion.div variants={fadeInUp} className="mb-16 text-center">
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Возможности ИИ-ассистента —{" "}
-          <span className="text-accent">
-            менеджеры работают в 10 раз эффективнее
-          </span>
+          Возможности <span className="whitespace-nowrap">ИИ-ассистента</span> —{" "}
+          <span className="text-accent">до 80% рутины он берёт на себя</span>
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base text-body sm:text-lg">
-          Ассистент на базе Tourvisor берёт на себя до 80% рутины — подбор,
-          консультации, типовые вопросы — и передаёт менеджеру готовую заявку
-          с контактами.
+          Подбор туров, консультации и типовые вопросы ассистент закрывает сам,
+          а менеджеру передаёт готовую заявку с контактами. Работает на базе
+          Tourvisor: цены и наличие туров реальные.
         </p>
       </motion.div>
 

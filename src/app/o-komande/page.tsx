@@ -196,7 +196,7 @@ export default function AboutTeamPage() {
               href="/#events"
               className="font-semibold text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
             >
-              разделе «Мероприятия»
+              разделе «Партнёры и мероприятия»
             </Link>{" "}
             на главной.
           </p>

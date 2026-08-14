@@ -147,7 +147,7 @@ export default async function ScenarioPage({
         <section className="bg-surface-alt">
           <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6 lg:px-8">
             <h2 className="font-display text-2xl font-bold text-heading sm:text-3xl">
-              Как это решает ИИ-ассистент
+              Как это решает <span className="whitespace-nowrap">ИИ-ассистент</span>
             </h2>
             <div className="mt-7 space-y-4">
               {page.solution.map((step, i) => (

@@ -6,7 +6,6 @@ import Features from "@/components/sections/Features";
 import NetworkResults from "@/components/sections/NetworkResults";
 import Metrics from "@/components/sections/Metrics";
 import Partners from "@/components/sections/Partners";
-import Events from "@/components/sections/Events";
 import Pricing from "@/components/sections/Pricing";
 import Integration from "@/components/sections/Integration";
 import DashboardPromo from "@/components/sections/DashboardPromo";
@@ -223,7 +222,6 @@ export default function Home() {
         <DashboardPromo />
         <Metrics />
         <Partners />
-        <Events />
         <Pricing />
         <Integration />
         <FAQ />

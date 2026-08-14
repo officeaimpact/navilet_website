@@ -31,7 +31,7 @@ export default function DashboardHero() {
             style={{ letterSpacing: "-0.02em" }}
           >
             Полный контроль над вашим{" "}
-            <span className="text-accent">ИИ-ассистентом</span>
+            <span className="whitespace-nowrap text-accent">ИИ-ассистентом</span>
           </motion.h1>
 
           <motion.p

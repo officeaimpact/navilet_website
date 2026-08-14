@@ -210,30 +210,24 @@ export default function Events() {
 
   return (
     <>
-      <section id="events" ref={sectionRef} className="bg-surface">
+      <div id="events" ref={sectionRef} className="scroll-mt-24">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24"
+          className="mx-auto max-w-7xl px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"
         >
           {/* Header */}
           <motion.div
             variants={fadeInUp}
-            className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end"
+            className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end"
           >
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-4 py-1.5">
-                <Sparkles className="h-4 w-4 text-accent" />
-                <span className="text-sm font-semibold text-accent">
-                  Мероприятия
-                </span>
-              </div>
-              <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
+              <h3 className="font-display text-2xl font-bold text-heading sm:text-3xl">
                 Участие в{" "}
                 <span className="text-accent">отраслевых событиях</span>
-              </h2>
-              <p className="mt-3 max-w-xl text-body">
+              </h3>
+              <p className="mt-2.5 max-w-xl text-body">
                 Представляем технологии ИИ-автоматизации для туризма на ведущих
                 конференциях и конгрессах индустрии
               </p>
@@ -405,7 +399,7 @@ export default function Events() {
             }}
           />
         </motion.div>
-      </section>
+      </div>
 
       {/* Event detail modal */}
       <AnimatePresence>

@@ -186,7 +186,9 @@ export default function MgpCasePage() {
             </div>
             <h1 className="font-display text-3xl font-bold leading-tight text-heading sm:text-4xl lg:text-5xl">
               Как «Сеть магазинов горящих путёвок» внедряет{" "}
-              <span className="text-accent">ИИ-ассистент «Навылет! AI»</span>
+              <span className="text-accent">
+                <span className="whitespace-nowrap">ИИ-ассистент</span> «Навылет! AI»
+              </span>
             </h1>
             <p className="mt-5 max-w-3xl text-base text-body sm:text-lg">
               МГП — одна из крупнейших туристических сетей России: 27 лет на
@@ -304,7 +306,8 @@ export default function MgpCasePage() {
           <section className="bg-surface-alt">
             <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
               <h2 className="font-display text-2xl font-bold text-heading sm:text-3xl">
-                Почему сеть из 396 офисов выбирает ИИ-ассистент
+                Почему сеть из 396 офисов выбирает{" "}
+                <span className="whitespace-nowrap">ИИ-ассистент</span>
               </h2>
               <p className="mt-5 text-base text-body">
                 По данным экспертов отрасли, лишь 20% туристических компаний
@@ -376,7 +379,7 @@ export default function MgpCasePage() {
             <div className="mx-auto max-w-3xl px-5 py-16 text-center sm:px-6 lg:px-8 lg:py-20">
               <Globe className="mx-auto mb-4 h-10 w-10 text-accent" />
               <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl">
-                Подключите ИИ-ассистент в своём агентстве
+                Подключите <span className="whitespace-nowrap">ИИ-ассистент</span> в своём агентстве
               </h2>
               <p className="mt-4 text-base text-body sm:text-lg">
                 Используется в крупнейшей сети России — теперь доступно и

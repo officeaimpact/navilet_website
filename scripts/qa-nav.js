@@ -70,13 +70,13 @@ const panelState = (page, label) =>
       )
     );
     check(
-      `${w} в шапке ровно четыре пункта`,
-      top.length === 4,
+      `${w} в шапке ровно пять пунктов`,
+      top.length === 5,
       top.join(" | ")
     );
     check(
-      `${w} состав: Продукт, Возможности, Тарифы, Демо`,
-      ["Продукт", "Возможности", "Тарифы", "Демо"].every((t) =>
+      `${w} состав: Продукт, Возможности, Тарифы, Демо, Нам доверяют`,
+      ["Продукт", "Возможности", "Тарифы", "Демо", "Нам доверяют"].every((t) =>
         top.some((x) => x === t)
       ),
       top.join(" | ")
@@ -84,6 +84,23 @@ const panelState = (page, label) =>
     check(
       `${w} «Контакты» из шапки убраны`,
       !top.some((t) => /Контакты/.test(t))
+    );
+
+    // Пять пунктов на 1024px не должны прижиматься к логотипу и кнопкам
+    const room = await page.evaluate(() => {
+      const nav = document.querySelector("nav[data-nav-root]");
+      const logo = nav.querySelector("a img").getBoundingClientRect();
+      const center = nav.children[1].getBoundingClientRect();
+      const right = nav.children[2].getBoundingClientRect();
+      return {
+        left: Math.round(center.left - logo.right),
+        right: Math.round(right.left - center.right),
+      };
+    });
+    check(
+      `${w} шапка дышит: зазоры от 32px`,
+      room.left >= 32 && room.right >= 32,
+      `слева ${room.left}px, справа ${room.right}px`
     );
 
     const closed = await panelState(page, "Продукт");
@@ -100,8 +117,8 @@ const panelState = (page, label) =>
       opened ? `${opened.left}…${opened.right} из ${w}` : ""
     );
     check(
-      `${w} в «Продукте» семь ссылок`,
-      opened && opened.links.length === 7,
+      `${w} в «Продукте» шесть ссылок`,
+      opened && opened.links.length === 6,
       opened ? String(opened.links.length) : ""
     );
 
@@ -113,8 +130,8 @@ const panelState = (page, label) =>
     check(`${w} переход на «Возможности» закрывает «Продукт»`, first && !first.visible);
     check(`${w} «Возможности» открылись`, second && second.visible);
     check(
-      `${w} в «Возможностях» семь ссылок`,
-      second && second.links.length === 7,
+      `${w} в «Возможностях» три ссылки`,
+      second && second.links.length === 3,
       second ? String(second.links.length) : ""
     );
 
@@ -175,6 +192,39 @@ const panelState = (page, label) =>
     check(`ссылка меню открывается: ${href}`, res.status() === 200, String(res.status()));
   }
 
+  /* ─── «Нам доверяют» ведёт к блоку партнёров и мероприятий ── */
+  await page.goto(BASE + "/", { waitUntil: "networkidle2" });
+  await sleep(700);
+  await page.evaluate(() => {
+    const a = [...document.querySelectorAll("nav > div:nth-child(2) a")].find(
+      (x) => x.innerText.trim() === "Нам доверяют"
+    );
+    a.click();
+  });
+  await sleep(1800);
+  const anchor = await page.evaluate(() => {
+    const s = document.getElementById("partners");
+    if (!s) return null;
+    const r = s.getBoundingClientRect();
+    const header = document.querySelector("header").getBoundingClientRect();
+    const text = (s.innerText || "").replace(/\s+/g, " ");
+    return {
+      top: Math.round(r.top),
+      headerBottom: Math.round(header.bottom),
+      hasPartners: /Партнёры и мероприятия/i.test(text),
+      hasEvents: /отраслевых событиях/i.test(text),
+      hasSkolkovo: /Сколково/i.test(text),
+    };
+  });
+  check("«Нам доверяют» доскроллил до блока", anchor && Math.abs(anchor.top) < 120, anchor ? `top=${anchor.top}` : "нет секции");
+  check(
+    "заголовок блока не спрятан под шапкой",
+    anchor && anchor.top >= anchor.headerBottom - 8,
+    anchor ? `top=${anchor.top}, шапка до ${anchor.headerBottom}` : ""
+  );
+  check("в блоке есть и партнёры, и мероприятия, и Сколково", anchor && anchor.hasPartners && anchor.hasEvents && anchor.hasSkolkovo,
+    anchor ? `партнёры:${anchor.hasPartners} события:${anchor.hasEvents} Сколково:${anchor.hasSkolkovo}` : "");
+
   /* ─── Мобильный аккордеон ─────────────────────────────────── */
   for (const w of [320, 375]) {
     await page.setViewport({
@@ -195,6 +245,20 @@ const panelState = (page, label) =>
         .map((b) => b.innerText.trim())
     );
     check(`${w} в бургере есть оба раздела`, rows.length === 2, rows.join(", "));
+
+    const trustRow = await page.evaluate(() => {
+      const a = [...document.querySelectorAll("[data-mobile-menu] a")].find(
+        (x) => x.innerText.trim() === "Нам доверяют"
+      );
+      if (!a) return null;
+      const r = a.getBoundingClientRect();
+      return { href: a.getAttribute("href"), h: Math.round(r.height) };
+    });
+    check(
+      `${w} в бургере есть «Нам доверяют» на /#partners`,
+      trustRow && trustRow.href === "/#partners" && trustRow.h >= 44,
+      trustRow ? `${trustRow.href}, ${trustRow.h}px` : "нет пункта"
+    );
 
     // Раскрываем «Продукт»
     const opened = await page.evaluate(() => {

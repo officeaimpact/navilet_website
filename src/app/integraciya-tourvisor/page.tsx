@@ -181,7 +181,7 @@ export default function TourvisorIntegrationPage() {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-            ИИ-ассистент с интеграцией{" "}
+            <span className="whitespace-nowrap">ИИ-ассистент</span> с интеграцией{" "}
             <span className="text-accent">Tourvisor</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">

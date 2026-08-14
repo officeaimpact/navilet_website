@@ -11,6 +11,7 @@ import {
 } from "@/lib/animations";
 import { Handshake, MapPin, Users, CalendarDays } from "lucide-react";
 import SkolkovoBadge from "@/components/ui/SkolkovoBadge";
+import Events from "@/components/sections/Events";
 
 const STATS = [
   { icon: CalendarDays, value: "27 лет", label: "на рынке" },
@@ -78,19 +79,23 @@ export default function Partners() {
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24"
+        className="mx-auto max-w-7xl px-5 pb-10 pt-20 sm:px-6 lg:px-8 lg:pb-12 lg:pt-24"
       >
         {/* Section header */}
         <motion.div variants={fadeInUp} className="mb-12 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-4 py-1.5">
             <Handshake className="h-4 w-4 text-accent" />
             <span className="text-sm font-semibold text-accent">
-              Партнёры и клиенты
+              Партнёры и мероприятия
             </span>
           </div>
           <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-            Нам <span className="text-accent">доверяют</span>
+            Нам доверяют — и нас{" "}
+            <span className="text-accent">знают в отрасли</span>
           </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base text-body sm:text-lg">
+            С кем мы работаем и где нас можно встретить лично.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
@@ -221,6 +226,10 @@ export default function Partners() {
           </p>
         </motion.div>
       </motion.div>
+
+      {/* Мероприятия — вторая половина того же блока: партнёры отвечают
+          на «кому мы нужны», события — «где нас встретить лично». */}
+      <Events />
     </section>
   );
 }

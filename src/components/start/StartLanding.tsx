@@ -72,7 +72,7 @@ export default function StartLanding() {
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.08] text-heading sm:text-5xl">
-            ИИ-ассистент на вашем сайте —{" "}
+            <span className="whitespace-nowrap">ИИ-ассистент</span> на вашем сайте —{" "}
             <span className="text-accent">подключение за 2 минуты</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-body">

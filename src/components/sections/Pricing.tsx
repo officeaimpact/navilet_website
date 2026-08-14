@@ -16,6 +16,7 @@ import {
 } from "@/lib/content";
 import { isPromoActive } from "@/lib/promo";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
+import { versionIcons } from "@/lib/version-icons";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Button from "@/components/ui/Button";
 import {
@@ -28,8 +29,6 @@ import {
   Layers,
   Inbox,
   Info,
-  Target,
-  Gem,
 } from "lucide-react";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
@@ -67,19 +66,19 @@ const addonValues = (
 
 const versionMeta: Record<
   AssistantVersionId,
-  { name: string; caption: string; Icon: typeof Target; blurb: string }
+  { name: string; caption: string; Icon: typeof versionIcons.lid; blurb: string }
 > = {
   lid: {
     name: "Лид",
     caption: "лидогенерация · от 990\u00A0₽",
-    Icon: Target,
+    Icon: versionIcons.lid,
     blurb:
       "«Лид» ведёт живой диалог, подбирает туры и передаёт готовую заявку с контактом вашему менеджеру.",
   },
   pro: {
     name: "Про",
     caption: "полный инструмент · от 1\u00A0990\u00A0₽",
-    Icon: Gem,
+    Icon: versionIcons.pro,
     blurb:
       "«Про» консультирует без ограничений, проверяет цены в чате и возвращает клиентов в MAX.",
   },
@@ -342,7 +341,7 @@ export default function Pricing({ showHeader = true }: { showHeader?: boolean })
           </span>
         </div>
         <h2 className="font-display text-3xl font-bold text-heading sm:text-4xl lg:text-[2.75rem]">
-          Тарифы <span className="text-accent">ИИ-ассистента</span>
+          Тарифы <span className="whitespace-nowrap text-accent">ИИ-ассистента</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-body">
           Каждый тариф работает в одном канале на выбор — Web-виджет или

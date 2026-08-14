@@ -17,15 +17,17 @@ import {
   Check,
   Minus,
   Sparkles,
-  Target,
-  Gem,
   ArrowRight,
   Link2,
   RotateCcw,
 } from "lucide-react";
 import { jsonLdScript } from "@/lib/schema";
+import { versionIcons } from "@/lib/version-icons";
 
 const siteUrl = "https://navilet.ru";
+
+const LidIcon = versionIcons.lid;
+const ProIcon = versionIcons.pro;
 
 export const metadata: Metadata = {
   title: {
@@ -163,20 +165,6 @@ function CompareCell({ value }: { value: string | boolean }) {
   return <span className="text-body">{value}</span>;
 }
 
-const whoLid = [
-  "Продают живые менеджеры — ассистент готовит для них заявки",
-  "Нужен стабильный поток лидов с сайта и из MAX — 24/7",
-  "Заявки теряются ночью и в выходные",
-  "Важна минимальная цена за диалог",
-];
-
-const whoPro = [
-  "Хотите, чтобы ассистент консультировал клиента как менеджер",
-  "Клиенты задают много вопросов об отелях, пляжах и питании",
-  "Есть база клиентов в MAX — нужен возврат и повторные касания",
-  "Менеджеров мало, автоматизации нужно больше",
-];
-
 export default function VersiiPage() {
   const lid = assistantVersions.find((v) => v.id === "lid")!;
   const pro = assistantVersions.find((v) => v.id === "pro")!;
@@ -219,18 +207,19 @@ export default function VersiiPage() {
               </span>
             </div>
             <h1 className="font-display text-4xl font-bold leading-tight text-heading sm:text-5xl">
-              Версии ИИ-ассистента:{" "}
-              <span className="text-accent">«Лид» и «Про»</span>
+              Две версии ассистента:{" "}
+              <span className="whitespace-nowrap text-accent">
+                «Лид» и «Про»
+              </span>
             </h1>
-            <p className="mx-auto mt-5 max-w-3xl text-base text-body sm:text-lg">
-              ИИ-ассистент «Навылет! AI» выпускается в двух версиях на одном
-              движке. <strong className="font-semibold text-heading">«Лид»</strong> —
-              лидогенерация: живой диалог, подбор туров и готовая заявка сразу
-              вашему менеджеру,{" "}
+            <p className="mx-auto mt-5 max-w-2xl text-base text-body sm:text-lg">
+              <strong className="font-semibold text-heading">«Лид»</strong> —
+              лидогенерация: живой диалог, подбор туров и готовая заявка вашему
+              менеджеру,{" "}
               <span className="whitespace-nowrap">от 990 ₽/мес</span>.{" "}
               <strong className="font-semibold text-heading">«Про»</strong> —
-              полноценный инструмент менеджера: консультации без ограничений,
-              проверка цен в чате и возврат клиентов,{" "}
+              полноценный инструмент менеджера: консультации, проверка цен и
+              возврат клиентов,{" "}
               <span className="whitespace-nowrap">от 1 990 ₽/мес</span>. Обе
               работают в Web-виджете и MAX.
             </p>
@@ -239,71 +228,11 @@ export default function VersiiPage() {
           <div className="mt-10">
             <VersionPicker source="versii" />
           </div>
-        </section>
 
-        {/* Кому какая версия */}
-        <section className="bg-surface-alt">
-          <div className="mx-auto max-w-5xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-            <h2 className="text-center font-display text-3xl font-bold text-heading sm:text-4xl">
-              Какая версия подойдёт вашему агентству?
-            </h2>
-            <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-              <div className="rounded-2xl border border-blue-subtle/50 bg-white p-6 shadow-card sm:p-7">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
-                    <Target className="h-5 w-5 text-accent" />
-                  </span>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-heading">
-                      Берите «Лид», если
-                    </h3>
-                    <p className="text-xs font-medium text-accent">
-                      от 990 ₽/мес · 40 диалогов
-                    </p>
-                  </div>
-                </div>
-                <ul className="space-y-2.5">
-                  {whoLid.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-body">
-                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-                        <Check className="h-3 w-3 text-accent" />
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl border border-blue-subtle/50 bg-white p-6 shadow-card sm:p-7">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
-                    <Gem className="h-5 w-5 text-accent" />
-                  </span>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-heading">
-                      Берите «Про», если
-                    </h3>
-                    <p className="text-xs font-medium text-accent">
-                      от 1 990 ₽/мес · 30 диалогов
-                    </p>
-                  </div>
-                </div>
-                <ul className="space-y-2.5">
-                  {whoPro.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-body">
-                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-                        <Check className="h-3 w-3 text-accent" />
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <p className="mt-6 text-center text-sm text-muted">
-              Сомневаетесь? Версия меняется в личном кабинете в любой момент —
-              история диалогов и настройки сохраняются.
-            </p>
-          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted">
+            Версия меняется в личном кабинете в любой момент — история диалогов
+            и настройки сохраняются.
+          </p>
         </section>
 
         {/* Полный функционал обеих версий — серверный рендер.
@@ -335,9 +264,9 @@ export default function VersiiPage() {
                 <div className="flex items-center gap-3 border-b border-blue-subtle/40 pb-4">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
                     {version.id === "lid" ? (
-                      <Target className="h-5 w-5 text-accent" />
+                      <LidIcon className="h-5 w-5 text-accent" />
                     ) : (
-                      <Gem className="h-5 w-5 text-accent" />
+                      <ProIcon className="h-5 w-5 text-accent" />
                     )}
                   </span>
                   <div>
@@ -441,7 +370,7 @@ export default function VersiiPage() {
                     </th>
                     <th className="w-[30%] px-4 py-3.5 text-left sm:px-5">
                       <span className="flex items-center gap-2 font-display font-bold text-heading">
-                        <Target className="h-4 w-4 text-accent" />
+                        <LidIcon className="h-4 w-4 text-accent" />
                         «Лид»
                       </span>
                       <span className="mt-0.5 block text-xs font-medium text-accent">
@@ -450,7 +379,7 @@ export default function VersiiPage() {
                     </th>
                     <th className="w-[30%] px-4 py-3.5 text-left sm:px-5">
                       <span className="flex items-center gap-2 font-display font-bold text-heading">
-                        <Gem className="h-4 w-4 text-accent" />
+                        <ProIcon className="h-4 w-4 text-accent" />
                         «Про»
                       </span>
                       <span className="mt-0.5 block text-xs font-medium text-accent">
@@ -527,7 +456,7 @@ export default function VersiiPage() {
                 {
                   stat: "107",
                   label: "реальных диалогов",
-                  text: "Сценарий «Лид» проверен повтором 107 боевых диалогов с продакшена — ноль сбоев после доработок.",
+                  text: "Версию «Лид» проверили на 107 живых диалогах клиентов — ноль сбоев после доработок.",
                 },
                 {
                   stat: "до 40%",

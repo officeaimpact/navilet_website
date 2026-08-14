@@ -3,29 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Target,
-  Gem,
-  Check,
-  ChevronDown,
-  ArrowRight,
-  MessageSquare,
-} from "lucide-react";
+import { Check, ChevronDown, ArrowRight, MessageSquare } from "lucide-react";
 import {
   assistantVersions,
   type AssistantVersion,
   type AssistantVersionId,
 } from "@/lib/content";
+import { versionIcons } from "@/lib/version-icons";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 import { metrikaGoals, reachMetrikaGoal } from "@/lib/metrika";
 
 /** Неразрывный пробел обычной ширины: в мелких подписях тонкий почти не виден */
 const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, "\u00A0");
-
-const versionIcons: Record<AssistantVersionId, typeof Target> = {
-  lid: Target,
-  pro: Gem,
-};
 
 /** Раскрытый функционал версии + CTA. Общий для мобайла и десктопа. */
 function VersionDetails({
@@ -161,7 +150,7 @@ export default function VersionPicker({
                       <Icon className="h-5 w-5" />
                     </span>
                     <div>
-                      <h3 className="font-display text-xl font-bold text-heading">
+                      <h3 className="whitespace-nowrap font-display text-xl font-bold text-heading">
                         {version.fullName}
                       </h3>
                       <p className="text-sm font-medium text-accent">
@@ -183,7 +172,6 @@ export default function VersionPicker({
                 <p className="mt-4 text-sm font-medium leading-relaxed text-heading">
                   {version.tagline}
                 </p>
-                <p className="mt-1.5 text-xs text-muted">{version.audience}</p>
 
                 <ul className="mt-4 space-y-2">
                   {version.highlights.map((h) => (
