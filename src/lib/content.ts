@@ -3,19 +3,134 @@
  * без него — виден всегда, "xl" — только на широких экранах,
  * "mobile" — только в мобильном меню (в футере ссылка остаётся).
  */
-export const navLinks: {
+/** Строка внутри выпадающего меню: подпись и пояснение одной фразой. */
+export type NavMenuItem = {
   label: string;
+  description: string;
   href: string;
-  scope?: "xl" | "mobile";
-}[] = [
-  { label: "Возможности", href: "/#features" },
-  { label: "Версии ассистента", href: "/versii" },
-  { label: "Подборки", href: "/podborki", scope: "xl" },
-  { label: "Возврат клиентов", href: "/vozvrat-klientov" },
-  { label: "Тарифы", href: "/tarify" },
-  { label: "Демо", href: "/demo" },
-  { label: "Личный кабинет", href: "/dashboard", scope: "mobile" },
-  { label: "Контакты", href: "/#cta", scope: "xl" },
+};
+
+/**
+ * Пункт верхней панели: либо простая ссылка, либо меню с колонками.
+ * Фич у продукта много, и держать их плоским списком в шапке нельзя —
+ * поэтому всё, кроме тарифов и демо, разложено по двум меню.
+ */
+export type NavEntry =
+  | { kind: "link"; label: string; href: string }
+  | {
+      kind: "menu";
+      label: string;
+      /** На десктопе колонки идут рядом, на телефоне — одним списком. */
+      columns: { title: string; items: NavMenuItem[] }[];
+      /** Нижняя строка меню с акцентом. */
+      highlight: NavMenuItem;
+    };
+
+export const navigation: NavEntry[] = [
+  {
+    kind: "menu",
+    label: "Продукт",
+    columns: [
+      {
+        title: "Ассистент",
+        items: [
+          {
+            label: "Версии «Лид» и «Про»",
+            description: "Чем отличаются и какая нужна агентству",
+            href: "/versii",
+          },
+          {
+            label: "Личный кабинет",
+            description: "Диалоги, заявки и статистика в одном окне",
+            href: "/dashboard",
+          },
+          {
+            label: "Аналитика и прогнозы",
+            description: "Спрос по направлениям и сезонность",
+            href: "/prognozy",
+          },
+        ],
+      },
+      {
+        title: "Подключение",
+        items: [
+          {
+            label: "Виджет на сайт",
+            description: "Tilda, WordPress, Битрикс и другие платформы",
+            href: "/vidzhet",
+          },
+          {
+            label: "Интеграция с Tourvisor",
+            description: "Реальные цены и наличие туров в диалоге",
+            href: "/integraciya-tourvisor",
+          },
+          {
+            label: "Подключить за 2 минуты",
+            description: "Регистрация и код виджета без разработчика",
+            href: "/start",
+          },
+        ],
+      },
+    ],
+    highlight: {
+      label: "Сколько стоит ассистент",
+      description: "Разбор цены, сравнение с альтернативами и окупаемость",
+      href: "/skolko-stoit",
+    },
+  },
+  {
+    kind: "menu",
+    label: "Возможности",
+    columns: [
+      {
+        title: "Что умеет",
+        items: [
+          {
+            label: "Подбор и консультация",
+            description: "17 функций ассистента в живом диалоге",
+            href: "/#features",
+          },
+          {
+            label: "Подборки по ссылке",
+            description: "Клиент открывает страницу с турами",
+            href: "/podborki",
+          },
+          {
+            label: "Возврат клиентов в MAX",
+            description: "Догоняющие сообщения и подписки на цену",
+            href: "/vozvrat-klientov",
+          },
+        ],
+      },
+      {
+        title: "Кому подходит",
+        items: [
+          {
+            label: "Турагентствам",
+            description: "Первичка, ночные заявки и подбор туров",
+            href: "/dlya-turagentstv",
+          },
+          {
+            label: "Туроператорам",
+            description: "Поток обращений и работа во втором канале",
+            href: "/dlya-turoperatorov",
+          },
+          {
+            label: "Задачи агентств",
+            description: "Ночные заявки, занятые менеджеры и другое",
+            href: "/resheniya",
+          },
+        ],
+      },
+    ],
+    highlight: {
+      label: "Спрос по направлениям",
+      description: "Турция, Египет, ОАЭ — что спрашивают туристы",
+      href: "/spros",
+    },
+  },
+  { kind: "link", label: "Тарифы", href: "/tarify" },
+  { kind: "link", label: "Демо", href: "/demo" },
 ];
 
 export const heroContent = {

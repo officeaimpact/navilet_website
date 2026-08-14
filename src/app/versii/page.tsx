@@ -20,6 +20,8 @@ import {
   Target,
   Gem,
   ArrowRight,
+  Link2,
+  RotateCcw,
 } from "lucide-react";
 import { jsonLdScript } from "@/lib/schema";
 
@@ -372,6 +374,47 @@ export default function VersiiPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Две функции заслуживают отдельного разбора — раньше со страницы
+              версий на них не было ни одной прямой ссылки. */}
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Link
+              href="/podborki"
+              className="group flex items-start gap-3 rounded-2xl border border-blue-subtle/50 bg-white p-5 transition-colors hover:border-accent/40 hover:bg-blue-ice/30"
+            >
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                <Link2 className="h-4 w-4 text-accent" />
+              </span>
+              <span>
+                <span className="flex items-center gap-1.5 font-display text-base font-bold text-heading transition-colors group-hover:text-accent">
+                  Подборки по ссылке
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+                <span className="mt-1 block text-sm leading-relaxed text-body">
+                  Есть в обеих версиях: клиент открывает страницу с турами под
+                  брендом агентства, вы видите просмотры и заявки.
+                </span>
+              </span>
+            </Link>
+            <Link
+              href="/vozvrat-klientov"
+              className="group flex items-start gap-3 rounded-2xl border border-blue-subtle/50 bg-white p-5 transition-colors hover:border-accent/40 hover:bg-blue-ice/30"
+            >
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                <RotateCcw className="h-4 w-4 text-accent" />
+              </span>
+              <span>
+                <span className="flex items-center gap-1.5 font-display text-base font-bold text-heading transition-colors group-hover:text-accent">
+                  Возврат клиентов в MAX
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+                <span className="mt-1 block text-sm leading-relaxed text-body">
+                  Только в «Про»: догоняющие сообщения и подписки на снижение
+                  цены возвращают до 40% замолчавших клиентов.
+                </span>
+              </span>
+            </Link>
           </div>
         </section>
 

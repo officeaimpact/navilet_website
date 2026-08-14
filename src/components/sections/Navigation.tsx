@@ -1,21 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { navLinks, companyInfo } from "@/lib/content";
-import { Menu, X, Phone } from "lucide-react";
+import { navigation, companyInfo, lkUrls } from "@/lib/content";
+import type { NavEntry, NavMenuItem } from "@/lib/content";
+import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLeadForm } from "@/contexts/LeadFormContext";
 
-function isCtaLink(href: string) {
-  return href === "/#cta";
-}
+/** Пауза перед закрытием: курсор успевает пройти от кнопки к панели. */
+const CLOSE_DELAY = 160;
+
+const menuId = (label: string) =>
+  "nav-menu-" + label.toLowerCase().replace(/[^a-zа-я]+/gi, "-");
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileSection, setMobileSection] = useState<string | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { openForm } = useLeadForm();
   const pathname = usePathname();
 
@@ -26,50 +32,156 @@ export default function Navigation() {
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
+  // Переход на другую страницу закрывает всё открытое
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+    setMobileSection(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!openMenu) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenMenu(null);
+    };
+    const onClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-nav-root]")) setOpenMenu(null);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClickOutside);
+    };
+  }, [openMenu]);
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const hoverOpen = (label: string) => {
+    clearCloseTimer();
+    setOpenMenu(label);
+  };
+
+  const hoverClose = () => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setOpenMenu(null), CLOSE_DELAY);
+  };
+
   const closeMobileMenu = () => {
     document.body.style.overflow = "";
     setMobileOpen(false);
+    setMobileSection(null);
   };
 
-  const renderNavLink = (
-    link: { label: string; href: string; scope?: "xl" | "mobile" },
-    cls: string,
-    onClickExtra?: () => void
-  ) => {
-    if (isCtaLink(link.href)) {
+  const renderMenuItem = (item: NavMenuItem) => (
+    <Link
+      key={item.href}
+      href={item.href}
+      onClick={() => setOpenMenu(null)}
+      className="group/item block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-ice/60"
+    >
+      <span className="flex items-center gap-1.5 text-sm font-semibold text-heading transition-colors group-hover/item:text-accent">
+        {item.label}
+        <ArrowRight className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover/item:translate-x-0 group-hover/item:opacity-100" />
+      </span>
+      <span className="mt-0.5 block text-xs leading-snug text-muted">
+        {item.description}
+      </span>
+    </Link>
+  );
+
+  const renderDesktopEntry = (entry: NavEntry) => {
+    if (entry.kind === "link") {
       return (
-        <button
-          key={link.label}
-          onClick={() => {
-            onClickExtra?.();
-            openForm();
-          }}
-          className={`cursor-pointer text-left ${cls}`}
+        <Link
+          key={entry.href}
+          href={entry.href}
+          className="flex h-9 items-center whitespace-nowrap px-1 text-[13px] font-medium text-body transition-colors duration-200 hover:text-accent xl:text-sm"
         >
-          {link.label}
-        </button>
+          {entry.label}
+        </Link>
       );
     }
 
+    const isOpen = openMenu === entry.label;
+    const id = menuId(entry.label);
+
     return (
-      <Link
-        key={link.href}
-        href={link.href}
-        onClick={onClickExtra}
-        className={cls}
+      <div
+        key={entry.label}
+        className="relative"
+        onMouseEnter={() => hoverOpen(entry.label)}
+        onMouseLeave={hoverClose}
       >
-        {link.label}
-      </Link>
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls={id}
+          onClick={() => setOpenMenu(isOpen ? null : entry.label)}
+          className={`flex h-9 cursor-pointer items-center gap-1 whitespace-nowrap px-1 text-[13px] font-medium transition-colors duration-200 hover:text-accent xl:text-sm ${
+            isOpen ? "text-accent" : "text-body"
+          }`}
+        >
+          {entry.label}
+          <ChevronDown
+            className={`h-3.5 w-3.5 transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {/* Панель всегда в разметке: так ссылки видят поисковые роботы,
+            а visibility:hidden убирает их из обхода по Tab, пока закрыто. */}
+        <div
+          id={id}
+          data-nav-panel={entry.label}
+          className={`absolute left-1/2 top-full z-10 w-[min(40rem,calc(100vw-3rem))] -translate-x-1/2 pt-3 transition-all duration-200 ${
+            isOpen
+              ? "visible translate-y-0 opacity-100"
+              : "invisible -translate-y-1 opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden rounded-2xl border border-blue-subtle/50 bg-white shadow-xl shadow-primary/10">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 p-3">
+              {entry.columns.map((column) => (
+                <div key={column.title}>
+                  <p className="px-3 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-muted">
+                    {column.title}
+                  </p>
+                  {column.items.map(renderMenuItem)}
+                </div>
+              ))}
+            </div>
+            <Link
+              href={entry.highlight.href}
+              onClick={() => setOpenMenu(null)}
+              className="group/hl flex items-center justify-between gap-4 border-t border-blue-subtle/40 bg-blue-ice/40 px-6 py-3.5 transition-colors hover:bg-blue-ice"
+            >
+              <span>
+                <span className="block text-sm font-semibold text-heading transition-colors group-hover/hl:text-accent">
+                  {entry.highlight.label}
+                </span>
+                <span className="mt-0.5 block text-xs text-muted">
+                  {entry.highlight.description}
+                </span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-accent transition-transform group-hover/hl:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </div>
     );
   };
 
@@ -83,7 +195,10 @@ export default function Navigation() {
             : "bg-white/60 py-4 backdrop-blur-sm"
         }`}
       >
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
+        <nav
+          data-nav-root
+          className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8"
+        >
           <Link
             href="/"
             onClick={(e) => {
@@ -107,19 +222,10 @@ export default function Navigation() {
             />
           </Link>
 
-          {/* Верхняя панель: продуктовый путь. «Личный кабинет» и «Контакты»
-              доступны в мобильном меню и футере, чтобы панель не перегружалась. */}
-          <div className="hidden items-center gap-4 lg:flex xl:gap-6">
-            {navLinks
-              .filter((link) => link.scope !== "mobile")
-              .map((link) =>
-                renderNavLink(
-                  link,
-                  `whitespace-nowrap text-[13px] font-medium text-body transition-colors duration-200 hover:text-accent xl:text-sm ${
-                    link.scope === "xl" ? "hidden xl:block" : ""
-                  }`
-                )
-              )}
+          {/* Верхняя панель: два меню плюс тарифы и демо. Контакты живут
+              в футере и в кнопке звонка — в шапке они только мешали. */}
+          <div className="hidden items-center gap-5 lg:flex xl:gap-7">
+            {navigation.map(renderDesktopEntry)}
           </div>
 
           <div className="flex items-center gap-2">
@@ -130,6 +236,13 @@ export default function Navigation() {
               aria-label={`Позвонить: ${companyInfo.phone}`}
             >
               <Phone className="h-4 w-4" />
+            </a>
+            {/* Действующему клиенту нужен вход, а не рассказ о продукте */}
+            <a
+              href={lkUrls.base}
+              className="hidden h-9 items-center whitespace-nowrap rounded-lg px-3 text-[13px] font-medium text-body transition-colors hover:bg-blue-ice hover:text-accent lg:inline-flex xl:text-sm"
+            >
+              Войти
             </a>
             <button
               onClick={() => openForm({ source: "nav" })}
@@ -171,21 +284,98 @@ export default function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 h-full w-72 overflow-y-auto bg-white px-6 pb-6 shadow-2xl"
+              data-mobile-menu
+              className="absolute right-0 top-0 h-full w-[19rem] max-w-[85vw] overflow-y-auto bg-white px-5 pb-6 shadow-2xl"
               style={{ paddingTop: "calc(var(--promo-h, 0px) + 88px)" }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Пункты высотой 44px с небольшим зазором: тот же ритм, но
-                  палец не промахивается между строками. */}
-              <div className="flex flex-col gap-1.5">
-                {navLinks.map((link) =>
-                  renderNavLink(
-                    link,
-                    "flex min-h-11 items-center text-lg font-medium text-heading hover:text-accent",
-                    closeMobileMenu
-                  )
-                )}
-                <div className="mt-4 space-y-3">
+              <div className="flex flex-col">
+                {navigation.map((entry) => {
+                  if (entry.kind === "link") {
+                    return (
+                      <Link
+                        key={entry.href}
+                        href={entry.href}
+                        onClick={closeMobileMenu}
+                        className="flex min-h-12 items-center border-b border-blue-subtle/30 text-base font-semibold text-heading"
+                      >
+                        {entry.label}
+                      </Link>
+                    );
+                  }
+
+                  const expanded = mobileSection === entry.label;
+                  return (
+                    <div
+                      key={entry.label}
+                      className="border-b border-blue-subtle/30"
+                    >
+                      <button
+                        type="button"
+                        aria-expanded={expanded}
+                        onClick={() =>
+                          setMobileSection(expanded ? null : entry.label)
+                        }
+                        className="flex min-h-12 w-full cursor-pointer items-center justify-between text-base font-semibold text-heading"
+                      >
+                        {entry.label}
+                        <ChevronDown
+                          className={`h-4 w-4 text-muted transition-transform duration-200 ${
+                            expanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {expanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.22 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pb-2">
+                              {entry.columns.map((column) => (
+                                <div key={column.title}>
+                                  <p className="pb-0.5 pt-2 text-[11px] font-bold uppercase tracking-wide text-muted">
+                                    {column.title}
+                                  </p>
+                                  {column.items.map((item) => (
+                                    <Link
+                                      key={item.href}
+                                      href={item.href}
+                                      onClick={closeMobileMenu}
+                                      className="flex min-h-11 items-center text-[15px] text-body hover:text-accent"
+                                    >
+                                      {item.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ))}
+                              <Link
+                                href={entry.highlight.href}
+                                onClick={closeMobileMenu}
+                                className="mt-2 flex min-h-11 items-center gap-1.5 rounded-lg bg-blue-ice/60 px-3 text-[15px] font-semibold text-accent"
+                              >
+                                {entry.highlight.label}
+                                <ArrowRight className="h-4 w-4" />
+                              </Link>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+
+                <a
+                  href={lkUrls.base}
+                  className="flex min-h-12 items-center border-b border-blue-subtle/30 text-base font-semibold text-heading"
+                >
+                  Войти в кабинет
+                </a>
+
+                <div className="mt-5 space-y-3">
                   <button
                     onClick={() => {
                       closeMobileMenu();
@@ -196,7 +386,7 @@ export default function Navigation() {
                     Подключить бесплатно
                   </button>
                   <p className="text-center text-xs text-muted">
-                    Месяц бесплатно · подключение 0 ₽
+                    Месяц бесплатно · подключение 0 ₽
                   </p>
                   <a
                     href={`tel:${companyInfo.phoneRaw}`}

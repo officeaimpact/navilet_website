@@ -181,9 +181,19 @@ async function main() {
   await sleep(400);
 
   // Навигация и цены
+  // Страницы версий и возврата переехали в выпадающие меню: в самой панели
+  // их подписей нет, зато ссылки должны быть в разметке для роботов.
   const navText = await page.$eval("header", (h) => h.innerText);
-  check("home: в хедере «Версии ассистента»", navText.includes("Версии ассистента"));
-  check("home: в хедере «Возврат клиентов»", navText.includes("Возврат клиентов"));
+  check("home: в хедере есть меню «Продукт»", navText.includes("Продукт"));
+  check("home: в хедере есть меню «Возможности»", navText.includes("Возможности"));
+  const navHrefs = await page.$$eval("header a", (as) =>
+    as.map((a) => a.getAttribute("href"))
+  );
+  check("home: в меню есть ссылка на версии", navHrefs.includes("/versii"));
+  check(
+    "home: в меню есть ссылка на возврат клиентов",
+    navHrefs.includes("/vozvrat-klientov")
+  );
   check("home: «ИИ-аналитика» убрана", !navText.includes("ИИ-аналитика"));
 
   const bodyText = await page.evaluate(() => document.body.innerText);

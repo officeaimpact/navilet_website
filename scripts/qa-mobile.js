@@ -375,24 +375,36 @@ const floatingOverlap = (page) =>
     JSON.stringify(burgerOk)
   );
   await sleep(700);
-  // Панель меню живёт вне <header>, поэтому ищем по всей странице
-  const menu = await page.evaluate(() => {
-    const panel = Array.from(document.querySelectorAll("div")).find(
-      (d) =>
-        getComputedStyle(d).position === "absolute" &&
-        d.querySelectorAll("a").length > 4 &&
-        d.getBoundingClientRect().width <= 320 &&
-        d.getBoundingClientRect().height > 300
-    );
-    if (!panel) return [];
-    return Array.from(panel.querySelectorAll("a")).map((a) => ({
-      href: a.getAttribute("href"),
-      h: Math.round(a.getBoundingClientRect().height),
-    }));
+  // Разделы «Продукт» и «Возможности» раскрываются аккордеоном
+  const sections = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("[data-mobile-menu] button"))
+      .map((b) => b.innerText.trim())
+      .filter((t) => /^(Продукт|Возможности)$/.test(t))
+  );
+  check("375 меню: открылось, разделы на месте", sections.length === 2, sections.join(", "));
+
+  const expanded = await page.evaluate(() => {
+    const b = Array.from(
+      document.querySelectorAll("[data-mobile-menu] button")
+    ).find((x) => x.innerText.trim() === "Возможности");
+    if (!b) return false;
+    b.click();
+    return true;
   });
-  check("375 меню: открылось и содержит пункты", menu.length >= 6, `пунктов ${menu.length}`);
+  check("375 меню: раздел «Возможности» раскрывается", expanded);
+  await sleep(600);
+
+  const menu = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("[data-mobile-menu] a"))
+      .filter((a) => a.offsetParent)
+      .map((a) => ({
+        href: a.getAttribute("href"),
+        h: Math.round(a.getBoundingClientRect().height),
+      }))
+  );
+  check("375 меню: содержит пункты", menu.length >= 6, `пунктов ${menu.length}`);
   check(
-    "375 меню: есть «Подборки»",
+    "375 меню: есть «Подборки» внутри раздела",
     menu.some((m) => m.href === "/podborki")
   );
   check(
